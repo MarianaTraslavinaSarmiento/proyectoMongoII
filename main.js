@@ -9,3 +9,7 @@ import { Sala } from "./src/modules/salas.js";
 import { TarjetaVIP } from "./src/modules/tarjetasVIP.js";
 import { Usuario } from "./src/modules/usuarios.js";
 
+let obj
+
+obj = new Pelicula()
+console.log(await obj.getAllAvailableMovies())
