@@ -50,7 +50,6 @@ export class Pelicula{
                         "proyecciones.pelicula_id": 0,
                         "proyecciones.sala_id": 0,
                         "proyecciones.sala._id": 0,
-                        "proyecciones._id": 0,
                         sinopsis: 0,
                       },
                     },
