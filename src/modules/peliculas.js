@@ -15,6 +15,13 @@ export class Pelicula{
         Pelicula.instancePelicula = this;
     }
 
+
+  /**
+   * Este método recupera todas las películas disponibles de la base de datos. Realiza una operación de agregación de canalización para recuperar proyecciones relacionadas y información de sala.
+   * @returns {Promesa<Matriz|Objeto>} - Una Promesa que se resuelve a una matriz de objetos de películas con sus proyecciones. Si se produce un error durante el proceso, se resuelve a un objeto de error.
+   * @throws {Error} - Lanza un error si la conexión a la base de datos falla o si se produce un error durante la operación de agregación.
+  */
+
     async getAllAvailableMovies(){
 
         try{
