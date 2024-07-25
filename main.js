@@ -12,4 +12,5 @@ import { Usuario } from "./src/modules/usuarios.js";
 let obj
 
 obj = new Pelicula()
-console.log(await obj.getAllAvailableMovies())
+// console.log(await obj.getAllAvailableMovies())
+console.log(await obj.getAllDetailsMovies());

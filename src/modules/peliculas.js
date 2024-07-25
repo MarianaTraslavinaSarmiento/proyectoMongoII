@@ -93,4 +93,77 @@ export class Pelicula{
         }
     }
 
+    async getAllDetailsMovies(){
+
+      try{
+
+        const db = await this.adminDbService.connect();
+        
+        const moviesDetails = await db.collection('peliculas').aggregate(
+          [
+              {
+                $lookup: {
+                  from: "proyecciones",
+                  localField: "_id",
+                  foreignField: "pelicula_id",
+                  as: "proyecciones",
+                },
+              },
+            
+              { $unwind: "$proyecciones" },
+            
+              {
+                $lookup: {
+                  from: "salas",
+                  localField: "proyecciones.sala_id",
+                  foreignField: "_id",
+                  as: "proyecciones.sala",
+                },
+              },
+            
+              { $unwind: "$proyecciones.sala" },
+            
+              {
+                $project: {
+                  "proyecciones.pelicula_id": 0,
+                  "proyecciones.sala_id": 0,
+                  "proyecciones.sala._id": 0
+                },
+              },
+            
+              {
+                $group: {
+                  _id: "$_id", 
+                  titulo: {
+                    $first: "$titulo"
+                  },
+                  generos: {
+                    $first: "$generos"
+                  },
+                  duracion_min: {
+                    $first: "$duracion_min"
+                  },
+                  sinopsis: {
+                    $first: "$sinopsis"
+                  },
+                  clasificacion: {
+                    $first: "$clasificacion"
+                  },
+                  proyecciones: {
+                    $push: "$proyecciones"
+                  }
+                }
+              }
+          ]
+      ).toArray()
+
+      return moviesDetails;
+
+      }catch(error){
+        return {error: error.name, message: error.message}
+      }finally{
+        await this.adminDbService.close();
+      }
+    }
+
 }
