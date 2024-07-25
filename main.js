@@ -13,4 +13,8 @@ let obj
 
 obj = new Pelicula()
 // console.log(await obj.getAllAvailableMovies())
-console.log(await obj.getAllDetailsOfAMovie({id: "66a0510bf034049fab9999d1"}));
+console.log(await obj.getAllDetailsOfAMovie(
+    {
+        id:"66a0510bf034045fab9999d1"
+    }
+    ));

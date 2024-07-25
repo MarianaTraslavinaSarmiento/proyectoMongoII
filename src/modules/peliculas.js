@@ -93,6 +93,19 @@ export class Pelicula{
         }
     }
 
+    /**
+   * Recupera información detallada de una película específica de la base de datos.
+   * Realiza una operación de agregación de canalización para recuperar proyecciones relacionadas y información de la sala.
+   *
+   * @param {Object} params - El objeto de parámetros.
+   * @param {string} params.id - El identificador único de la película.
+   *
+   * @returns {Promise<Object|Array>} - Una Promesa que se resuelve a un objeto que contiene detalles de la película con sus proyecciones.
+   * Si la película no existe, se resuelve a un objeto de error.
+   * Si se produce un error durante el proceso, se resuelve a un objeto de error.
+   *
+   * @throws {Error} - Lanza un error si la conexión a la base de datos falla o si se produce un error durante la operación de agregación.
+   */
     async getAllDetailsOfAMovie({id}){
 
       try{
