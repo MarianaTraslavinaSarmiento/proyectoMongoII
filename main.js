@@ -28,5 +28,5 @@ console.log(await obj.buyTickets(
             usuario_id: "66a05449f034045fab9999e6",
             codigo_asiento: "A1"
         }
-    ]
+    ], "En efectivo"
     ));
