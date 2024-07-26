@@ -21,6 +21,27 @@ export class Boleto {
         Boleto.instanceBoleto = this;
     }
 
+    /**
+     * Este método maneja el proceso de compra de entradas para una proyección de cine.
+     * Verifica la existencia de la proyección, el usuario y el asiento, calcula el costo total,
+     * y almacena los boletos y pagos en la base de datos.
+     *
+     * @param {Array} tickets - Un array de objetos de ticket que contienen las siguientes propiedades:
+     *                          proyeccion_id: El ID de la proyección.
+     *                          usuario_id: El ID del usuario.
+     *                          codigo_asiento: El código de asiento.
+     * @param {string} metodo_pago - El método de pago.
+     *
+     * @returns {Object} - Un objeto con las siguientes propiedades:
+     *                      success: Un booleano que indica si la operación fue exitosa.
+     *                      message: Un mensaje que describe el resultado.
+     *                      tickets: Un array de objetos de ticket si la operación fue exitosa.
+     *                      pagos: Un array de objetos de pago si la operación fue exitosa.
+     *                      error: Un objeto de error si ocurrió algún error.
+     *
+     * @throws Lanza un error si alguna operación de base de datos falla.
+    */
+
     async buyTickets(tickets, metodo_pago) {
 
         try {
