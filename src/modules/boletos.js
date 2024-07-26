@@ -4,7 +4,7 @@ import DbService from "../db/dbConection.js";
 import { checkExists } from "../validators/checkExists.js";
 
 export class Boleto {
-    staticBoleto;
+    instanceBoleto;
     adminClient;
     adminDbService;
     constructor(client = null) {
@@ -45,60 +45,60 @@ export class Boleto {
                     return { error: `El asiento ${ticket.codigo_asiento} no está en la sala de la proyección.` };
                 }
 
-                if (seatExist.estado != "libre") {
-                    return { error: `El asiento ${ticket.codigo_asiento} ya está reservado u ocupado.` };
-                }
 
                 let defaultSubtotal = screenExist.precio
                 let total = defaultSubtotal
+                let descuento_porcentaje = 0
+            
                 if (userExist.tipo == "VIP") {
-                    const cardVIP = await db.collection('tarjetasVIP').findOne({ usuario_id: new ObjectId(ticket.usuario_id) })
-                    if (cardVIP) {
-                        if (cardVIP.estado == "activa") {
-                            total = defaultSubtotal - (defaultSubtotal * (cardVIP.descuento_porcentaje)) / 100
-                        }
-
+                    const cardVIP = await db.collection('tarjetasVIP').findOne({usuario_id: new ObjectId(ticket.usuario_id) })
+                    if (cardVIP && cardVIP.estado == "activa") {
+                        descuento_porcentaje = cardVIP.descuento_porcentaje
+                        total = defaultSubtotal - (defaultSubtotal * descuento_porcentaje) / 100
                     }
-
                 }
 
-
+                const availableSeat = await db.collection('boletos').findOne({codigo_asiento: ticket.codigo_asiento, proyeccion_id: new ObjectId(ticket.proyeccion_id)})
+                if (availableSeat){
+                    return { error: `El asiento ${ticket.codigo_asiento} ya tiene un boleto asociado a esta proyección.` };
+                }
 
                 const newTicket = {
                     _id: new ObjectId(),
-                    proyeccion_id: ticket.proyeccion_id,
-                    usuario_id: ticket.usuario_id,
+                    proyeccion_id: new ObjectId(ticket.proyeccion_id),
+                    usuario_id: new ObjectId(ticket.usuario_id),
                     codigo_asiento: ticket.codigo_asiento,
                     subtotal: defaultSubtotal,
-                    porcentaje_descuento_VIP: cardVIP.descuento_porcentaje,
+                    porcentaje_descuento_VIP: descuento_porcentaje,
                     total: total,
                     estado: "pago"
                 }
-
+            
                 ticketsAprobados.push(newTicket)
-
+            
                 ticketsPagos.push({
                     boleto_id: newTicket._id,
-                    metodo_pago: metodo_pago,
-                    fecha: new Date(),
                     monto: total,
-                    estado: ""
-
-
+                    metodo_pago: metodo_pago,
+                    estado: "completado",
+                    fecha_hora_pago: new Date(),
                 })
-
-
-                // await db.collection('boletos').insertOne(newTicket);
-
             }
-
+    
             for(let ticketAprobado of ticketsAprobados){
                 await db.collection('boletos').insertOne(ticketAprobado);
-                await db.collection('asientos').updateOne(
-                    { numero_asiento: ticketAprobado.codigo_asiento, sala_id: screenExist.sala_id },
-                    { $set: { estado: "ocupado" } }
-                );
             }
+
+            for (let ticketPago of ticketsPagos ){
+                await db.collection('pagos').insertOne(ticketPago);
+            }
+
+            return {
+                success: true,
+                message: "Boletos comprados con éxito",
+                tickets: ticketsAprobados,
+                pagos: ticketsPagos
+            };
 
         } catch (error) {
             return { error: error.name, message: error.message };
