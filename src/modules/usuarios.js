@@ -19,6 +19,21 @@ export class Usuario{
         Usuario.instanceUsuario = this;
     }
 
+    /**
+     * Crea un nuevo usuario en la base de datos y MongoDB.
+     *
+     * @param {Object} user - El objeto de usuario que contiene las siguientes propiedades:
+     * @param {string} user.nombre - El nombre del usuario.
+     * @param {string} user.email - El correo electrónico del usuario.
+     * @param {string} user.telefono - El número de teléfono del usuario.
+     * @param {string} user.tipo - El tipo de usuario (por ejemplo, admin, usuario).
+     * @param {string} user.nick - El apodo del usuario.
+     *
+     * @returns {Object} - Un objeto que contiene tanto un mensaje de error como un mensaje de éxito y el usuario creado.
+     * @returns {Object.error} - Un mensaje de error si la creación del usuario falla.
+     * @returns {Object.message} - Un mensaje de éxito si la creación del usuario es exitosa.
+     * @returns {Object.user} - El objeto de usuario creado.
+     */
     async createUsers({nombre, email, telefono, tipo, nick}){
         try{
 
