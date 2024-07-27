@@ -28,7 +28,7 @@ export class Asiento{
             }).toArray()
 
             const tickets = await db.collection('boletos').find(
-                { proyeccion_id: new ObjectId(id), estado: "pago"}
+                { proyeccion_id: new ObjectId(id), estado: { $in: ["pago", "reservado"] }}
             ).toArray();
 
             const notAvailableSeats = tickets.map(ticket => ticket.codigo_asiento);
@@ -38,7 +38,7 @@ export class Asiento{
             
             return {
                 availableSeats: availableSeats.map(seat => seat.numero_asiento),
-                totalSeats: allSeats.length
+                totalSeats: availableSeats.length
             }
 
         }catch(error){
