@@ -20,7 +20,7 @@ let obj
 //     }
 //     ));
 
-obj = new Boleto()
+// obj = new Boleto()
 // console.log(await obj.buyTickets(
 //     [
 //         {
@@ -42,7 +42,22 @@ obj = new Boleto()
 //     ],
 // ));
 
-console.log(await obj.cancelBooking("66a52c38b7b76ac1964d2e67"));
+// console.log(await obj.cancelBooking("66a52c38b7b76ac1964d2e67"));
 
 // obj = new Asiento()
 // console.log(await obj.availabilityForEachScreening({id: "66a05c73f034045fab999a25"}));
+
+// nombre: "",
+// email "",
+// telefono: "",
+// tipo: "",
+// nick: ""
+
+obj = new Usuario()
+console.log(await obj.createUsers({
+    nombre: "Cristian",
+    email: "cristian@gmail.com",
+    telefono: "+57 3244195352",
+    tipo: "vip",
+    nick: "cristian"
+}));
