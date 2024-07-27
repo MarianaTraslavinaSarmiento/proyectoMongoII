@@ -198,4 +198,28 @@ export class Boleto {
             await this.adminDbService.close();
         }
     }
+
+    async cancelBooking(ticketId) {
+        try {
+            const db = await this.adminDbService.connect();
+
+            const ticket = await checkExists('boletos', {_id: new ObjectId(ticketId) }
+             `El boleto con id ${ticketId} no existe.`,db)
+    
+            if (ticket.estado !== "reservado") {
+                return { error: `El boleto con id ${ticketId} no está en estado reservado y no se puede cancelar.` };
+            }
+            
+            const result = await db.collection('boletos').updateOne(
+                { _id: new ObjectId(ticketId) },
+                { $set: { estado: "cancelado" } }
+            );
+            
+           
+        } catch (error) {
+            return { error: error.name, message: error.message };
+        } finally {
+            await this.adminDbService.close();
+        }
+    }
 }
