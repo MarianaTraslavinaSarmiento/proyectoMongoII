@@ -128,6 +128,25 @@ export class Boleto {
         }
     }
 
+    /**
+     * Este método maneja la reserva de asientos para una proyección de película.
+     * Verifica la existencia de la proyección, el usuario y el asiento, calcula el total,
+     * y almacena los boletos reservados en la base de datos.
+     *
+     * @param {Array} tickets - Un array de objetos de ticket que contienen las siguientes propiedades:
+     *                          proyeccion_id: El ID de la proyección.
+     *                          usuario_id: El ID del usuario.
+     *                          codigo_asiento: El código del asiento.
+     *
+     * @returns {Object} - Un objeto con las siguientes propiedades:
+     *                      éxito: Un booleano que indica si la operación fue exitosa.
+     *                      mensaje: Un mensaje que describe el resultado.
+     *                      tickets: Un array de objetos de ticket si la operación fue exitosa.
+     *                      error: Un objeto de error si ocurrió algún error.
+     *
+     * @throws Lanza un error si alguna operación de base de datos falla.
+     */
+
     async bookingSeats(tickets){
         try {
 
@@ -193,6 +212,50 @@ export class Boleto {
             };
 
         } catch (error) {
+            return { error: error.name, message: error.message };
+        } finally {
+            await this.adminDbService.close();
+        }
+    }
+
+    /**
+     * Cancela una reserva de entrada para un cine.
+     *
+     * @param {string} ticketId - El ID del boleto que se va a cancelar.
+     *
+     * @returns {Object} - Un objeto que contiene el resultado de la operación de cancelación.
+     *                      Si la operación es exitosa, contiene una propiedad 'mensaje' con un mensaje de éxito,
+     *                      y una propiedad 'ticketCanceled' con los detalles del boleto cancelado.
+     *                      Si se produce un error, contiene una propiedad 'error' con un mensaje de error.
+     *
+     * @throws Lanza un error si la operación de base de datos falla.
+     */
+    async cancelBooking(ticketId) {
+        try {
+            const db = await this.adminDbService.connect();
+
+            const ticket = await checkExists('boletos', {_id: new ObjectId(ticketId) },
+             `El boleto con id ${ticketId} no existe.`,db)
+    
+            if (ticket.estado !== "reservado") {
+                return { error: `El boleto con id ${ticketId} no está en estado reservado y no se puede cancelar.` };
+            }
+
+            const result = await db.collection('boletos').updateOne(
+                { _id: new ObjectId(ticketId) },
+                { $set: { estado: "cancelado" } }
+            );
+            
+            if (result.modifiedCount === 0) {
+                return { error: `No se pudo cancelar el boleto con id ${ticketId}.` };
+            }
+            return {
+                message: `Boleto con id ${ticketId} cancelado con éxito.`,
+                ticketCanceled: ticket
+            };
+           
+        } catch (error) {
+            console.log(error);
             return { error: error.name, message: error.message };
         } finally {
             await this.adminDbService.close();
