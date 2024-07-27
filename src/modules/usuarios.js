@@ -89,9 +89,12 @@ export class Usuario{
             const user = await checkExists("usuarios", { _id: new ObjectId(userId) },
             `El usuario con id ${userId} no existe.`, db);
 
-            
-
             const userInfo = await db.collection('usuarios').aggregate([
+
+                {
+                    $match: {_id: new ObjectId(userId)}
+                },
+
                 {
                   $lookup: {
                     from: "tarjetasVIP",
@@ -110,7 +113,7 @@ export class Usuario{
                     tarjetaVIP: 0
                   }
                 }
-            ]).toArray()
+            ])
 
             return { user: userInfo };
 
