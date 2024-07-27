@@ -233,3 +233,57 @@ console.log(await obj.buyTickets(
 ));
 ```
 ----
+
+### 2.2 Disponibilidad de asientos en una sala para una proyección específica
+
+**Descripción:**  Creación de método de la clase 'Asientoo' llamado ```availabilityForEachScreening``` que permite ver la disponibilidad de los asientos segun la proyección ingresada.
+
+**Actor principal:** Administrador, cliente estándar y VIP
+
+**Parámetros obligatorios**
+- ```id```: Id de la proyección específica
+
+<table>
+<tr>
+<th> Respuestas </th>
+<th> Errores </th>
+</tr>
+<tr>
+<td>
+
+```javascript
+//Retorna los codigos de los asientos disponibles
+//El numero total de asientos
+
+{ 
+  availableSeats: [ 'A2', 'A3', 'A4', 'A5' ], 
+  totalSeats: 4 
+}
+```
+    
+</td>
+<td>
+
+```javascript
+
+{
+    error: error.name, 
+    message: error.message
+}
+
+// Si la proyección ingresada NO existe:
+
+{
+  error: 'Error',
+  message: 'La proyección con id (proyeccion) no existe.'
+}
+```
+</td>
+</tr>
+</table>
+
+#### Ejemplo de uso
+``` javascript
+obj = new Asiento()
+console.log(await obj.availabilityForEachScreening({id: "66a05c73f034045fab999a25"}));
+```
