@@ -57,7 +57,7 @@ obj = new Usuario()
 console.log(await obj.createUsers({
     nombre: "Cristian",
     email: "cristian@gmail.com",
-    telefono: "+57 3244195352",
+    telefono: "3244195352",
     tipo: "vip",
     nick: "cristian"
 }));

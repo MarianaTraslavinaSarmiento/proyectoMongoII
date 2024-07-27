@@ -32,6 +32,32 @@ export class Usuario{
             if (existingUser) {
                 return {error: `El nick  ${nick} ya está en uso`};
             }
+            if(!validEmail(email)){
+                return { error: "El email no es válido" };
+            }
+            
+            if (!validPhone(telefono)) {
+                return { error: "El teléfono no es válido. Asegúrese que esté en formato válido para Colombia" };
+            }
+        
+            const newUser = {
+                nombre: nombre,
+                email: email,
+                telefono: telefono,
+                tipo: tipo,
+                fecha_registro: new Date(),
+                nick: nick,
+            }
+            
+            await db.collection('usuarios').insertOne(newUser);
+
+            await db.command({
+                createUser: nick,
+                pwd: newUser._id.toString(),
+                roles: [{ role: tipo, db: 'cineCampus' }]
+            });
+
+            return { message: "Usuario creado con éxito", user: newUser };
 
         }catch(error){
             return { error: error.name, message: error.message };
