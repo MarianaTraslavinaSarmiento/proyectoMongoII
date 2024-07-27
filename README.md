@@ -437,3 +437,81 @@ message: El boleto con id ${ticketId} no está en estado reservado y no se puede
 obj = new Boleto()
 console.log(await obj.cancelBooking("66a52c38b7b76ac1964d2e67"));
 ```
+---
+
+###  5. Creación de nuevos usuarios en el sistema, asignando roles y privilegios específicos (usuario estándar, usuario VIP o administrador).
+
+
+**Descripción:**  Creación de método de la clase 'Usuario' llamado ```createUsers``` que permite la creación de nuevos usuarios de todo tipo en el sistema. 
+
+**Actor principal:** Administrador, cliente estándar y VIP
+
+**Parámetros obligatorios** 
+- ```nombre```: String. El nombre completo del usuario.
+- ```email```: String. La dirección de correo electrónico del usuario. Debe ser una dirección válida.
+- ```telefono```: String. El número de teléfono del usuario. Debe ser un número de teléfono colombiano válido.
+- ```tipo```: String. El tipo de usuario. Debe ser uno de los siguientes: "standard", "vip", o "admin".
+- ```nick```: String. El nombre de usuario o nickname único para el sistema.
+
+<table>
+<tr>
+<th> Respuestas </th>
+<th> Errores </th>
+</tr>
+<tr>
+<td>
+
+```javascript
+
+{
+  message: 'Usuario creado con éxito',
+  user: {
+    nombre: 'Cristian',
+    email: 'cristian@gmail.com',
+    telefono: '3244195352',
+    tipo: 'vip',
+    fecha_registro: 2024-07-27T21:55:58.987Z,
+    nick: 'cristian',
+    _id: new ObjectId('66a56cee34ccb0cd0d344df1')
+  }
+}
+
+```
+    
+</td>
+<td>
+
+```javascript
+{
+    error: error.name, 
+    message: error.message
+}
+
+// Si se dejan campos vacíos
+return {error: "Todos los campos son obligatorios"};
+
+//Si el nick ingresado ya existe
+message: El boleto con id ${ticketId} no está en estado reservado y no se puede cancelar.
+
+//si el email o el telefono no son válidos
+return { error: "El email no es válido" };
+return { error: "El teléfono no es válido. Asegúrese que esté en formato válido para Colombia" };
+
+```
+</td>
+</tr>
+</table>
+
+#### Ejemplo de uso
+``` javascript
+obj = new Usuario()
+console.log(await obj.createUsers({
+    nombre: "Cristian",
+    email: "cristian@gmail.com",
+    telefono: "3244195352",
+    tipo: "vip",
+    nick: "cristian"
+}));
+
+```
+
