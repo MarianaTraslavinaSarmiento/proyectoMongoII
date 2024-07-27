@@ -16,7 +16,23 @@ export class Asiento{
         Asiento.instanceAsiento = this;
     }
 
-    async availablForEachScreening({id}){
+    
+    /**
+     * Esta función recupera los asientos disponibles para una proyección específica.
+     * Comprueba los boletos existentes para la proyección dada y los compara con todos los asientos de la sala de la proyección.
+     *
+     * @param {Object} params - Los parámetros de la función.
+     * @param {string} params.id - El id de la proyección.
+     *
+     * @returns {Object} - Un objeto que contiene los asientos disponibles y su recuento total.
+     * @returns {Array<string>} [return.availableSeats] - La lista de números de asiento disponibles.
+     * @returns {number} [return.totalSeats] - El recuento total de asientos disponibles.
+     * @returns {Object} [return.error] - Un objeto que contiene el nombre y el mensaje de error si se produce un error.
+     * @returns {string} [return.error.name] - El nombre del error.
+     * @returns {string} [return.error.message] - El mensaje de error.
+    */
+
+    async availabilityForEachScreening({id}){
         try{
             const db = await this.adminDbService.connect();
 

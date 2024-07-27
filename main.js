@@ -33,4 +33,4 @@ let obj
 // ));
 
 obj = new Asiento()
-console.log(await obj.availablForEachScreening({id: "66a05c73f034045fab999a25"}));
+console.log(await obj.availabilityForEachScreening({id: "66a05c73f034045fab999a25"}));
