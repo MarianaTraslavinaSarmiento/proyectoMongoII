@@ -203,20 +203,28 @@ export class Boleto {
         try {
             const db = await this.adminDbService.connect();
 
-            const ticket = await checkExists('boletos', {_id: new ObjectId(ticketId) }
+            const ticket = await checkExists('boletos', {_id: new ObjectId(ticketId) },
              `El boleto con id ${ticketId} no existe.`,db)
     
             if (ticket.estado !== "reservado") {
                 return { error: `El boleto con id ${ticketId} no está en estado reservado y no se puede cancelar.` };
             }
-            
+
             const result = await db.collection('boletos').updateOne(
                 { _id: new ObjectId(ticketId) },
                 { $set: { estado: "cancelado" } }
             );
             
+            if (result.modifiedCount === 0) {
+                return { error: `No se pudo cancelar el boleto con id ${ticketId}.` };
+            }
+            return {
+                message: `Boleto con id ${ticketId} cancelado con éxito.`,
+                ticketCanceled: ticket
+            };
            
         } catch (error) {
+            console.log(error);
             return { error: error.name, message: error.message };
         } finally {
             await this.adminDbService.close();

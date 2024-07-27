@@ -32,15 +32,17 @@ obj = new Boleto()
 //     "en efectivo"
 // ));
 
-console.log(await obj.bookingSeats(
-    [
-        {
-            proyeccion_id: "66a05c73f034045fab999a26",
-            usuario_id: "66a05449f034045fab9999ec",
-            codigo_asiento: "B1"
-        }
-    ],
-));
+// console.log(await obj.bookingSeats(
+//     [
+//         {
+//             proyeccion_id: "66a05c73f034045fab999a26",
+//             usuario_id: "66a05449f034045fab9999ec",
+//             codigo_asiento: "B1"
+//         }
+//     ],
+// ));
+
+console.log(await obj.cancelBooking("66a528d397e2ab09c5423d68"));
 
 // obj = new Asiento()
 // console.log(await obj.availabilityForEachScreening({id: "66a05c73f034045fab999a25"}));
