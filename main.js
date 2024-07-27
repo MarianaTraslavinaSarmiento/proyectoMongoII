@@ -20,14 +20,17 @@ let obj
 //     }
 //     ));
 
-obj = new Boleto()
-console.log(await obj.buyTickets(
-    [
-        {
-            proyeccion_id: "66a05c73f034045fab999a25",
-            usuario_id: "66a05449f034045fab9999e6",
-            codigo_asiento: "A1"
-        }
-    ],
-    "en efectivo"
-));
+// obj = new Boleto()
+// console.log(await obj.buyTickets(
+//     [
+//         {
+//             proyeccion_id: "66a05c73f034045fab999a25",
+//             usuario_id: "66a05449f034045fab9999e6",
+//             codigo_asiento: "A1"
+//         }
+//     ],
+//     "en efectivo"
+// ));
+
+obj = new Asiento()
+console.log(await obj.availablForEachScreening({id: "66a05c73f034045fab999a27"}));
