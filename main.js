@@ -42,7 +42,7 @@ obj = new Boleto()
 //     ],
 // ));
 
-console.log(await obj.cancelBooking("66a528d397e2ab09c5423d68"));
+console.log(await obj.cancelBooking("66a52c38b7b76ac1964d2e67"));
 
 // obj = new Asiento()
 // console.log(await obj.availabilityForEachScreening({id: "66a05c73f034045fab999a25"}));

@@ -288,7 +288,7 @@ obj = new Asiento()
 console.log(await obj.availabilityForEachScreening({id: "66a05c73f034045fab999a25"}));
 ```
 ---
-### 3. Compra de boletos para una proyección de una película específica
+### 3. Reserva de asientos para una proyección específica
 
 **Descripción:**  Creación de método de la clase 'Boleto' llamado ```bookingSeats``` que permite la reserva de asientos para una proyección específica. Como retorno se obtiene un objeto u objetos en el cual se obtendrán los boletos correspondientes a los asientos reservados. Cada boleto costeará el total a pagar con el fin de tener registro del dinero que el usuario debe dar al momento de pagar la reserva.
 
@@ -379,3 +379,61 @@ console.log(await obj.bookingSeats(
 ));
 ```
 ----
+### 3.1 Cancelación de una reserva de asiento ya realizada.
+
+**Descripción:**  Creación de método de la clase 'Boleto' llamado ```cancelBooking``` que permite la cancelación de una reserva ya realizada anteriormente. Como retorno se obtiene un objeto u objetos en el cual se obtendrán los boletos correspondientes a los asientos cancelados
+
+**Actor principal:** Administrador, cliente estándar y VIP
+
+**Parámetros obligatorios** 
+- ```ticketId```: Id del boleto que se quiere cancelar la reserva
+
+<table>
+<tr>
+<th> Respuestas </th>
+<th> Errores </th>
+</tr>
+<tr>
+<td>
+
+```javascript
+{
+  message: 'Boleto con id 66a52c38b7b76ac1964d2e67 cancelado con éxito.',
+  ticketCanceled: {
+    _id: new ObjectId('66a52c38b7b76ac1964d2e67'),
+    proyeccion_id: new ObjectId('66a05c73f034045fab999a26'),
+    usuario_id: new ObjectId('66a05449f034045fab9999ec'),
+    codigo_asiento: 'B1',
+    subtotal: 20000,
+    porcentaje_descuento_VIP: 0,
+    total: 20000,
+    estado: 'reservado'
+  }
+}
+```
+    
+</td>
+<td>
+
+```javascript
+{
+    error: error.name, 
+    message: error.message
+}
+
+// Si la proyeccion ingresada NO existe
+message: La proyección con id ${ticket.proyeccion_id} no existe.
+
+//Si el boleto ingresado no está reservdo
+message: El boleto con id ${ticketId} no está en estado reservado y no se puede cancelar.
+
+```
+</td>
+</tr>
+</table>
+
+#### Ejemplo de uso
+``` javascript
+obj = new Boleto()
+console.log(await obj.cancelBooking("66a52c38b7b76ac1964d2e67"));
+```
