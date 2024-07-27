@@ -20,7 +20,7 @@ let obj
 //     }
 //     ));
 
-// obj = new Boleto()
+obj = new Boleto()
 // console.log(await obj.buyTickets(
 //     [
 //         {
@@ -32,5 +32,15 @@ let obj
 //     "en efectivo"
 // ));
 
-obj = new Asiento()
-console.log(await obj.availabilityForEachScreening({id: "66a05c73f034045fab999a25"}));
+console.log(await obj.bookingSeats(
+    [
+        {
+            proyeccion_id: "66a05c73f034045fab999a26",
+            usuario_id: "66a05449f034045fab9999ec",
+            codigo_asiento: "B1"
+        }
+    ],
+));
+
+// obj = new Asiento()
+// console.log(await obj.availabilityForEachScreening({id: "66a05c73f034045fab999a25"}));

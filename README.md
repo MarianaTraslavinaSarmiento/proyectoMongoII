@@ -287,3 +287,95 @@ console.log(await obj.buyTickets(
 obj = new Asiento()
 console.log(await obj.availabilityForEachScreening({id: "66a05c73f034045fab999a25"}));
 ```
+---
+### 3. Compra de boletos para una proyección de una película específica
+
+**Descripción:**  Creación de método de la clase 'Boleto' llamado ```bookingSeats``` que permite la reserva de asientos para una proyección específica. Como retorno se obtiene un objeto u objetos en el cual se obtendrán los boletos correspondientes a los asientos reservados. Cada boleto costeará el total a pagar con el fin de tener registro del dinero que el usuario debe dar al momento de pagar la reserva.
+
+**Actor principal:** Administrador, cliente estándar y VIP
+
+**Parámetros obligatorios** 
+
+```tickets:```
+- **Tipo:** Array de objetos.
+- **Descripción:** Es requerido que para la reserva de un asiento se cree un boleto con el fin de ingresar la proyeccion y el asiento que se quiere reservar, asi mismo el identificador unico del usuario. 
+- Cada objeto dentro del array representa un boleto e incluye la siguiente información:
+```proyeccion_id:``` (String) Identificador de la proyección a la que se desea asistir.
+```usuario_id:``` (String) Identificador del usuario que está comprando el boleto.
+```codigo_asiento:``` (String) Código del asiento que se desea reservar (por ejemplo, "A1").
+
+<table>
+<tr>
+<th> Respuestas </th>
+<th> Errores </th>
+</tr>
+<tr>
+<td>
+
+```javascript
+{
+  success: true,
+  message: 'Asientos reservados con éxito',
+  tickets: [
+    {
+      _id: new ObjectId('66a521605d0d6c2a322e92ad'),
+      proyeccion_id: new ObjectId('66a05c73f034045fab999a26'),
+      usuario_id: new ObjectId('66a05449f034045fab9999ec'),
+      codigo_asiento: 'B1',
+      subtotal: 20000,
+      porcentaje_descuento_VIP: 0,
+      total: 20000,
+      estado: 'reservado'
+    },
+    
+    //Es posible que hayan mas tickets reservados 
+  ]
+}
+```
+    
+</td>
+<td>
+
+```javascript
+
+
+{
+    error: error.name, 
+    message: error.message
+}
+
+// Si la proyeccion ingresada NO existe
+message: La proyección con id ${ticket.proyeccion_id} no existe.
+
+// Si el usuario ingreso NO existe
+message: El usuario con id ${ticket.usuario_id} no existe.
+
+
+// Si el codigo del asiento ingresado NO existe
+message: El asiento con código ${ticket.codigo_asiento} no existe. 
+Verifique si su formato es válido: (ej: A1)
+
+// El asiento ingresado no está en la sala de la proyección
+message: El asiento no está en la sala de la proyección.
+
+//Si el asiento ya tiene un boleto asociado a esa proyeccion
+El asiento ya tiene un boleto asociado a esta proyección.
+```
+</td>
+</tr>
+</table>
+
+#### Ejemplo de uso
+``` javascript
+obj = new Boleto()
+console.log(await obj.bookingSeats(
+    [
+        {
+            proyeccion_id: "66a05c73f034045fab999a26",
+            usuario_id: "66a05449f034045fab9999ec",
+            codigo_asiento: "B1"
+        }
+    ],
+));
+```
+----
