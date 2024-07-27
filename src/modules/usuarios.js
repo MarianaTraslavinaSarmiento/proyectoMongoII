@@ -81,4 +81,44 @@ export class Usuario{
         }
     }
 
+    async showDetailsOfASpecificUser(userId){
+        try{
+
+            const db = await this.adminDbService.connect();
+            
+            const user = await checkExists("usuarios", { _id: new ObjectId(userId) },
+            `El usuario con id ${userId} no existe.`, db);
+
+            
+
+            const userInfo = await db.collection('usuarios').aggregate([
+                {
+                  $lookup: {
+                    from: "tarjetasVIP",
+                    localField: "_id",
+                    foreignField: "usuario_id",
+                    as: "tarjetaVIP"
+                  }
+                },
+                {
+                  $addFields: {
+                    vip_card_status: { $arrayElemAt: ["$tarjetaVIP.estado", 0] }
+                  }
+                },
+                {
+                  $project: {
+                    tarjetaVIP: 0
+                  }
+                }
+            ]).toArray()
+
+            return { user: userInfo };
+
+        }catch(error){
+            return { error: error.name, message: error.message };
+        } finally {
+            await this.adminDbService.close();
+        }
+    }
+
 }
