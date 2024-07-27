@@ -113,7 +113,7 @@ export class Usuario{
                     tarjetaVIP: 0
                   }
                 }
-            ])
+            ]).toArray()
 
             return { user: userInfo };
 
