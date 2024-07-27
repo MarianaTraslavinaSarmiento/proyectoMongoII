@@ -54,10 +54,12 @@ let obj
 // nick: ""
 
 obj = new Usuario()
-console.log(await obj.createUsers({
-    nombre: "Cristian",
-    email: "cristian@gmail.com",
-    telefono: "3244195352",
-    tipo: "vip",
-    nick: "cristian"
-}));
+// console.log(await obj.createUsers({
+//     nombre: "Cristian",
+//     email: "cristian@gmail.com",
+//     telefono: "3244195352",
+//     tipo: "vip",
+//     nick: "cristian"
+// }));
+
+console.log(await obj.showDetailsOfASpecificUser("66a05449f034045fab9999e6"));

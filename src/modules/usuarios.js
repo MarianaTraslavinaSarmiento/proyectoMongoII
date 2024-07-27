@@ -81,4 +81,57 @@ export class Usuario{
         }
     }
 
+    /**
+     * Muestra los detalles de un usuario específico en la base de datos y MongoDB.
+     *
+     * @param {string} userId - El identificador único del usuario.
+     *
+     * @returns {Promise} - Una promesa que resuelve a un objeto que contiene tanto un mensaje de error como un mensaje de éxito y los detalles del usuario.
+     * @returns {Object.error} - Un mensaje de error si la consulta falla.
+     * @returns {Object.message} - Un mensaje de éxito si la consulta es exitosa.
+     * @returns {Object.user} - Los detalles del usuario obtenidos de la base de datos.
+     */
+    async showDetailsOfASpecificUser(userId){
+        try{
+
+            const db = await this.adminDbService.connect();
+            
+            const user = await checkExists("usuarios", { _id: new ObjectId(userId) },
+            `El usuario con id ${userId} no existe.`, db);
+
+            const userInfo = await db.collection('usuarios').aggregate([
+
+                {
+                    $match: {_id: new ObjectId(userId)}
+                },
+
+                {
+                  $lookup: {
+                    from: "tarjetasVIP",
+                    localField: "_id",
+                    foreignField: "usuario_id",
+                    as: "tarjetaVIP"
+                  }
+                },
+                {
+                  $addFields: {
+                    estado_tarjetaVIP: { $arrayElemAt: ["$tarjetaVIP.estado", 0] }
+                  }
+                },
+                {
+                  $project: {
+                    tarjetaVIP: 0
+                  }
+                }
+            ]).toArray()
+
+            return { user: userInfo };
+
+        }catch(error){
+            return { error: error.name, message: error.message };
+        } finally {
+            await this.adminDbService.close();
+        }
+    }
+
 }
