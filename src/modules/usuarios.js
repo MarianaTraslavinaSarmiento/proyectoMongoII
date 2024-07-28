@@ -134,4 +134,21 @@ export class Usuario{
         }
     }
 
+    async updateRoleOfUsers({id, tipo}) {
+        try {
+            const db = await this.adminDbService.connect()
+            await checkExists('usuarios', {_id: new ObjectId(id)},
+            `El usuario con id ${id} no existe.`, db)
+            
+        } catch (error) {
+            console.log(error);
+            return {
+                error: error.name,
+                message: error.message
+            }
+        } finally {
+            await this.adminDbService.close();
+        }
+    }
+
 }

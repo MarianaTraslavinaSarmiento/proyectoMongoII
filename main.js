@@ -62,4 +62,12 @@ obj = new Usuario()
 //     nick: "cristian"
 // }));
 
-console.log(await obj.showDetailsOfASpecificUser("66a05449f034045fab9999e6"));
+// console.log(await obj.showDetailsOfASpecificUser("66a05449f034045fab9999e6"));
+
+
+console.log(await obj.updateRoleOfUsers(
+        {
+            id: "66a05449f034045fab9999ec",
+            tipo: "estandar"
+        }
+));
