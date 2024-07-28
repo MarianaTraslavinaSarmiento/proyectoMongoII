@@ -140,6 +140,10 @@ export class Usuario{
             await checkExists('usuarios', {_id: new ObjectId(id)},
             `El usuario con id ${id} no existe.`, db)
 
+            if(tipo != 'estandar' && tipo != 'vip'){
+                return { error: "El tipo de usuario debe ser estandar o vip únicamente"}
+            }
+
             const setRoleUser = await db.collection('usuarios').findOneAndUpdate({_id: new ObjectId(id)}, {$set: {tipo: tipo}},{returnNewDocument: true})
             await db.removeUser(setRoleUser.nick)
 
