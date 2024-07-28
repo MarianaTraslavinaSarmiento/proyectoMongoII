@@ -1,4 +1,4 @@
-import { ObjectId, ReturnDocument } from "mongodb";
+import { ObjectId} from "mongodb";
 import Client from "../config/mongodb.js";
 import DbService from "../db/dbConection.js";
 import { checkExists } from "../validators/checkExists.js";
@@ -140,9 +140,22 @@ export class Usuario{
             await checkExists('usuarios', {_id: new ObjectId(id)},
             `El usuario con id ${id} no existe.`, db)
 
-            const setRoleUser = await db.collection('usuarios').findAndUpdate({_id: new ObjectId(id)}, {$set: {tipo: tipo}},{returnDocument: 'after'})
+            const setRoleUser = await db.collection('usuarios').findOneAndUpdate({_id: new ObjectId(id)}, {$set: {tipo: tipo}},{returnNewDocument: true})
             await db.removeUser(setRoleUser.nick)
-            
+
+            await db.command({
+                createUser: setRoleUser.nick,
+                pwd: setRoleUser._id.toString(),
+                roles: [{ role: tipo, db: 'cineCampus' }]
+            });
+
+            const newUser = await db.collection('usuarios').findOne({_id: new ObjectId({id})})
+
+            return {
+                message: `El rol del usuario ${newUser.nick} ha sido cambiado a ${tipo}.`,
+                user: newUser
+            }
+
         } catch (error) {
             console.log(error);
             return {
