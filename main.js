@@ -64,6 +64,6 @@ obj = new Usuario()
 console.log(await obj.updateRoleOfUsers(
         {
             id: "66a05449f034045fab9999ec",
-            tipo: "estandar"
+            tipo: "vip"
         }
 ));

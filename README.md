@@ -439,7 +439,7 @@ console.log(await obj.cancelBooking("66a52c38b7b76ac1964d2e67"));
 ```
 ---
 
-###  5. Creación de nuevos usuarios en el sistema, asignando roles y privilegios específicos (usuario estándar, usuario VIP o administrador).
+###  5.1 Creación de nuevos usuarios en el sistema, asignando roles y privilegios específicos (usuario estándar, usuario VIP o administrador).
 
 
 **Descripción:**  Creación de método de la clase 'Usuario' llamado ```createUsers``` que permite la creación de nuevos usuarios de todo tipo en el sistema. 
@@ -515,7 +515,7 @@ console.log(await obj.createUsers({
 
 ```
 
-### 5.1 Consulta de información detallada sobre un usuario, incluyendo su rol y estado de tarjeta VIP.
+### 5.2 Consulta de información detallada sobre un usuario, incluyendo su rol y estado de tarjeta VIP.
 
 **Descripción:**  Creación de método de la clase 'Usuario'' llamado ```showDetailsOfASpecificUser``` que permite ver los detalles de un usuario especifico y el estado de su tarjeta si este es de tipo VIP
 
@@ -575,3 +575,71 @@ console.log(await obj.createUsers({
 obj = new Usuario()
 console.log(await obj.showDetailsOfASpecificUser("66a05449f034045fab9999e6"));
 ```
+----
+
+### 5.3 Actualización del rol de un usuario (por ejemplo, cambiar de usuario estándar a VIP, o viceversa).
+
+**Descripción:**  Creación de método de la clase 'Usuario'' llamado ```updateRoleOfUsers``` que permite actualizar el rol de un usuario
+
+**Actor principal:** Administrador
+
+**Parámetros obligatorios**
+- ```id```: Id del usuario específico
+- ```tipo```: nombre del nuevo rol
+
+<table>
+<tr>
+<th> Respuestas </th>
+<th> Errores </th>
+</tr>
+<tr>
+<td>
+
+```javascript
+{
+  message: 'El rol del usuario juanilloX ha sido cambiado a estandar.',
+  user: {
+    _id: new ObjectId('66a05449f034045fab9999ec'),
+    nombre: 'Juan Sánchez',
+    email: 'juan.sanchez@example.com',
+    telefono: '+573098765435',
+    tipo: 'estandar',
+    fecha_registro: 2024-08-25T16:00:00.000Z,
+    nick: 'juanilloX'
+  }
+}
+```
+    
+</td>
+<td>
+
+```javascript
+
+{
+    error: error.name, 
+    message: error.message
+}
+
+// Si el usuario ingresado NO existe:
+return `El usuario con id ${id} no existe.`
+
+//Si el tipo es diferente de estandar o vip
+return { error: 'El tipo de usuario debe ser estandar o vip.' }
+
+
+```
+</td>
+</tr>
+</table>
+
+#### Ejemplo de uso
+``` javascript
+obj = new Usuario()
+console.log(await obj.updateRoleOfUsers(
+  {
+      id: "66a05449f034045fab9999ec",
+      tipo: "vip"
+  }
+));
+```
+
