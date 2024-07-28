@@ -1,4 +1,4 @@
-import { ObjectId } from "mongodb";
+import { ObjectId} from "mongodb";
 import Client from "../config/mongodb.js";
 import DbService from "../db/dbConection.js";
 import { checkExists } from "../validators/checkExists.js";
@@ -129,6 +129,56 @@ export class Usuario{
 
         }catch(error){
             return { error: error.name, message: error.message };
+        } finally {
+            await this.adminDbService.close();
+        }
+    }
+
+    /**
+     * Actualiza el rol de un usuario específico en la base de datos MongoDB.
+     *
+     * @param {Object} params - Los parámetros necesarios para actualizar el rol del usuario.
+     * @param {string} params.id - El identificador único del usuario.
+     * @param {string} params.tipo - El nuevo rol para el usuario. Debe ser 'estandar' o 'vip'.
+     *
+     * @returns {Promise} - Una promesa que resuelve a un objeto que contiene el resultado de la operación.
+     * @returns {Object.error} - Un mensaje de error si la operación falla.
+     * @returns {Object.message} - Un mensaje de éxito si la operación es exitosa.
+     * @returns {Object.user} - El objeto de usuario actualizado.
+    */
+
+    async updateRoleOfUsers({id, tipo}) {
+        try {
+            const db = await this.adminDbService.connect()
+            await checkExists('usuarios', {_id: new ObjectId(id)},
+            `El usuario con id ${id} no existe.`, db)
+
+            if(tipo != 'estandar' && tipo != 'vip'){
+                return { error: "El tipo de usuario debe ser estandar o vip únicamente"}
+            }
+
+            const setRoleUser = await db.collection('usuarios').findOneAndUpdate({_id: new ObjectId(id)}, {$set: {tipo: tipo}},{returnNewDocument: true})
+            await db.removeUser(setRoleUser.nick)
+
+            await db.command({
+                createUser: setRoleUser.nick,
+                pwd: setRoleUser._id.toString(),
+                roles: [{ role: tipo, db: 'cineCampus' }]
+            });
+
+            const newUser = await db.collection('usuarios').findOne({_id: new ObjectId({id})})
+
+            return {
+                message: `El rol del usuario ${newUser.nick} ha sido cambiado a ${tipo}.`,
+                user: newUser
+            }
+
+        } catch (error) {
+            console.log(error);
+            return {
+                error: error.name,
+                message: error.message
+            }
         } finally {
             await this.adminDbService.close();
         }

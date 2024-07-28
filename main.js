@@ -47,11 +47,7 @@ let obj
 // obj = new Asiento()
 // console.log(await obj.availabilityForEachScreening({id: "66a05c73f034045fab999a25"}));
 
-// nombre: "",
-// email "",
-// telefono: "",
-// tipo: "",
-// nick: ""
+
 
 obj = new Usuario()
 // console.log(await obj.createUsers({
@@ -62,4 +58,12 @@ obj = new Usuario()
 //     nick: "cristian"
 // }));
 
-console.log(await obj.showDetailsOfASpecificUser("66a05449f034045fab9999e6"));
+// console.log(await obj.showDetailsOfASpecificUser("66a05449f034045fab9999e6"));
+
+
+console.log(await obj.updateRoleOfUsers(
+        {
+            id: "66a05449f034045fab9999ec",
+            tipo: "vip"
+        }
+));
