@@ -81,6 +81,16 @@ export class Usuario{
         }
     }
 
+    /**
+     * Muestra los detalles de un usuario específico en la base de datos y MongoDB.
+     *
+     * @param {string} userId - El identificador único del usuario.
+     *
+     * @returns {Promise} - Una promesa que resuelve a un objeto que contiene tanto un mensaje de error como un mensaje de éxito y los detalles del usuario.
+     * @returns {Object.error} - Un mensaje de error si la consulta falla.
+     * @returns {Object.message} - Un mensaje de éxito si la consulta es exitosa.
+     * @returns {Object.user} - Los detalles del usuario obtenidos de la base de datos.
+     */
     async showDetailsOfASpecificUser(userId){
         try{
 
@@ -105,7 +115,7 @@ export class Usuario{
                 },
                 {
                   $addFields: {
-                    vip_card_status: { $arrayElemAt: ["$tarjetaVIP.estado", 0] }
+                    estado_tarjetaVIP: { $arrayElemAt: ["$tarjetaVIP.estado", 0] }
                   }
                 },
                 {

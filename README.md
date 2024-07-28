@@ -515,3 +515,63 @@ console.log(await obj.createUsers({
 
 ```
 
+### 5.1 Consulta de información detallada sobre un usuario, incluyendo su rol y estado de tarjeta VIP.
+
+**Descripción:**  Creación de método de la clase 'Usuario'' llamado ```showDetailsOfASpecificUser``` que permite ver los detalles de un usuario especifico y el estado de su tarjeta si este es de tipo VIP
+
+**Actor principal:** Administrador, cliente estándar y VIP
+
+**Parámetros obligatorios**
+- ```UserId```: Id del usuario específico
+
+<table>
+<tr>
+<th> Respuestas </th>
+<th> Errores </th>
+</tr>
+<tr>
+<td>
+
+```javascript
+{
+  user: [
+    {
+      _id: new ObjectId('66a05449f034045fab9999e6'),
+      nombre: 'Carlos Fernández',
+      email: 'carlos.fernandez@example.com',
+      telefono: '+573098765432',
+      tipo: 'VIP',
+      fecha_registro: 2024-02-10T10:30:00.000Z,
+      nick: 'carFerZ',
+      estado_tarjetaVIP: 'activa'
+    }
+  ]
+}
+```
+    
+</td>
+<td>
+
+```javascript
+
+{
+    error: error.name, 
+    message: error.message
+}
+
+// Si el usuario ingresado NO existe:
+
+{
+  error: 'Error',
+  message: 'El usuario con id 66a05449f034045fab9999a6 no existe.'
+}
+```
+</td>
+</tr>
+</table>
+
+#### Ejemplo de uso
+``` javascript
+obj = new Usuario()
+console.log(await obj.showDetailsOfASpecificUser("66a05449f034045fab9999e6"));
+```
