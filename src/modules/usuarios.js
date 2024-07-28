@@ -1,4 +1,4 @@
-import { ObjectId } from "mongodb";
+import { ObjectId, ReturnDocument } from "mongodb";
 import Client from "../config/mongodb.js";
 import DbService from "../db/dbConection.js";
 import { checkExists } from "../validators/checkExists.js";
@@ -139,6 +139,9 @@ export class Usuario{
             const db = await this.adminDbService.connect()
             await checkExists('usuarios', {_id: new ObjectId(id)},
             `El usuario con id ${id} no existe.`, db)
+
+            const setRoleUser = await db.collection('usuarios').findAndUpdate({_id: new ObjectId(id)}, {$set: {tipo: tipo}},{returnDocument: 'after'})
+            await db.removeUser(setRoleUser.nick)
             
         } catch (error) {
             console.log(error);
