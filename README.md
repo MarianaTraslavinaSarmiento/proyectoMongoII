@@ -515,6 +515,7 @@ console.log(await obj.createUsers({
 
 ```
 
+<<<<<<< HEAD
 ### 5.2 Consulta de información detallada sobre un usuario, incluyendo su rol y estado de tarjeta VIP.
 
 **Descripción:**  Creación de método de la clase 'Usuario'' llamado ```showDetailsOfASpecificUser``` que permite ver los detalles de un usuario especifico y el estado de su tarjeta si este es de tipo VIP
@@ -643,3 +644,5 @@ console.log(await obj.updateRoleOfUsers(
 ));
 ```
 
+=======
+>>>>>>> 99914935eda9489fab7430faf4ad9e2bbfc3bd8d
