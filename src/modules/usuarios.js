@@ -43,8 +43,8 @@ export class Usuario{
                 return {error: "Todos los campos son obligatorios"};
             }
 
-            if(tipo != 'estandar' && tipo != 'vip'){
-                return { error: "El tipo de usuario debe ser estandar o vip únicamente"}
+            if(tipo != 'estandar' && tipo != 'vip' && tipo != 'administrador'){
+                return { error: "El tipo de usuario debe ser estandar, vip o administrador únicamente"}
             }
 
             const existingUser = await db.collection('usuarios').findOne({nick: nick});
@@ -58,7 +58,8 @@ export class Usuario{
             if (!validPhone(telefono)) {
                 return { error: "El teléfono no es válido. Asegúrese que esté en formato válido para Colombia" };
             }
-        
+            
+
             const newUser = {
                 nombre: nombre,
                 email: email,
@@ -67,14 +68,24 @@ export class Usuario{
                 fecha_registro: new Date(),
                 nick: nick,
             }
+
             
             await db.collection('usuarios').insertOne(newUser);
 
-            await db.command({
-                createUser: nick,
-                pwd: newUser._id.toString(),
-                roles: [{ role: tipo, db: 'cineCampus' }]
-            });
+            if(tipo == 'administrador'){
+                await db.command({
+                    createUser: nick,
+                    pwd: newUser._id.toString(),
+                    roles: [{ role: 'dbOwner', db: 'cineCampus' }]
+                });
+
+            } else {
+                await db.command({
+                    createUser: nick,
+                    pwd: newUser._id.toString(),
+                    roles: [{ role: tipo, db: 'cineCampus' }]
+                });
+            }
 
             return { message: "Usuario creado con éxito", user: newUser };
 
