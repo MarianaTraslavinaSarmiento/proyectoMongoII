@@ -643,3 +643,61 @@ console.log(await obj.updateRoleOfUsers(
 ));
 ```
 
+### 5.4  Consulta de todos los usuarios del sistema, con la posibilidad de filtrar por rol (VIP, estándar o administrador).
+
+**Descripción:**  Creación de método de la clase 'Usuario'' llamado ```getAllUsersAndFilterByRole``` que permite consultar los usuarios de sistema, ya sea filtrandolos por tipo o en general
+
+**Actor principal:** Administrador
+
+**Parámetros obligatorios**
+- ```tipo```: nombre del tipo de usuario a filtrar
+
+<table>
+<tr>
+<th> Respuestas </th>
+<th> Errores </th>
+</tr>
+<tr>
+<td>
+
+```javascript
+{
+  users: [
+    {
+      _id: new ObjectId('66a05449f034045fab9999ec'),
+      nombre: 'Juan Sánchez',
+      email: 'juan.sanchez@example.com',
+      telefono: '+573098765435',
+      tipo: 'estandar',
+      fecha_registro: 2024-08-25T16:00:00.000Z,
+      nick: 'juanilloX'
+    }
+  ]
+}
+```
+    
+</td>
+<td>
+
+```javascript
+
+{
+    error: error.name, 
+    message: error.message
+}
+
+// Si el tipo de usuario ingresado NO existe:
+return { error: "El tipo de usuario debe ser estandar, vip o administrador únicamente"}
+
+
+```
+</td>
+</tr>
+</table>
+
+#### Ejemplo de uso
+``` javascript
+obj = new Usuario()
+console.log(await obj.getAllUsersAndFilterByRole("estandar"));
+```
+
