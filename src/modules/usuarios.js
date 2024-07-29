@@ -134,6 +134,19 @@ export class Usuario{
         }
     }
 
+    /**
+     * Actualiza el rol de un usuario específico en la base de datos MongoDB.
+     *
+     * @param {Object} params - Los parámetros necesarios para actualizar el rol del usuario.
+     * @param {string} params.id - El identificador único del usuario.
+     * @param {string} params.tipo - El nuevo rol para el usuario. Debe ser 'estandar' o 'vip'.
+     *
+     * @returns {Promise} - Una promesa que resuelve a un objeto que contiene el resultado de la operación.
+     * @returns {Object.error} - Un mensaje de error si la operación falla.
+     * @returns {Object.message} - Un mensaje de éxito si la operación es exitosa.
+     * @returns {Object.user} - El objeto de usuario actualizado.
+    */
+
     async updateRoleOfUsers({id, tipo}) {
         try {
             const db = await this.adminDbService.connect()
