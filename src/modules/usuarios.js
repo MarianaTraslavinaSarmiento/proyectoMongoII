@@ -43,6 +43,10 @@ export class Usuario{
                 return {error: "Todos los campos son obligatorios"};
             }
 
+            if(tipo != 'estandar' && tipo != 'vip'){
+                return { error: "El tipo de usuario debe ser estandar o vip únicamente"}
+            }
+
             const existingUser = await db.collection('usuarios').findOne({nick: nick});
             if (existingUser) {
                 return {error: `El nick  ${nick} ya está en uso`};
@@ -179,6 +183,25 @@ export class Usuario{
                 error: error.name,
                 message: error.message
             }
+        } finally {
+            await this.adminDbService.close();
+        }
+    }
+
+    async getAllUsersAndFilterByRole(tipo){
+        try{
+            const db = await this.adminDbService.connect();
+
+            if(tipo){
+                const usersByRole = await db.collection('usuarios').find({tipo: tipo}).toArray()
+                return { users: usersByRole };
+            } else {
+                const users = await db.collection('usuarios').find().toArray()
+                return { users: users };
+            }
+
+        }catch(error){
+            return { error: error.name, message: error.message };
         } finally {
             await this.adminDbService.close();
         }
