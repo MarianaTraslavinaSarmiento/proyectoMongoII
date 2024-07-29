@@ -68,4 +68,5 @@ obj = new Usuario()
 //         }
 // ));
 
-console.log(await obj.getAllUsersAndFilterByRole());
+console.log(await obj.getAllUsersAndFilterByRole("estandar"));
+

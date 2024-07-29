@@ -199,9 +199,22 @@ export class Usuario{
         }
     }
 
+
+    /**
+    Retrieves all users from the database and filters them by role if specified.
+    @param {string} [tipo] - El rol o tipo de usuario a filtrar. Si no se provee, va a retornar todos los usuarios de la base de datos
+    @returns {Promise} - Una promesa que resuelve a un objeto que contiene el resultado de la operación.
+    @returns {Object.error} - Mensaje de error si la operacion falla.
+    @returns {Object.message} - Mensaje de exito si la operacion corre sin ningun problema.
+    @returns {Object.users} - Array de objetos de todos los usuarios que corresponden al tipo especificado (Si se provee). Si no se provee el tipo de usuario a filtrar, retornará todos los usuarios.
+    */
     async getAllUsersAndFilterByRole(tipo){
         try{
             const db = await this.adminDbService.connect();
+
+            if(tipo != 'estandar' && tipo != 'vip' && tipo != 'administrador'){
+                return { error: "El tipo de usuario debe ser estandar, vip o administrador únicamente"}
+            }
 
             if(tipo){
                 const usersByRole = await db.collection('usuarios').find({tipo: tipo}).toArray()
