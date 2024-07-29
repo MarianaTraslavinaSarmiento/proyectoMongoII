@@ -1,0 +1,45 @@
+{
+    $jsonSchema: {
+      bsonType: 'object',
+      required: [
+        'nombre',
+        'email',
+        'telefono',
+        'tipo',
+        'fecha_registro'
+      ],
+      properties: {
+        _id: {
+          bsonType: 'objectId'
+        },
+        nombre: {
+          bsonType: 'string',
+          description: 'Debe ser un string y es requerido'
+        },
+        nick: {
+          bsonType: 'string',
+          description: 'Debe ser un string y es requerido'
+        },
+        email: {
+          bsonType: 'string',
+          description: 'Debe ser un string con un formato de email válido y es requerido'
+        },
+        telefono: {
+          bsonType: 'string',
+          description: 'Debe ser un string que comience con \'+\' y un prefijo de país válido, y es requerido'
+        },
+        tipo: {
+          'enum': [
+            'estandar',
+            'vip',
+            'administrador'
+          ],
+          description: 'Debe ser uno de los siguientes valores: \'estándar\', \'VIP\', \'Admin\' y es requerido'
+        },
+        fecha_registro: {
+          bsonType: 'date',
+          description: 'Debe ser una fecha y hora en formato datetime y es requerido'
+        }
+      }
+    }
+  }

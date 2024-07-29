@@ -1,0 +1,59 @@
+{
+  $jsonSchema: {
+    bsonType: 'object',
+    required: [
+      'proyeccion_id',
+      'usuario_id',
+      'codigo_asiento',
+      'subtotal',
+      'porcentaje_descuento_VIP',
+      'total',
+      'estado'
+    ],
+    properties: {
+      _id: {
+        bsonType: 'objectId'
+      },
+      proyeccion_id: {
+        bsonType: 'objectId',
+        description: 'Debe ser un ObjectId que referencia una proyección y es requerido'
+      },
+      usuario_id: {
+        bsonType: 'objectId',
+        description: 'Debe ser un ObjectId que referencia un cliente y es requerido'
+      },
+      codigo_asiento: {
+        bsonType: 'string',
+        description: 'Debe ser un string y es requerido'
+      },
+      subtotal: {
+        bsonType: [
+          'double',
+          'int'
+        ],
+        description: 'Debe ser un número, puede ser double o int, y es requerido'
+      },
+      porcentaje_descuento_VIP: {
+        bsonType: 'int',
+        minimum: 0,
+        maximum: 100,
+        description: 'Debe ser un porcentaje entero entre 0 y 100, y es requerido'
+      },
+      total: {
+        bsonType: [
+          'double',
+          'int'
+        ],
+        description: 'Debe ser un número, puede ser double o int, y es requerido'
+      },
+      estado: {
+        'enum': [
+          'cancelado',
+          'pago',
+          'reservado'
+        ],
+        description: 'Debe ser uno de los siguientes valores: \'cancelado\', \'pago\', \'reservado\' y es requerido'
+      }
+    }
+  }
+}

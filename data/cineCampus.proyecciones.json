@@ -1,0 +1,150 @@
+[{
+  "_id": {
+    "$oid": "66a05c73f034045fab999a25"
+  },
+  "pelicula_id": {
+    "$oid": "66a0510bf034045fab9999d1"
+  },
+  "sala_id": {
+    "$oid": "66a0523df034045fab9999db"
+  },
+  "fecha_hora": {
+    "$date": "2024-07-30T19:00:00.000Z"
+  },
+  "precio": 18000
+},
+{
+  "_id": {
+    "$oid": "66a05c73f034045fab999a26"
+  },
+  "pelicula_id": {
+    "$oid": "66a0510bf034045fab9999d2"
+  },
+  "sala_id": {
+    "$oid": "66a0523df034045fab9999dc"
+  },
+  "fecha_hora": {
+    "$date": "2024-07-30T21:00:00.000Z"
+  },
+  "precio": 20000
+},
+{
+  "_id": {
+    "$oid": "66a05c73f034045fab999a27"
+  },
+  "pelicula_id": {
+    "$oid": "66a0510bf034045fab9999d3"
+  },
+  "sala_id": {
+    "$oid": "66a0523df034045fab9999dd"
+  },
+  "fecha_hora": {
+    "$date": "2024-07-31T18:30:00.000Z"
+  },
+  "precio": 22000
+},
+{
+  "_id": {
+    "$oid": "66a05c73f034045fab999a28"
+  },
+  "pelicula_id": {
+    "$oid": "66a0510bf034045fab9999d4"
+  },
+  "sala_id": {
+    "$oid": "66a0523df034045fab9999de"
+  },
+  "fecha_hora": {
+    "$date": "2024-07-31T20:30:00.000Z"
+  },
+  "precio": 21000
+},
+{
+  "_id": {
+    "$oid": "66a05c73f034045fab999a29"
+  },
+  "pelicula_id": {
+    "$oid": "66a0510bf034045fab9999d5"
+  },
+  "sala_id": {
+    "$oid": "66a0523df034045fab9999df"
+  },
+  "fecha_hora": {
+    "$date": "2024-08-01T17:00:00.000Z"
+  },
+  "precio": 19000
+},
+{
+  "_id": {
+    "$oid": "66a05c73f034045fab999a2a"
+  },
+  "pelicula_id": {
+    "$oid": "66a0510bf034045fab9999d6"
+  },
+  "sala_id": {
+    "$oid": "66a0523df034045fab9999e0"
+  },
+  "fecha_hora": {
+    "$date": "2024-08-01T19:00:00.000Z"
+  },
+  "precio": 20000
+},
+{
+  "_id": {
+    "$oid": "66a05c73f034045fab999a2b"
+  },
+  "pelicula_id": {
+    "$oid": "66a0510bf034045fab9999d7"
+  },
+  "sala_id": {
+    "$oid": "66a0523df034045fab9999e1"
+  },
+  "fecha_hora": {
+    "$date": "2024-08-02T21:00:00.000Z"
+  },
+  "precio": 25000
+},
+{
+  "_id": {
+    "$oid": "66a05c73f034045fab999a2c"
+  },
+  "pelicula_id": {
+    "$oid": "66a0510bf034045fab9999d8"
+  },
+  "sala_id": {
+    "$oid": "66a0523df034045fab9999e2"
+  },
+  "fecha_hora": {
+    "$date": "2024-08-02T23:00:00.000Z"
+  },
+  "precio": 23000
+},
+{
+  "_id": {
+    "$oid": "66a05c73f034045fab999a2d"
+  },
+  "pelicula_id": {
+    "$oid": "66a0510bf034045fab9999d9"
+  },
+  "sala_id": {
+    "$oid": "66a0523df034045fab9999e3"
+  },
+  "fecha_hora": {
+    "$date": "2024-08-03T16:00:00.000Z"
+  },
+  "precio": 18000
+},
+{
+  "_id": {
+    "$oid": "66a05c73f034045fab999a2e"
+  },
+  "pelicula_id": {
+    "$oid": "66a0510bf034045fab9999da"
+  },
+  "sala_id": {
+    "$oid": "66a0523df034045fab9999e4"
+  },
+  "fecha_hora": {
+    "$date": "2024-08-03T18:30:00.000Z"
+  },
+  "precio": 21000
+}]

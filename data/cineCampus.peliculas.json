@@ -1,0 +1,137 @@
+[{
+  "_id": {
+    "$oid": "66a0510bf034045fab9999d1"
+  },
+  "titulo": "The Marvels",
+  "generos": [
+    "Acción",
+    "Aventura",
+    "Ciencia Ficción"
+  ],
+  "duracion_min": 105,
+  "sinopsis": "Carol Danvers, Kamala Khan y Monica Rambeau se unen en una misión intergaláctica que pone a prueba sus habilidades como héroes.",
+  "clasificacion": "PG-13"
+},
+{
+  "_id": {
+    "$oid": "66a0510bf034045fab9999d2"
+  },
+  "titulo": "Killers of the Flower Moon",
+  "generos": [
+    "Crimen",
+    "Drama",
+    "Histórico"
+  ],
+  "duracion_min": 206,
+  "sinopsis": "Basado en eventos reales, la película explora una serie de asesinatos en la nación Osage a principios del siglo XX.",
+  "clasificacion": "R"
+},
+{
+  "_id": {
+    "$oid": "66a0510bf034045fab9999d3"
+  },
+  "titulo": "Dune: Part Two",
+  "generos": [
+    "Ciencia Ficción",
+    "Aventura"
+  ],
+  "duracion_min": 155,
+  "sinopsis": "Paul Atreides se une a los Fremen y se prepara para enfrentarse a la casa Harkonnen en esta épica secuela.",
+  "clasificacion": "PG-13"
+},
+{
+  "_id": {
+    "$oid": "66a0510bf034045fab9999d4"
+  },
+  "titulo": "Barbie",
+  "generos": [
+    "Aventura",
+    "Comedia"
+  ],
+  "duracion_min": 114,
+  "sinopsis": "Barbie deja el mundo de la moda y entra en el mundo real, enfrentándose a desafíos inesperados.",
+  "clasificacion": "PG"
+},
+{
+  "_id": {
+    "$oid": "66a0510bf034045fab9999d5"
+  },
+  "titulo": "Oppenheimer",
+  "generos": [
+    "Biografía",
+    "Drama",
+    "Histórico"
+  ],
+  "duracion_min": 180,
+  "sinopsis": "Una mirada a la vida del físico teórico J. Robert Oppenheimer y su papel en el desarrollo de la bomba atómica.",
+  "clasificacion": "R"
+},
+{
+  "_id": {
+    "$oid": "66a0510bf034045fab9999d6"
+  },
+  "titulo": "Mission: Impossible – Dead Reckoning Part One",
+  "generos": [
+    "Acción",
+    "Aventura",
+    "Suspense"
+  ],
+  "duracion_min": 130,
+  "sinopsis": "Ethan Hunt y su equipo deben enfrentarse a una nueva amenaza global mientras buscan cumplir una misión imposible.",
+  "clasificacion": "PG-13"
+},
+{
+  "_id": {
+    "$oid": "66a0510bf034045fab9999d7"
+  },
+  "titulo": "John Wick: Chapter 4",
+  "generos": [
+    "Acción",
+    "Crimen"
+  ],
+  "duracion_min": 169,
+  "sinopsis": "John Wick continúa su lucha contra el crimen organizado y enfrenta nuevos desafíos mientras busca venganza.",
+  "clasificacion": "R"
+},
+{
+  "_id": {
+    "$oid": "66a0510bf034045fab9999d8"
+  },
+  "titulo": "A Haunting in Venice",
+  "generos": [
+    "Crimen",
+    "Drama",
+    "Misterio"
+  ],
+  "duracion_min": 104,
+  "sinopsis": "Hércules Poirot se enfrenta a un misterio oscuro en Venecia durante una fiesta de Halloween.",
+  "clasificacion": "PG-13"
+},
+{
+  "_id": {
+    "$oid": "66a0510bf034045fab9999d9"
+  },
+  "titulo": "The Hunger Games: The Ballad of Songbirds & Snakes",
+  "generos": [
+    "Aventura",
+    "Ciencia Ficción",
+    "Drama"
+  ],
+  "duracion_min": 157,
+  "sinopsis": "Una precuela de la saga, centrada en la juventud de Coriolanus Snow y los primeros días de los Juegos del Hambre.",
+  "clasificacion": "PG-13"
+},
+{
+  "_id": {
+    "$oid": "66a0510bf034045fab9999da"
+  },
+  "titulo": "Spider-Man: Beyond the Spider-Verse",
+  "generos": [
+    "Animación",
+    "Acción",
+    "Aventura"
+  ],
+  "duracion_min": 120,
+  "sinopsis": "Miles Morales sigue explorando el multiverso mientras enfrenta nuevas amenazas y aliados.",
+  "clasificacion": "PG"
+}]

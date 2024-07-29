@@ -1,0 +1,70 @@
+[{
+  "_id": {
+    "$oid": "66a0523df034045fab9999db"
+  },
+  "nombre": "Sala 1",
+  "capacidad": 120
+},
+{
+  "_id": {
+    "$oid": "66a0523df034045fab9999dc"
+  },
+  "nombre": "Sala 2",
+  "capacidad": 150
+},
+{
+  "_id": {
+    "$oid": "66a0523df034045fab9999dd"
+  },
+  "nombre": "Sala 3",
+  "capacidad": 100
+},
+{
+  "_id": {
+    "$oid": "66a0523df034045fab9999de"
+  },
+  "nombre": "Sala IMAX",
+  "capacidad": 200
+},
+{
+  "_id": {
+    "$oid": "66a0523df034045fab9999df"
+  },
+  "nombre": "Sala VIP",
+  "capacidad": 50
+},
+{
+  "_id": {
+    "$oid": "66a0523df034045fab9999e0"
+  },
+  "nombre": "Sala 4DX",
+  "capacidad": 130
+},
+{
+  "_id": {
+    "$oid": "66a0523df034045fab9999e1"
+  },
+  "nombre": "Sala 4",
+  "capacidad": 180
+},
+{
+  "_id": {
+    "$oid": "66a0523df034045fab9999e2"
+  },
+  "nombre": "Sala Gold",
+  "capacidad": 140
+},
+{
+  "_id": {
+    "$oid": "66a0523df034045fab9999e3"
+  },
+  "nombre": "Sala 5",
+  "capacidad": 160
+},
+{
+  "_id": {
+    "$oid": "66a0523df034045fab9999e4"
+  },
+  "nombre": "Sala Premium",
+  "capacidad": 110
+}]

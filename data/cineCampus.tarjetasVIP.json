@@ -1,0 +1,14 @@
+[{
+  "_id": {
+    "$oid": "66a0592ef034045fab9999ef"
+  },
+  "usuario_id": {
+    "$oid": "66a05449f034045fab9999e6"
+  },
+  "numero_tarjeta": "VIP1234567890",
+  "fecha_expiracion": {
+    "$date": "2025-01-31T23:59:59.000Z"
+  },
+  "estado": "activa",
+  "descuento_porcentaje": 15
+}]

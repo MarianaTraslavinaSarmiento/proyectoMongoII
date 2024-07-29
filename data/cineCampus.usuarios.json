@@ -1,0 +1,39 @@
+[{
+  "_id": {
+    "$oid": "66a05449f034045fab9999e6"
+  },
+  "nombre": "Carlos Fernández",
+  "email": "carlos.fernandez@example.com",
+  "telefono": "+573098765432",
+  "tipo": "vip",
+  "fecha_registro": {
+    "$date": "2024-02-10T10:30:00.000Z"
+  },
+  "nick": "carFerZ"
+},
+{
+  "_id": {
+    "$oid": "66a05449f034045fab9999ec"
+  },
+  "nombre": "Juan Sánchez",
+  "email": "juan.sanchez@example.com",
+  "telefono": "+573098765435",
+  "tipo": "estandar",
+  "fecha_registro": {
+    "$date": "2024-08-25T16:00:00.000Z"
+  },
+  "nick": "juanilloX"
+},
+{
+  "_id": {
+    "$oid": "66a05449f034045fab9999ed"
+  },
+  "nombre": "Catalina Jiménez",
+  "email": "catalina.jimenez@gmail.com",
+  "telefono": "+573012345682",
+  "tipo": "administrador",
+  "fecha_registro": {
+    "$date": "2024-09-15T17:15:00.000Z"
+  },
+  "nick": "cataniaJ"
+}]

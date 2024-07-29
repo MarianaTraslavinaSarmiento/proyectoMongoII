@@ -1,0 +1,48 @@
+[{
+  "_id": {
+    "$oid": "66a3da5b21f245d665cfce09"
+  },
+  "proyeccion_id": {
+    "$oid": "66a05c73f034045fab999a25"
+  },
+  "usuario_id": {
+    "$oid": "66a05449f034045fab9999e6"
+  },
+  "codigo_asiento": "A1",
+  "subtotal": 18000,
+  "porcentaje_descuento_VIP": 15,
+  "total": 15300,
+  "estado": "pago"
+},
+{
+  "_id": {
+    "$oid": "66a52c38b7b76ac1964d2e67"
+  },
+  "proyeccion_id": {
+    "$oid": "66a05c73f034045fab999a26"
+  },
+  "usuario_id": {
+    "$oid": "66a05449f034045fab9999ec"
+  },
+  "codigo_asiento": "B1",
+  "subtotal": 20000,
+  "porcentaje_descuento_VIP": 0,
+  "total": 20000,
+  "estado": "cancelado"
+},
+{
+  "_id": {
+    "$oid": "66a7d1e2ccaf5e3f375277fe"
+  },
+  "proyeccion_id": {
+    "$oid": "66a05c73f034045fab999a25"
+  },
+  "usuario_id": {
+    "$oid": "66a05449f034045fab9999e6"
+  },
+  "codigo_asiento": "A2",
+  "subtotal": 18000,
+  "porcentaje_descuento_VIP": 0,
+  "total": 18000,
+  "estado": "pago"
+}]

@@ -1,0 +1,35 @@
+{
+    $jsonSchema: {
+      bsonType: 'object',
+      required: [
+        'pelicula_id',
+        'sala_id',
+        'fecha_hora',
+        'precio'
+      ],
+      properties: {
+        _id: {
+          bsonType: 'objectId'
+        },
+        pelicula_id: {
+          bsonType: 'objectId',
+          description: 'Debe ser un ObjectId que referencia una película y es requerido'
+        },
+        sala_id: {
+          bsonType: 'objectId',
+          description: 'Debe ser un ObjectId que referencia una sala y es requerido'
+        },
+        fecha_hora: {
+          bsonType: 'date',
+          description: 'Debe ser una fecha y hora en formato datetime y es requerido'
+        },
+        precio: {
+          bsonType: [
+            'double',
+            'int'
+          ],
+          description: 'Debe ser un número, puede ser un double o un int, y es requerido'
+        }
+      }
+    }
+  }

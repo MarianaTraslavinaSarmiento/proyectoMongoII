@@ -1,0 +1,450 @@
+[{
+  "_id": {
+    "$oid": "66a05b87f034045fab9999f3"
+  },
+  "sala_id": {
+    "$oid": "66a0523df034045fab9999db"
+  },
+  "numero_asiento": "A1"
+},
+{
+  "_id": {
+    "$oid": "66a05b87f034045fab9999f4"
+  },
+  "sala_id": {
+    "$oid": "66a0523df034045fab9999db"
+  },
+  "numero_asiento": "A2"
+},
+{
+  "_id": {
+    "$oid": "66a05b87f034045fab9999f5"
+  },
+  "sala_id": {
+    "$oid": "66a0523df034045fab9999db"
+  },
+  "numero_asiento": "A3"
+},
+{
+  "_id": {
+    "$oid": "66a05b87f034045fab9999f6"
+  },
+  "sala_id": {
+    "$oid": "66a0523df034045fab9999db"
+  },
+  "numero_asiento": "A4"
+},
+{
+  "_id": {
+    "$oid": "66a05b87f034045fab9999f7"
+  },
+  "sala_id": {
+    "$oid": "66a0523df034045fab9999db"
+  },
+  "numero_asiento": "A5"
+},
+{
+  "_id": {
+    "$oid": "66a05b87f034045fab9999f8"
+  },
+  "sala_id": {
+    "$oid": "66a0523df034045fab9999dc"
+  },
+  "numero_asiento": "B1"
+},
+{
+  "_id": {
+    "$oid": "66a05b87f034045fab9999f9"
+  },
+  "sala_id": {
+    "$oid": "66a0523df034045fab9999dc"
+  },
+  "numero_asiento": "B2"
+},
+{
+  "_id": {
+    "$oid": "66a05b87f034045fab9999fa"
+  },
+  "sala_id": {
+    "$oid": "66a0523df034045fab9999dc"
+  },
+  "numero_asiento": "B3"
+},
+{
+  "_id": {
+    "$oid": "66a05b87f034045fab9999fb"
+  },
+  "sala_id": {
+    "$oid": "66a0523df034045fab9999dc"
+  },
+  "numero_asiento": "B4"
+},
+{
+  "_id": {
+    "$oid": "66a05b87f034045fab9999fc"
+  },
+  "sala_id": {
+    "$oid": "66a0523df034045fab9999dc"
+  },
+  "numero_asiento": "B5"
+},
+{
+  "_id": {
+    "$oid": "66a05b87f034045fab9999fd"
+  },
+  "sala_id": {
+    "$oid": "66a0523df034045fab9999dd"
+  },
+  "numero_asiento": "C1"
+},
+{
+  "_id": {
+    "$oid": "66a05b87f034045fab9999fe"
+  },
+  "sala_id": {
+    "$oid": "66a0523df034045fab9999dd"
+  },
+  "numero_asiento": "C2"
+},
+{
+  "_id": {
+    "$oid": "66a05b87f034045fab9999ff"
+  },
+  "sala_id": {
+    "$oid": "66a0523df034045fab9999dd"
+  },
+  "numero_asiento": "C3"
+},
+{
+  "_id": {
+    "$oid": "66a05b87f034045fab999a00"
+  },
+  "sala_id": {
+    "$oid": "66a0523df034045fab9999dd"
+  },
+  "numero_asiento": "C4"
+},
+{
+  "_id": {
+    "$oid": "66a05b87f034045fab999a01"
+  },
+  "sala_id": {
+    "$oid": "66a0523df034045fab9999dd"
+  },
+  "numero_asiento": "C5"
+},
+{
+  "_id": {
+    "$oid": "66a05b87f034045fab999a02"
+  },
+  "sala_id": {
+    "$oid": "66a0523df034045fab9999de"
+  },
+  "numero_asiento": "D1"
+},
+{
+  "_id": {
+    "$oid": "66a05b87f034045fab999a03"
+  },
+  "sala_id": {
+    "$oid": "66a0523df034045fab9999de"
+  },
+  "numero_asiento": "D2"
+},
+{
+  "_id": {
+    "$oid": "66a05b87f034045fab999a04"
+  },
+  "sala_id": {
+    "$oid": "66a0523df034045fab9999de"
+  },
+  "numero_asiento": "D3"
+},
+{
+  "_id": {
+    "$oid": "66a05b87f034045fab999a05"
+  },
+  "sala_id": {
+    "$oid": "66a0523df034045fab9999de"
+  },
+  "numero_asiento": "D4"
+},
+{
+  "_id": {
+    "$oid": "66a05b87f034045fab999a06"
+  },
+  "sala_id": {
+    "$oid": "66a0523df034045fab9999de"
+  },
+  "numero_asiento": "D5"
+},
+{
+  "_id": {
+    "$oid": "66a05b87f034045fab999a07"
+  },
+  "sala_id": {
+    "$oid": "66a0523df034045fab9999df"
+  },
+  "numero_asiento": "E1"
+},
+{
+  "_id": {
+    "$oid": "66a05b87f034045fab999a08"
+  },
+  "sala_id": {
+    "$oid": "66a0523df034045fab9999df"
+  },
+  "numero_asiento": "E2"
+},
+{
+  "_id": {
+    "$oid": "66a05b87f034045fab999a09"
+  },
+  "sala_id": {
+    "$oid": "66a0523df034045fab9999df"
+  },
+  "numero_asiento": "E3"
+},
+{
+  "_id": {
+    "$oid": "66a05b87f034045fab999a0a"
+  },
+  "sala_id": {
+    "$oid": "66a0523df034045fab9999df"
+  },
+  "numero_asiento": "E4"
+},
+{
+  "_id": {
+    "$oid": "66a05b87f034045fab999a0b"
+  },
+  "sala_id": {
+    "$oid": "66a0523df034045fab9999df"
+  },
+  "numero_asiento": "E5"
+},
+{
+  "_id": {
+    "$oid": "66a05b87f034045fab999a0c"
+  },
+  "sala_id": {
+    "$oid": "66a0523df034045fab9999e0"
+  },
+  "numero_asiento": "F1"
+},
+{
+  "_id": {
+    "$oid": "66a05b87f034045fab999a0d"
+  },
+  "sala_id": {
+    "$oid": "66a0523df034045fab9999e0"
+  },
+  "numero_asiento": "F2"
+},
+{
+  "_id": {
+    "$oid": "66a05b87f034045fab999a0e"
+  },
+  "sala_id": {
+    "$oid": "66a0523df034045fab9999e0"
+  },
+  "numero_asiento": "F3"
+},
+{
+  "_id": {
+    "$oid": "66a05b87f034045fab999a0f"
+  },
+  "sala_id": {
+    "$oid": "66a0523df034045fab9999e0"
+  },
+  "numero_asiento": "F4"
+},
+{
+  "_id": {
+    "$oid": "66a05b87f034045fab999a10"
+  },
+  "sala_id": {
+    "$oid": "66a0523df034045fab9999e0"
+  },
+  "numero_asiento": "F5"
+},
+{
+  "_id": {
+    "$oid": "66a05b87f034045fab999a11"
+  },
+  "sala_id": {
+    "$oid": "66a0523df034045fab9999e1"
+  },
+  "numero_asiento": "G1"
+},
+{
+  "_id": {
+    "$oid": "66a05b87f034045fab999a12"
+  },
+  "sala_id": {
+    "$oid": "66a0523df034045fab9999e1"
+  },
+  "numero_asiento": "G2"
+},
+{
+  "_id": {
+    "$oid": "66a05b87f034045fab999a13"
+  },
+  "sala_id": {
+    "$oid": "66a0523df034045fab9999e1"
+  },
+  "numero_asiento": "G3"
+},
+{
+  "_id": {
+    "$oid": "66a05b87f034045fab999a14"
+  },
+  "sala_id": {
+    "$oid": "66a0523df034045fab9999e1"
+  },
+  "numero_asiento": "G4"
+},
+{
+  "_id": {
+    "$oid": "66a05b87f034045fab999a15"
+  },
+  "sala_id": {
+    "$oid": "66a0523df034045fab9999e1"
+  },
+  "numero_asiento": "G5"
+},
+{
+  "_id": {
+    "$oid": "66a05b87f034045fab999a16"
+  },
+  "sala_id": {
+    "$oid": "66a0523df034045fab9999e2"
+  },
+  "numero_asiento": "H1"
+},
+{
+  "_id": {
+    "$oid": "66a05b87f034045fab999a17"
+  },
+  "sala_id": {
+    "$oid": "66a0523df034045fab9999e2"
+  },
+  "numero_asiento": "H2"
+},
+{
+  "_id": {
+    "$oid": "66a05b87f034045fab999a18"
+  },
+  "sala_id": {
+    "$oid": "66a0523df034045fab9999e2"
+  },
+  "numero_asiento": "H3"
+},
+{
+  "_id": {
+    "$oid": "66a05b87f034045fab999a19"
+  },
+  "sala_id": {
+    "$oid": "66a0523df034045fab9999e2"
+  },
+  "numero_asiento": "H4"
+},
+{
+  "_id": {
+    "$oid": "66a05b87f034045fab999a1a"
+  },
+  "sala_id": {
+    "$oid": "66a0523df034045fab9999e2"
+  },
+  "numero_asiento": "H5"
+},
+{
+  "_id": {
+    "$oid": "66a05b87f034045fab999a1b"
+  },
+  "sala_id": {
+    "$oid": "66a0523df034045fab9999e3"
+  },
+  "numero_asiento": "I1"
+},
+{
+  "_id": {
+    "$oid": "66a05b87f034045fab999a1c"
+  },
+  "sala_id": {
+    "$oid": "66a0523df034045fab9999e3"
+  },
+  "numero_asiento": "I2"
+},
+{
+  "_id": {
+    "$oid": "66a05b87f034045fab999a1d"
+  },
+  "sala_id": {
+    "$oid": "66a0523df034045fab9999e3"
+  },
+  "numero_asiento": "I3"
+},
+{
+  "_id": {
+    "$oid": "66a05b87f034045fab999a1e"
+  },
+  "sala_id": {
+    "$oid": "66a0523df034045fab9999e3"
+  },
+  "numero_asiento": "I4"
+},
+{
+  "_id": {
+    "$oid": "66a05b87f034045fab999a1f"
+  },
+  "sala_id": {
+    "$oid": "66a0523df034045fab9999e3"
+  },
+  "numero_asiento": "I5"
+},
+{
+  "_id": {
+    "$oid": "66a05b87f034045fab999a20"
+  },
+  "sala_id": {
+    "$oid": "66a0523df034045fab9999e4"
+  },
+  "numero_asiento": "J1"
+},
+{
+  "_id": {
+    "$oid": "66a05b87f034045fab999a21"
+  },
+  "sala_id": {
+    "$oid": "66a0523df034045fab9999e4"
+  },
+  "numero_asiento": "J2"
+},
+{
+  "_id": {
+    "$oid": "66a05b87f034045fab999a22"
+  },
+  "sala_id": {
+    "$oid": "66a0523df034045fab9999e4"
+  },
+  "numero_asiento": "J3"
+},
+{
+  "_id": {
+    "$oid": "66a05b87f034045fab999a23"
+  },
+  "sala_id": {
+    "$oid": "66a0523df034045fab9999e4"
+  },
+  "numero_asiento": "J4"
+},
+{
+  "_id": {
+    "$oid": "66a05b87f034045fab999a24"
+  },
+  "sala_id": {
+    "$oid": "66a0523df034045fab9999e4"
+  },
+  "numero_asiento": "J5"
+}]

@@ -1,0 +1,44 @@
+{
+    $jsonSchema: {
+      bsonType: 'object',
+      required: [
+        'usuario_id',
+        'numero_tarjeta',
+        'fecha_expiracion',
+        'estado',
+        'descuento_porcentaje'
+      ],
+      properties: {
+        _id: {
+          bsonType: 'objectId'
+        },
+        usuario_id: {
+          bsonType: 'objectId',
+          description: 'Debe ser un ObjectId que referencia un usuario y es requerido'
+        },
+        numero_tarjeta: {
+          bsonType: 'string',
+          description: 'Debe ser un string y es requerido'
+        },
+        fecha_expiracion: {
+          bsonType: 'date',
+          description: 'Debe ser una fecha y hora en formato datetime y es requerido'
+        },
+        estado: {
+          'enum': [
+            'activa',
+            'expirada',
+            'suspendida',
+            'cancelada'
+          ],
+          description: 'Debe ser uno de los siguientes valores: \'activa\', \'expirada\', \'suspendida\', \'cancelada\' y es requerido'
+        },
+        porcentaje_descuento: {
+          bsonType: 'int',
+          minimum: 0,
+          maximum: 100,
+          description: 'Debe ser un porcentaje entero entre 0 y 100, y es requerido'
+        }
+      }
+    }
+  }

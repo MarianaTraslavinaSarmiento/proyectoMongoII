@@ -1,0 +1,14 @@
+[{
+  "_id": {
+    "$oid": "66a7d70d9910df07889f3bba"
+  },
+  "boleto_id": {
+    "$oid": "66a3da5b21f245d665cfce09"
+  },
+  "monto": 15300,
+  "metodo_pago": "en efectivo",
+  "estado": "completado",
+  "fecha_hora_pago": {
+    "$date": "2024-07-26T17:18:19.574Z"
+  }
+}]
