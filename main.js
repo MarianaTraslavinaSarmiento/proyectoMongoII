@@ -12,7 +12,12 @@ import { Usuario } from "./src/modules/usuarios.js";
 
 let obj
 
-// obj = new Pelicula()
+
+// const STANDARD_USER = process.env.STANDARD_USER
+// const STANDARD_PWD = process.env.STANDARD_PWD
+// const juan = new Client(STANDARD_USER,STANDARD_PWD) 
+
+// obj = new Pelicula(juan)
 // console.log(await obj.getAllAvailableMovies())
 // console.log(await obj.getAllDetailsOfAMovie(
 //     {
@@ -49,7 +54,7 @@ let obj
 
 
 
-obj = new Usuario()
+// obj = new Usuario(juan)
 // console.log(await obj.createUsers({
 //     nombre: "Cristian",
 //     email: "cristian@gmail.com",
@@ -67,5 +72,8 @@ obj = new Usuario()
 //         }
 // ));
 
-console.log(await obj.getAllUsersAndFilterByRole("estandar"));
+// console.log(await obj.getAllUsersAndFilterByRole({
+//     userId: "66a05449f034045fab9999ed",
+//     tipo: "estandar"
+// }));
 

@@ -650,6 +650,7 @@ console.log(await obj.updateRoleOfUsers(
 **Actor principal:** Administrador
 
 **Parámetros obligatorios**
+-```userId```: Id del usuario que va a realizar la consulta
 - ```tipo```: nombre del tipo de usuario a filtrar
 
 <table>
@@ -698,6 +699,10 @@ return { error: "El tipo de usuario debe ser estandar, vip o administrador únic
 #### Ejemplo de uso
 ``` javascript
 obj = new Usuario()
-console.log(await obj.getAllUsersAndFilterByRole("estandar"));
+console.log(await obj.getAllUsersAndFilterByRole({
+    userId: "66a05449f034045fab9999ed",
+    tipo: "estandar"
+}));
+
 ```
 
