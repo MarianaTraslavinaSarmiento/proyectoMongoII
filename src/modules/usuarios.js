@@ -110,7 +110,6 @@ export class Usuario{
         try{
 
             const db = await this.adminDbService.connect();
-            
             const user = await checkExists("usuarios", { _id: new ObjectId(userId) },
             `El usuario con id ${userId} no existe.`, db);
 
@@ -208,15 +207,25 @@ export class Usuario{
     @returns {Object.message} - Mensaje de exito si la operacion corre sin ningun problema.
     @returns {Object.users} - Array de objetos de todos los usuarios que corresponden al tipo especificado (Si se provee). Si no se provee el tipo de usuario a filtrar, retornará todos los usuarios.
     */
-    async getAllUsersAndFilterByRole(tipo){
+    async getAllUsersAndFilterByRole({userId, tipo}){
         try{
-            const db = await this.adminDbService.connect();
+            const db = await this.adminDbService.connect()
 
-            if(tipo != 'estandar' && tipo != 'vip' && tipo != 'administrador'){
-                return { error: "El tipo de usuario debe ser estandar, vip o administrador únicamente"}
+            const currentUser = await db.collection('usuarios').findOne({ _id: new ObjectId(userId)});
+            if (!currentUser) {
+                return {error: 'Usuario actual no encontrado.'};
             }
 
+            if (currentUser.tipo !== 'administrador') {
+                return {error: 'No tienes autorización para ver la lista de usuarios'};
+            }
+
+
             if(tipo){
+
+                if(tipo != 'estandar' && tipo != 'vip' && tipo != 'administrador'){
+                return { error: "El tipo de usuario debe ser estandar, vip o administrador únicamente"}
+            }
                 const usersByRole = await db.collection('usuarios').find({tipo: tipo}).toArray()
                 return { users: usersByRole };
             } else {
