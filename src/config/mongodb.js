@@ -1,6 +1,6 @@
-import { MongoClient } from 'mongodb';
+const { MongoClient } = require('mongodb')
 
-export class Client{
+class Client{
 
   constructor(user, pass){
     this.uri = process.env.MONGO_SCHEME + user + ":" + pass + process.env.MONGO_URI + "/" + process.env.DB_NAME;
@@ -17,4 +17,4 @@ export class Client{
 
 }
 
-export default Client;
+module.exports = Client

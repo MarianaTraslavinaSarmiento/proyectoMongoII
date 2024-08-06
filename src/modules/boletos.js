@@ -1,9 +1,9 @@
-import { ObjectId } from "mongodb";
-import Client from "../config/mongodb.js";
-import DbService from "../db/dbConection.js";
-import { checkExists } from "../validators/checkExists.js";
+const { ObjectId } = require('mongodb')
+const Client = require("../config/mongodb.js")
+const DbService = require("../db/dbConection.js")
+const checkExists = require("../validators/checkExists.js")
 
-export class Boleto {
+class Boleto {
     instanceBoleto;
     adminClient;
     adminDbService;
@@ -262,3 +262,5 @@ export class Boleto {
         }
     }
 }
+
+module.exports = Boleto

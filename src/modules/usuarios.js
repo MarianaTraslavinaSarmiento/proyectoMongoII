@@ -1,12 +1,11 @@
-import { ObjectId} from "mongodb";
-import Client from "../config/mongodb.js";
-import DbService from "../db/dbConection.js";
-import { checkExists } from "../validators/checkExists.js";
-import { validEmail } from "../validators/validEmail.js";
-import { validPhone } from "../validators/validPhone.js";
+const { ObjectId } = require('mongodb')
+const Client = require("../config/mongodb.js")
+const DbService = require("../db/dbConection.js")
+const checkExists = require("../validators/checkExists.js")
+const validEmail = require("../validators/validEmail.js")
+const validPhone = require("../validators/validPhone.js")
 
-
-export class Usuario{
+class Usuario{
     staticUsuario
     adminClient;
     adminDbService;
@@ -241,3 +240,5 @@ export class Usuario{
     }
 
 }
+
+module.exports = Usuario

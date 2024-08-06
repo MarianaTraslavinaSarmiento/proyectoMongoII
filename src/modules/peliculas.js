@@ -1,8 +1,9 @@
-import { ObjectId } from "mongodb";
-import Client from "../config/mongodb.js";
-import DbService from "../db/dbConection.js";
+const { ObjectId } = require('mongodb')
+const Client = require("../config/mongodb.js")
+const DbService = require("../db/dbConection.js")
 
-export class Pelicula{
+
+class Pelicula{
     staticPelicula
     adminClient;
     adminDbService;
@@ -186,3 +187,5 @@ export class Pelicula{
       }
     }
 }
+
+module.exports = Pelicula

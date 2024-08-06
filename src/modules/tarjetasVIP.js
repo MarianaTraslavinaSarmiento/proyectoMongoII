@@ -1,8 +1,9 @@
-import { ObjectId } from "mongodb";
-import Client from "../config/mongodb.js";
-import DbService from "../db/dbConection.js";
+const { ObjectId } = require('mongodb')
+const Client = require("../config/mongodb.js")
+const DbService = require("../db/dbConection.js")
 
-export class TarjetaVIP{
+
+class TarjetaVIP{
     staticTarjetaVIP
     adminClient;
     adminDbService;
@@ -16,3 +17,5 @@ export class TarjetaVIP{
     }
 
 }
+
+module.exports = TarjetaVIP
