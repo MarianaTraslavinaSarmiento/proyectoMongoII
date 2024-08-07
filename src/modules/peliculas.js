@@ -1,6 +1,6 @@
 const { ObjectId } = require('mongodb')
-const Client = require("../config/mongodb.js")
-const DbService = require("../db/dbConection.js")
+const Client = require("../config/mongodb")
+const DbService = require("../db/dbConection")
 
 
 class Pelicula{

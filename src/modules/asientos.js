@@ -1,7 +1,7 @@
 const { ObjectId } = require('mongodb')
-const Client = require("../config/mongodb.js")
-const DbService = require("../db/dbConection.js")
-const checkExists = require("../validators/checkExists.js")
+const Client = require("../config/mongodb")
+const DbService = require("../db/dbConection")
+const checkExists = require("../validators/checkExists")
 
 class Asiento{
     staticAsiento

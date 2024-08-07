@@ -1,9 +1,9 @@
 const { ObjectId } = require('mongodb')
-const Client = require("../config/mongodb.js")
-const DbService = require("../db/dbConection.js")
-const checkExists = require("../validators/checkExists.js")
-const validEmail = require("../validators/validEmail.js")
-const validPhone = require("../validators/validPhone.js")
+const Client = require("../config/mongodb")
+const DbService = require("../db/dbConection")
+const checkExists = require("../validators/checkExists")
+const validEmail = require("../validators/validEmail")
+const validPhone = require("../validators/validPhone")
 
 class Usuario{
     staticUsuario

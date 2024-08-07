@@ -1,7 +1,7 @@
 const { ObjectId } = require('mongodb')
-const Client = require("../config/mongodb.js")
-const DbService = require("../db/dbConection.js")
-const checkExists = require("../validators/checkExists.js")
+const Client = require("../config/mongodb")
+const DbService = require("../db/dbConection")
+const checkExists = require("../validators/checkExists")
 
 class Boleto {
     instanceBoleto;
@@ -230,7 +230,7 @@ class Boleto {
      *
      * @throws Lanza un error si la operación de base de datos falla.
      */
-    async cancelBooking(ticketId) {
+    async cancelBooking({ticketId}) {
         try {
             const db = await this.adminDbService.connect();
 
