@@ -12,13 +12,15 @@ const Usuario = require("./src/modules/usuarios");
 
 const express = require('express')
 const app = express()
-const port = 5001
+
 
 const config = {
     port: process.env.EXPRESS_PORT,
     host: process.env.EXPRESS_HOST
 }
 
+app.use(express.json())
+app.use(express.urlencoded())
 
 app.get('/', (req, res)=>{
     res.send('Hello World!')
@@ -28,13 +30,13 @@ app.get('/peliculas', async (req, res, next) => {
     try {
         const obj = new Pelicula();
         const peliculas = await obj.getAllAvailableMovies();
-        res.json(peliculas);
+        res.send(peliculas);
     } catch (error) {
         next(error)
     }
 });
 
-app.get('/peliculas/:id', async (req, res, next) => {
+app.get('/detalles_peliculas/:id', async (req, res, next) => {
     try {
         const obj = new Pelicula();
 
@@ -45,7 +47,38 @@ app.get('/peliculas/:id', async (req, res, next) => {
         }
 
         const pelicula = await obj.getAllDetailsOfAMovie({ id: req.params.id });
-        res.json(pelicula);
+        res.send(pelicula);
+    } catch (error) {
+        next(error)
+    }
+})
+
+app.post('/comprar_boleto', async (req, res, next) => {
+    try {
+        const obj = new Boleto();
+        const { ticket, metodo_pago } = req.body;
+
+        if (!ticket ||!metodo_pago){
+            const error = new Error('Los parámetros de compra deben ser proporcionados')
+            error.status = 400
+            throw error
+        }
+
+        const metodosPagoPermitidos = ["en efectivo", "mastercard", "tarjeta credito VISA", "tarjeta debito VISA"]
+        if (!metodosPagoPermitidos.includes(metodo_pago)){
+            const error = new Error('El método de pago no es válido')
+            error.status = 400
+            throw error
+        }
+        
+        if(!ticket.usuario_id || !ticket.proyeccion_id || !ticket.codigo_asiento){
+            const error = new Error('El ticket debe tener los parametros requeridos para que la compra sea válida')
+            error.status = 400
+            throw error
+        }
+
+        const result = await obj.buyTicket({ticket, metodo_pago});
+        res.send(result);
     } catch (error) {
         next(error)
     }
