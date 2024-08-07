@@ -1,4 +1,5 @@
 
+const { ObjectId } = require("mongodb");
 const Client = require("./src/config/mongodb");
 const Asiento = require("./src/modules/asientos");
 const Boleto = require("./src/modules/boletos");
@@ -26,17 +27,34 @@ app.get('/', (req, res)=>{
 app.get('/peliculas', async (req, res, next) => {
     try {
         const obj = new Pelicula();
-        const movies = await obj.getAllAvailableMovies();
-        res.json(movies);
+        const peliculas = await obj.getAllAvailableMovies();
+        res.json(peliculas);
     } catch (error) {
         next(error)
     }
 });
 
+app.get('/peliculas/:id', async (req, res, next) => {
+    try {
+        const obj = new Pelicula();
+
+        if (!ObjectId.isValid(req.params.id)){
+           const error = new Error('El id de la película es inválido')
+           error.status = 400
+           throw error
+        }
+
+        const pelicula = await obj.getAllDetailsOfAMovie({ id: req.params.id });
+        res.json(pelicula);
+    } catch (error) {
+        next(error)
+    }
+})
+
 
 app.use((err, req, res, next) => {
-    res.status(err.error || 500).json({
-        error: err.error || 500,
+    res.status(err.status || 500).json({
+        status: err.status || 500,
         message: err.message || 'Error interno del servidor',
     });
 });
