@@ -1,4 +1,3 @@
-
 const { ObjectId } = require("mongodb");
 const Client = require("./src/config/mongodb");
 const Asiento = require("./src/modules/asientos");
@@ -18,6 +17,7 @@ const config = {
     port: process.env.EXPRESS_PORT,
     host: process.env.EXPRESS_HOST
 }
+
 
 app.use(express.json())
 app.use(express.urlencoded())
@@ -80,6 +80,18 @@ app.post('/comprar_boleto', async (req, res, next) => {
         const result = await obj.buyTicket({ticket, metodo_pago});
         res.send(result);
     } catch (error) {
+        next(error)
+    }
+})
+
+app.get('/disponibilidad_asientos/:id', async(req, res, next)=>{
+    try{
+
+        let obj = new Asiento
+        const asientosDisponibles = await obj.availabilityForEachScreening({ id: req.params.id })
+        res.send(asientosDisponibles)
+    
+    }catch(error){
         next(error)
     }
 })
