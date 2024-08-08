@@ -109,6 +109,13 @@ class Pelicula {
      * @throws {Error} - Lanza un error si la conexión a la base de datos falla o si se produce un error durante la operación de agregación.
      */
     async getAllDetailsOfAMovie({ id }) {
+
+        if (!ObjectId.isValid(id)){
+            const error = new Error('El id de la película es inválido')
+            error.status = 400
+            throw error
+        }
+
         const db = await this.adminDbService.connect();
 
         const moviesDetails = await db

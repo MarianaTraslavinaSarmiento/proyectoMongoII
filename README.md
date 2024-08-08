@@ -705,4 +705,3 @@ console.log(await obj.getAllUsersAndFilterByRole({
 }));
 
 ```
-

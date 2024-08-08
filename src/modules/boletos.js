@@ -45,6 +45,25 @@ class Boleto {
 
     async buyTicket({ticket, metodo_pago}) {
 
+        if (!ticket ||!metodo_pago){
+            const error = new Error('Los parámetros de compra deben ser proporcionados')
+            error.status = 400
+            throw error
+        }
+
+        const metodosPagoPermitidos = ["en efectivo", "mastercard", "tarjeta credito VISA", "tarjeta debito VISA"]
+        if (!metodosPagoPermitidos.includes(metodo_pago)){
+            const error = new Error('El método de pago no es válido')
+            error.status = 400
+            throw error
+        }
+        
+        if(!ticket.usuario_id || !ticket.proyeccion_id || !ticket.codigo_asiento){
+            const error = new Error('El ticket debe tener los parametros requeridos para que la compra sea válida')
+            error.status = 400
+            throw error
+        }
+        
         const db = await this.adminDbService.connect();
     
         const screenExist = await checkExists("proyecciones", { _id: new ObjectId(ticket.proyeccion_id) },

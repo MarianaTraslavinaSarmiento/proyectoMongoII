@@ -9,7 +9,9 @@ const Sala = require("./src/modules/salas");
 const TarjetaVIP = require("./src/modules/tarjetasVIP");
 const Usuario = require("./src/modules/usuarios");
 
-const express = require('express')
+const express = require('express');
+const peliculasRouter = require("./src/routes/peliculas.routes");
+const boletosRouter = require("./src/routes/boletos.routes");
 const app = express()
 
 
@@ -18,7 +20,6 @@ const config = {
     host: process.env.EXPRESS_HOST
 }
 
-
 app.use(express.json())
 app.use(express.urlencoded())
 
@@ -26,63 +27,8 @@ app.get('/', (req, res)=>{
     res.send('Hello World!')
 })
 
-app.get('/peliculas', async (req, res, next) => {
-    try {
-        const obj = new Pelicula();
-        const peliculas = await obj.getAllAvailableMovies();
-        res.send(peliculas);
-    } catch (error) {
-        next(error)
-    }
-});
-
-app.get('/detalles_peliculas/:id', async (req, res, next) => {
-    try {
-        const obj = new Pelicula();
-
-        if (!ObjectId.isValid(req.params.id)){
-           const error = new Error('El id de la película es inválido')
-           error.status = 400
-           throw error
-        }
-
-        const pelicula = await obj.getAllDetailsOfAMovie({ id: req.params.id });
-        res.send(pelicula);
-    } catch (error) {
-        next(error)
-    }
-})
-
-app.post('/comprar_boleto', async (req, res, next) => {
-    try {
-        const obj = new Boleto();
-        const { ticket, metodo_pago } = req.body;
-
-        if (!ticket ||!metodo_pago){
-            const error = new Error('Los parámetros de compra deben ser proporcionados')
-            error.status = 400
-            throw error
-        }
-
-        const metodosPagoPermitidos = ["en efectivo", "mastercard", "tarjeta credito VISA", "tarjeta debito VISA"]
-        if (!metodosPagoPermitidos.includes(metodo_pago)){
-            const error = new Error('El método de pago no es válido')
-            error.status = 400
-            throw error
-        }
-        
-        if(!ticket.usuario_id || !ticket.proyeccion_id || !ticket.codigo_asiento){
-            const error = new Error('El ticket debe tener los parametros requeridos para que la compra sea válida')
-            error.status = 400
-            throw error
-        }
-
-        const result = await obj.buyTicket({ticket, metodo_pago});
-        res.send(result);
-    } catch (error) {
-        next(error)
-    }
-})
+app.use('/peliculas', peliculasRouter)
+app.use('/boletos', boletosRouter)
 
 app.get('/disponibilidad_asientos/:id', async(req, res, next)=>{
     try{
