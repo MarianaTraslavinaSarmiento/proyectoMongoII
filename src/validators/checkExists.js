@@ -6,7 +6,7 @@ const checkExists = async (collection, query, errorMessage,db) => {
     if (!item) {
         throw {
             error: 404,
-            message: `No se encontró el elemento en la colección ${collection}`
+            message: errorMessage
         }
     }
     

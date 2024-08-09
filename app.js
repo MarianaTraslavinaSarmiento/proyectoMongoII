@@ -12,6 +12,7 @@ const Usuario = require("./src/modules/usuarios");
 const express = require('express');
 const peliculasRouter = require("./src/routes/peliculas.routes");
 const boletosRouter = require("./src/routes/boletos.routes");
+const asientosRoutes = require("./src/routes/asientos.routes");
 const app = express()
 
 
@@ -29,19 +30,7 @@ app.get('/', (req, res)=>{
 
 app.use('/peliculas', peliculasRouter)
 app.use('/boletos', boletosRouter)
-
-app.get('/disponibilidad_asientos/:id', async(req, res, next)=>{
-    try{
-
-        let obj = new Asiento
-        const asientosDisponibles = await obj.availabilityForEachScreening({ id: req.params.id })
-        res.send(asientosDisponibles)
-    
-    }catch(error){
-        next(error)
-    }
-})
-
+app.use('/asientos', asientosRoutes)
 
 app.use((err, req, res, next) => {
     res.status(err.status || 500).json({
