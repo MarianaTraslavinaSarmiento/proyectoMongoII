@@ -13,7 +13,9 @@ const express = require('express');
 const peliculasRouter = require("./src/routes/peliculas.routes");
 const boletosRouter = require("./src/routes/boletos.routes");
 const asientosRoutes = require("./src/routes/asientos.routes");
-const usuariosRouter = require("./src/routes/usuarios.routes");
+const usuariosRoutes = require("./src/routes/usuarios.routes");
+const salasRoutes = require("./src/routes/salas.routes");
+
 const app = express()
 
 
@@ -32,7 +34,8 @@ app.get('/', (req, res)=>{
 app.use('/peliculas', peliculasRouter)
 app.use('/boletos', boletosRouter)
 app.use('/asientos', asientosRoutes)
-app.use('/usuarios', usuariosRouter)
+app.use('/usuarios', usuariosRoutes)
+app.use('/salas', salasRoutes)
 
 app.use((err, req, res, next) => {
     res.status(err.status || 500).json({

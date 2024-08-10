@@ -68,6 +68,8 @@ class Asiento{
         }
 
     }
+
+
 }
 
 module.exports = Asiento
