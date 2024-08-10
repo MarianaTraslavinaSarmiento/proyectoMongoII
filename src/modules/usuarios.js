@@ -205,37 +205,50 @@ class Usuario{
     @returns {Object.message} - Mensaje de exito si la operacion corre sin ningun problema.
     @returns {Object.users} - Array de objetos de todos los usuarios que corresponden al tipo especificado (Si se provee). Si no se provee el tipo de usuario a filtrar, retornará todos los usuarios.
     */
-    async getAllUsersAndFilterByRole({userId, tipo}){
-        try{
-            const db = await this.adminDbService.connect()
+    async getAllUsersAndFilterByRole({ userId, tipo }) {
 
-            const currentUser = await db.collection('usuarios').findOne({ _id: new ObjectId(userId)});
-            if (!currentUser) {
-                return {error: 'Usuario actual no encontrado.'};
-            }
-
-            if (currentUser.tipo !== 'administrador') {
-                return {error: 'No tienes autorización para ver la lista de usuarios'};
-            }
-
-
-            if(tipo){
-
-                if(tipo != 'estandar' && tipo != 'vip' && tipo != 'administrador'){
-                return { error: "El tipo de usuario debe ser estandar, vip o administrador únicamente"}
-            }
-                const usersByRole = await db.collection('usuarios').find({tipo: tipo}).toArray()
-                return { users: usersByRole };
-            } else {
-                const users = await db.collection('usuarios').find().toArray()
-                return { users: users };
-            }
-
-        }catch(error){
-            return { error: error.name, message: error.message };
-        } finally {
-            await this.adminDbService.close();
+        if (!ObjectId.isValid(userId)) {
+            const error = new Error('El id proporcionado es inválido');
+            error.status = 400;
+            throw error;
         }
+        
+        const db = await this.adminDbService.connect();
+
+        if (!userId) {
+            const error = new Error('Se requiere el ID del usuario actual.')
+            error.status = 400
+            throw error;
+        }
+
+        const currentUser = await db.collection('usuarios').findOne({ _id: new ObjectId(userId) });
+        if (!currentUser) {
+            const error = new Error('Usuario actual no encontrado.')
+            error.status = 400
+            throw error;
+        }
+
+        if (currentUser.tipo !== 'administrador') {
+            const error = new Error('No tienes autorización para ver la lista de usuarios')
+            error.status = 401
+            throw error;
+        }
+
+        let query = {};
+        if (tipo) {
+            if (!['estandar', 'vip', 'administrador'].includes(tipo)) {
+                const error = new Error('El tipo de usuario debe ser estandar, vip o administrador únicamente')
+                error.status = 400
+                throw error;
+            }
+            query.tipo = tipo;
+        }
+
+        const users = await db.collection('usuarios').find(query).toArray();
+        
+        await this.adminDbService.close();
+
+        return { users };
     }
 
 }

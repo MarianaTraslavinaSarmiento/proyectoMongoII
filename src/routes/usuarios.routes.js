@@ -4,6 +4,19 @@ const express = require('express')
 const usuariosRouter = express.Router()
 
 
+usuariosRouter.get('/', async (req, res, next) => {
+    try {
+        const obj = new Usuario();
+        const { userId, tipo } = req.query;
+
+        const usuarios = await obj.getAllUsersAndFilterByRole({ userId, tipo });
+        res.status(200).json(usuarios);
+
+    } catch (error) {
+        next(error);
+    }
+});
+
 usuariosRouter.get('/:id', async(req, res, next) =>{
     try{
         const obj = new Usuario();
@@ -41,6 +54,7 @@ usuariosRouter.put('/nuevo_rol', async(req, res, next) => {
     }
 
 })
+
 
 
 module.exports = usuariosRouter
