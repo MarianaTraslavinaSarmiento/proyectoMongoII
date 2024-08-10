@@ -162,39 +162,37 @@ class Usuario{
     */
 
     async updateRoleOfUsers({id, tipo}) {
-        try {
-            const db = await this.adminDbService.connect()
-            await checkExists('usuarios', {_id: new ObjectId(id)},
-            `El usuario con id ${id} no existe.`, db)
 
-            if(tipo != 'estandar' && tipo != 'vip'){
-                return { error: "El tipo de usuario debe ser estandar o vip únicamente"}
-            }
+        if (!ObjectId.isValid(id)){
+            const error = new Error('El id proporcionado es inválido')
+            error.status = 400
+            throw error
+        }
 
-            const setRoleUser = await db.collection('usuarios').findOneAndUpdate({_id: new ObjectId(id)}, {$set: {tipo: tipo}},{returnNewDocument: true})
-            await db.removeUser(setRoleUser.nick)
+        const db = await this.adminDbService.connect()
+        await checkExists('usuarios', {_id: new ObjectId(id)},
+        `El usuario con id ${id} no existe.`, db)
 
-            await db.command({
-                createUser: setRoleUser.nick,
-                pwd: setRoleUser._id.toString(),
-                roles: [{ role: tipo, db: 'cineCampus' }]
-            });
+        if(tipo != 'estandar' && tipo != 'vip'){
+            return { error: "El tipo de usuario debe ser estandar o vip únicamente"}
+        }
 
-            const newUser = await db.collection('usuarios').findOne({_id: new ObjectId({id})})
+        const setRoleUser = await db.collection('usuarios').findOneAndUpdate({_id: new ObjectId(id)}, {$set: {tipo: tipo}},{returnNewDocument: true})
+        await db.removeUser(setRoleUser.nick)
 
-            return {
-                message: `El rol del usuario ${newUser.nick} ha sido cambiado a ${tipo}.`,
-                user: newUser
-            }
+        await db.command({
+            createUser: setRoleUser.nick,
+            pwd: setRoleUser._id.toString(),
+            roles: [{ role: tipo, db: 'cineCampus' }]
+        });
 
-        } catch (error) {
-            console.log(error);
-            return {
-                error: error.name,
-                message: error.message
-            }
-        } finally {
-            await this.adminDbService.close();
+        const newUser = await db.collection('usuarios').findOne({_id: new ObjectId({id})})
+
+        await this.adminDbService.close();
+
+        return {
+            message: `El rol del usuario ${newUser.nick} ha sido cambiado a ${tipo}.`,
+            user: newUser
         }
     }
 

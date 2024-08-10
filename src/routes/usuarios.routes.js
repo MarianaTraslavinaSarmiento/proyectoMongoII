@@ -26,8 +26,21 @@ usuariosRouter.post('/crear', async(req, res, next) => {
     }catch(error){
         next(error)
     }
+
 })
 
+usuariosRouter.put('/nuevo_rol', async(req, res, next) => {
+
+    try{
+        const obj = new Usuario();
+        const {id, tipo} = req.body
+        const usuariosActualizados = await obj.updateRoleOfUsers({id: req.body.id, tipo: req.body.tipo})
+        res.status(200).send(usuariosActualizados)
+    }catch(error){
+        next(error)
+    }
+
+})
 
 
 module.exports = usuariosRouter
