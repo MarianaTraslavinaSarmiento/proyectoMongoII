@@ -76,7 +76,9 @@ class Boleto {
             `El asiento con código ${codigo_asiento} no existe. Verifique si está en el formato específico: (ej: A1)`, db);
 
         if (seatExist.sala_id.toString() !== screenExist.sala_id.toString()) {
-            return {error: `El asiento ${codigo_asiento} no está en la sala de la proyección.`};
+            const error = new Error(`El asiento ${codigo_asiento} no está en la sala de la proyección.`)
+            error.status = 400
+            throw error
         }
 
         let defaultSubtotal = screenExist.precio;
@@ -96,7 +98,9 @@ class Boleto {
             proyeccion_id: new ObjectId(proyeccion_id)
         });
         if (availableSeat) {
-            return {error: `El asiento ${codigo_asiento} ya tiene un boleto asociado a esta proyección.` };
+            const error = new Error(`El asiento ${codigo_asiento} ya tiene un boleto asociado a esta proyección.`);
+            error.status = 409
+            throw error;
         }
 
         const newTicket = {
@@ -196,7 +200,9 @@ class Boleto {
             `El asiento con código ${codigo_asiento} no existe. Verifique si está en el formato específico: (ej: A1)`, db);
 
         if (seatExist.sala_id.toString() != screenExist.sala_id.toString()) {
-            return { error: `El asiento ${codigo_asiento} no está en la sala de la proyección.` };
+            const error = new Error(`El asiento ${codigo_asiento} no está en la sala de la proyección.`)
+            error.status = 400
+            throw error
         }
 
 
@@ -214,7 +220,9 @@ class Boleto {
 
         const availableSeat = await db.collection('boletos').findOne({codigo_asiento: codigo_asiento, proyeccion_id: new ObjectId(proyeccion_id)})
         if (availableSeat){
-            return { error: `El asiento ${codigo_asiento} ya tiene un boleto asociado a esta proyección.` };
+            const error = new Error(`El asiento ${codigo_asiento} ya tiene un boleto asociado a esta proyección.`)
+            error.status = 409
+            throw error;
         }
 
         const newTicket = {
@@ -266,7 +274,9 @@ class Boleto {
             `El boleto con id ${ticketId} no existe.`,db)
 
         if (ticket.estado !== "reservado") {
-            return { error: `El boleto con id ${ticketId} no está en estado reservado y no se puede cancelar.` };
+            const error = new Error( `El boleto con id ${ticketId} no está en estado reservado y no se puede cancelar.` )
+            error.status = 400
+            throw error
         }
 
         const result = await db.collection('boletos').updateOne(
@@ -275,7 +285,9 @@ class Boleto {
         );
         
         if (result.modifiedCount === 0) {
-            return { error: `No se pudo cancelar el boleto con id ${ticketId}.` };
+            const error = new Error( `No se pudo cancelar el boleto con id ${ticketId}.` )
+            error.status = 400
+            throw error
         }
 
         await this.adminDbService.close();

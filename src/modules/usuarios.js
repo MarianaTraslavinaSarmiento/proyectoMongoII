@@ -39,23 +39,33 @@ class Usuario{
         const db = await this.adminDbService.connect();
 
         if (!nombre || !email || !telefono || !tipo || !nick) {
-            return {error: "Todos los campos son obligatorios"};
+            const error = new Error ("Todos los campos son obligatorios")  
+            error.status = 400
+            throw error      
         }
 
         if(tipo != 'estandar' && tipo != 'vip' && tipo != 'administrador'){
-            return { error: "El tipo de usuario debe ser estandar, vip o administrador únicamente"}
+            const error = new Error ("El tipo de usuario debe ser estandar, vip o administrador únicamente")  
+            error.status = 400
+            throw error     
         }
 
         const existingUser = await db.collection('usuarios').findOne({nick: nick});
         if (existingUser) {
-            return {error: `El nick  ${nick} ya está en uso`};
+            const error = new Error ( `El nick  ${nick} ya está en uso`)  
+            error.status = 409
+            throw error  
         }
         if(!validEmail(email)){
-            return { error: "El email no es válido" };
+            const error = new Error ("El email no es válido")  
+            error.status = 400
+            throw error  
         }
         
         if (!validPhone(telefono)) {
-            return { error: "El teléfono no es válido. Asegúrese que esté en formato válido para Colombia" };
+            const error = new Error (  "El teléfono no es válido. Asegúrese que esté en formato válido para Colombia" )
+            error.status = 400
+            throw error
         }
         
 
@@ -174,7 +184,9 @@ class Usuario{
         `El usuario con id ${id} no existe.`, db)
 
         if(tipo != 'estandar' && tipo != 'vip'){
-            return { error: "El tipo de usuario debe ser estandar o vip únicamente"}
+            const error = new Error("El tipo de usuario debe ser estandar o vip únicamente")
+            error.status = 400
+            throw error
         }
 
         const setRoleUser = await db.collection('usuarios').findOneAndUpdate({_id: new ObjectId(id)}, {$set: {tipo: tipo}},{returnNewDocument: true})

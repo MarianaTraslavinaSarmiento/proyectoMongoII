@@ -13,7 +13,7 @@ peliculasRouter.get('/', async (req, res, next) => {
     }
 });
 
-peliculasRouter.get('/detalles_peliculas/:id', async (req, res, next) => {
+peliculasRouter.get('/:id', async (req, res, next) => {
     try {
         const obj = new Pelicula();
         const pelicula = await obj.getAllDetailsOfAMovie({ id: req.params.id });
