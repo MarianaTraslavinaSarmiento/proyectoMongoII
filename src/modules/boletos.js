@@ -253,35 +253,38 @@ class Boleto {
      * @throws Lanza un error si la operación de base de datos falla.
      */
     async cancelBooking({ticketId}) {
-        try {
-            const db = await this.adminDbService.connect();
 
-            const ticket = await checkExists('boletos', {_id: new ObjectId(ticketId) },
-             `El boleto con id ${ticketId} no existe.`,db)
-    
-            if (estado !== "reservado") {
-                return { error: `El boleto con id ${ticketId} no está en estado reservado y no se puede cancelar.` };
-            }
-
-            const result = await db.collection('boletos').updateOne(
-                { _id: new ObjectId(ticketId) },
-                { $set: { estado: "cancelado" } }
-            );
-            
-            if (result.modifiedCount === 0) {
-                return { error: `No se pudo cancelar el boleto con id ${ticketId}.` };
-            }
-            return {
-                message: `Boleto con id ${ticketId} cancelado con éxito.`,
-                ticketCanceled: ticket
-            };
-           
-        } catch (error) {
-            console.log(error);
-            return { error: error.name, message: error.message };
-        } finally {
-            await this.adminDbService.close();
+        if (!ObjectId.isValid(ticketId)){
+            const error = new Error('El id proporcionado es inválido')
+            error.status = 400
+            throw error
         }
+
+        const db = await this.adminDbService.connect();
+
+        const ticket = await checkExists('boletos', {_id: new ObjectId(ticketId) },
+            `El boleto con id ${ticketId} no existe.`,db)
+
+        if (estado !== "reservado") {
+            return { error: `El boleto con id ${ticketId} no está en estado reservado y no se puede cancelar.` };
+        }
+
+        const result = await db.collection('boletos').updateOne(
+            { _id: new ObjectId(ticketId) },
+            { $set: { estado: "cancelado" } }
+        );
+        
+        if (result.modifiedCount === 0) {
+            return { error: `No se pudo cancelar el boleto con id ${ticketId}.` };
+        }
+
+        await this.adminDbService.close();
+
+        return {
+            message: `Boleto con id ${ticketId} cancelado con éxito.`,
+            ticketCanceled: ticket
+        };
+
     }
 }
 

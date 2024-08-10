@@ -29,4 +29,15 @@ boletosRouter.post('/reservas_asientos', async(req, res, next)=>{
     }
 })
 
+boletosRouter.put('/cancelar_reserva/:id', async(req, res, next)=>{
+    try{
+
+        const reservaCancelada = await obj.cancelBooking({ticketId: req.params.id})
+        res.send(reservaCancelada)
+
+    }catch(error){
+        next(error)
+    }
+})
+
 module.exports = boletosRouter
