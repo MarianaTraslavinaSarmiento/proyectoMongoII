@@ -1,0 +1,19 @@
+
+:root {
+
+  --color-background: #121212;
+  --color-black: #323232;
+  --color-white: #fff;
+  --color-red: #FE0000;
+  --color-gray: #C3C3C3;
+  --color-lightGray: #F8F5F5;
+  --color-darkGray: #272727;
+
+}
+
+*{
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  text-decoration: none;
+}
