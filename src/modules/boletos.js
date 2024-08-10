@@ -265,7 +265,7 @@ class Boleto {
         const ticket = await checkExists('boletos', {_id: new ObjectId(ticketId) },
             `El boleto con id ${ticketId} no existe.`,db)
 
-        if (estado !== "reservado") {
+        if (ticket.estado !== "reservado") {
             return { error: `El boleto con id ${ticketId} no está en estado reservado y no se puede cancelar.` };
         }
 

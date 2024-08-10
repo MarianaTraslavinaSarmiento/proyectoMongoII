@@ -9,7 +9,6 @@ class DbService {
       try {
         await this.client.connect();
         this.db = this.client.db(process.env.DB_NAME);
-        console.log("Connected to MongoDB");
       } catch (error) {
         console.error("Failed to connect to MongoDB:", error);
         throw error;
@@ -29,7 +28,6 @@ class DbService {
     if (this.client) {
       await this.client.close();
       this.db = null;
-      console.log("MongoDB connection closed");
     }
   }
 }

@@ -35,65 +35,64 @@ class Usuario{
      * @returns {Object.user} - El objeto de usuario creado.
      */
     async createUsers({nombre, email, telefono, tipo, nick}){
-        try{
 
-            const db = await this.adminDbService.connect();
+        const db = await this.adminDbService.connect();
 
-            if (!nombre || !email || !telefono || !tipo || !nick) {
-                return {error: "Todos los campos son obligatorios"};
-            }
-
-            if(tipo != 'estandar' && tipo != 'vip' && tipo != 'administrador'){
-                return { error: "El tipo de usuario debe ser estandar, vip o administrador únicamente"}
-            }
-
-            const existingUser = await db.collection('usuarios').findOne({nick: nick});
-            if (existingUser) {
-                return {error: `El nick  ${nick} ya está en uso`};
-            }
-            if(!validEmail(email)){
-                return { error: "El email no es válido" };
-            }
-            
-            if (!validPhone(telefono)) {
-                return { error: "El teléfono no es válido. Asegúrese que esté en formato válido para Colombia" };
-            }
-            
-
-            const newUser = {
-                nombre: nombre,
-                email: email,
-                telefono: telefono,
-                tipo: tipo,
-                fecha_registro: new Date(),
-                nick: nick,
-            }
-
-            
-            await db.collection('usuarios').insertOne(newUser);
-
-            if(tipo == 'administrador'){
-                await db.command({
-                    createUser: nick,
-                    pwd: newUser._id.toString(),
-                    roles: [{ role: 'dbOwner', db: 'cineCampus' }]
-                });
-
-            } else {
-                await db.command({
-                    createUser: nick,
-                    pwd: newUser._id.toString(),
-                    roles: [{ role: tipo, db: 'cineCampus' }]
-                });
-            }
-
-            return { message: "Usuario creado con éxito", user: newUser };
-
-        }catch(error){
-            return { error: error.name, message: error.message };
-        } finally {
-            await this.adminDbService.close();
+        if (!nombre || !email || !telefono || !tipo || !nick) {
+            return {error: "Todos los campos son obligatorios"};
         }
+
+        if(tipo != 'estandar' && tipo != 'vip' && tipo != 'administrador'){
+            return { error: "El tipo de usuario debe ser estandar, vip o administrador únicamente"}
+        }
+
+        const existingUser = await db.collection('usuarios').findOne({nick: nick});
+        if (existingUser) {
+            return {error: `El nick  ${nick} ya está en uso`};
+        }
+        if(!validEmail(email)){
+            return { error: "El email no es válido" };
+        }
+        
+        if (!validPhone(telefono)) {
+            return { error: "El teléfono no es válido. Asegúrese que esté en formato válido para Colombia" };
+        }
+        
+
+        const newUser = {
+            nombre: nombre,
+            email: email,
+            telefono: telefono,
+            tipo: tipo,
+            fecha_registro: new Date(),
+            nick: nick,
+        }
+
+        
+        await db.collection('usuarios').insertOne(newUser);
+
+        if(tipo == 'administrador'){
+            await db.command({
+                createUser: nick,
+                pwd: newUser._id.toString(),
+                roles: [{ role: 'dbOwner', db: 'cineCampus' }]
+            });
+
+        } else {
+            await db.command({
+                createUser: nick,
+                pwd: newUser._id.toString(),
+                roles: [{ role: tipo, db: 'cineCampus' }]
+            });
+        }
+
+        await this.adminDbService.close();
+        return { 
+            status: 200,
+            message: "Usuario creado con éxito", 
+            user: newUser 
+        };
+
     }
 
     /**
@@ -106,46 +105,47 @@ class Usuario{
      * @returns {Object.message} - Un mensaje de éxito si la consulta es exitosa.
      * @returns {Object.user} - Los detalles del usuario obtenidos de la base de datos.
      */
-    async showDetailsOfASpecificUser(userId){
-        try{
+    async showDetailsOfASpecificUser({userId}){
 
-            const db = await this.adminDbService.connect();
-            const user = await checkExists("usuarios", { _id: new ObjectId(userId) },
-            `El usuario con id ${userId} no existe.`, db);
-
-            const userInfo = await db.collection('usuarios').aggregate([
-
-                {
-                    $match: {_id: new ObjectId(userId)}
-                },
-
-                {
-                  $lookup: {
-                    from: "tarjetasVIP",
-                    localField: "_id",
-                    foreignField: "usuario_id",
-                    as: "tarjetaVIP"
-                  }
-                },
-                {
-                  $addFields: {
-                    estado_tarjetaVIP: { $arrayElemAt: ["$tarjetaVIP.estado", 0] }
-                  }
-                },
-                {
-                  $project: {
-                    tarjetaVIP: 0
-                  }
-                }
-            ]).toArray()
-
-            return { user: userInfo };
-
-        }catch(error){
-            return { error: error.name, message: error.message };
-        } finally {
-            await this.adminDbService.close();
+        if (!ObjectId.isValid(userId)){
+            const error = new Error('El id proporcionado es inválido')
+            error.status = 400
+            throw error
         }
+
+        const db = await this.adminDbService.connect();
+        const user = await checkExists("usuarios", { _id: new ObjectId(userId) },
+        `El usuario con id ${userId} no existe.`, db);
+
+        const userInfo = await db.collection('usuarios').aggregate([
+
+            {
+                $match: {_id: new ObjectId(userId)}
+            },
+
+            {
+                $lookup: {
+                from: "tarjetasVIP",
+                localField: "_id",
+                foreignField: "usuario_id",
+                as: "tarjetaVIP"
+                }
+            },
+            {
+                $addFields: {
+                estado_tarjetaVIP: { $arrayElemAt: ["$tarjetaVIP.estado", 0] }
+                }
+            },
+            {
+                $project: {
+                tarjetaVIP: 0
+                }
+            }
+        ]).toArray()
+
+        await this.adminDbService.close();
+        return { user: userInfo };
+
     }
 
     /**
