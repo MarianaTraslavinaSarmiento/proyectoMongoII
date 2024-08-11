@@ -1,10 +1,13 @@
 <script setup>
 
+import router from '@/router'
+
 import { ref, onMounted } from 'vue';
 import axios from 'axios'
+import { useRouter } from 'vue-router';
 
 const movies = ref([])
-let index = 0
+let index = ref(0)
 
 const moviesFetch = async () => {
   try {
@@ -27,6 +30,11 @@ const handleScrolling = (event) => {
   currentMovie.value = movieIndex == -1 ? scrollLimits.length : movieIndex;
 }
 
+const showDetailsMovies = (movie) =>{
+  router.push(`/movie/${movie._id}`)
+
+}
+
 
 </script>
 
@@ -37,8 +45,8 @@ const handleScrolling = (event) => {
   </div>
 
   <div class="movies__carousel">
-    <div @scroll="handleScrolling" class="movie__slider" :style="{ transform: `translateX(-${index.value * 100}%)` }">
-      <div v-for="movie in movies" :key="movie.id" class="movie__slide">
+    <div @scroll="handleScrolling" class="movie__slider">
+      <div v-for="movie in movies" :key="movie.id" class="movie__slide" @click="showDetailsMovies(movie)">
         <img :src="movie.caratula" :alt="movie.titulo" class="movie__poster">
         <h3 class="movie__title">{{ movie.titulo }}</h3>
         <p class="movie__genre">{{ movie.generos.join(', ') }}</p>
