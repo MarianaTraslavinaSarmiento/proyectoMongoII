@@ -16,7 +16,6 @@ const moviesFetch = async()=>{
     }
 }
 
-
 onMounted(moviesFetch);
 
 </script>
@@ -64,13 +63,13 @@ onMounted(moviesFetch);
    .movies__carousel {
       position: relative;
       width: 100%;
-      height: 470px;
+      height: 465px;
     }
 
     .movie__slider {
       display: flex;
       transition: transform 0.5s ease;
-      height: 480px;
+      height: 450px;
       overflow-x: scroll;
       scroll-snap-type: x mandatory;
       overflow-y: hidden;
@@ -92,7 +91,7 @@ onMounted(moviesFetch);
     }
     .movie__poster {
     
-      width: 270px;
+      width: 230px;
       height: 90%;
       border-radius: 10px;
 
@@ -106,7 +105,7 @@ onMounted(moviesFetch);
       overflow: hidden;
       white-space: nowrap;
       text-overflow: ellipsis;
-      max-width: 250px;
+      max-width: 225px;
 
     }
 
