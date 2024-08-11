@@ -1,4 +1,10 @@
 
+@font-face{
+  font-family: 'interRegular';
+  src: url(./font/Inter/static/Inter_24pt-Regular.ttf);
+}
+
+
 :root {
 
   --color-background: #121212;
@@ -12,6 +18,7 @@
 }
 
 *{
+  font-family: 'interRegular';
   box-sizing: border-box;
   margin: 0;
   padding: 0;

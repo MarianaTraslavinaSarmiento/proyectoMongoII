@@ -1,9 +1,12 @@
 <script setup>
 import { RouterLink, RouterView } from 'vue-router'
+import  HeaderUser  from '../src/components/HeaderUser.vue'
 </script>
 
 <template>
-  <h1>hello world</h1>
+  
+  <HeaderUser />
+
 
 </template>
 
