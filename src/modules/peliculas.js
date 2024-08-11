@@ -82,6 +82,9 @@ class Pelicula {
                             proyecciones: {
                                 $push: "$proyecciones",
                             },
+                            caratula: {
+                                $first: "$caratula",
+                            }
                         },
                     },
                 ])

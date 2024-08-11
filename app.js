@@ -15,9 +15,11 @@ const boletosRouter = require("./src/routes/boletos.routes");
 const asientosRoutes = require("./src/routes/asientos.routes");
 const usuariosRoutes = require("./src/routes/usuarios.routes");
 const salasRoutes = require("./src/routes/salas.routes");
-
+const cors = require("cors");
 const app = express()
 
+
+app.use(cors());
 
 const config = {
     port: process.env.EXPRESS_PORT,
