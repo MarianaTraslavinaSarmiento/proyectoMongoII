@@ -2,6 +2,7 @@
 import { RouterLink, RouterView } from 'vue-router'
 import  HeaderUser  from '../src/components/HeaderUser.vue'
 import SearchInput from '../src/components/SearchInput.vue'
+import moviesCarousel from '../src/components/moviesCarousel.vue'
 </script>
 
 <template>
@@ -10,6 +11,7 @@ import SearchInput from '../src/components/SearchInput.vue'
 
   <HeaderUser />
   <SearchInput />
+  <moviesCarousel />
 
   </main>
 
