@@ -1,6 +1,8 @@
-<script setup></script>
+<script setup>
 
     import { RouterLink, RouterView } from 'vue-router'
+
+</script>
 
 <template>
 
@@ -50,7 +52,6 @@
     }
 
     .menu__item i {
-        display: block;
         font-size: 25px;
         margin-bottom: 5px;
     }

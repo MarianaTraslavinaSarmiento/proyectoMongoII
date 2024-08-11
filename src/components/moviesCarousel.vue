@@ -22,7 +22,7 @@ const currentMovie = ref(0)
 
 const handleScrolling = (event) => {
   const scrollLeft = event.target.scrollLeft;
-  const scrollLimits = [144, 358, 592, 796, 1000, 1204, 1408, 1650, 1890, 2050];
+  const scrollLimits = [144, 358, 592, 796, 1000, 1204, 1408, 1650, 1890, 2200];
   const movieIndex = scrollLimits.findIndex(limit => scrollLeft < limit);
   currentMovie.value = movieIndex == -1 ? scrollLimits.length : movieIndex;
 }
@@ -89,12 +89,13 @@ const handleScrolling = (event) => {
   overflow-x: scroll;
   scroll-snap-type: x mandatory;
   overflow-y: hidden;
-  margin-left: 25px;
+  padding-inline: 25px;
+  gap: 15px
 
 }
 
 .movie__slide {
-  padding: 15px 15px 0px 0px;
+  padding: 15px 0px 0px 0px;
   color: var(--color-white);
   height: 100%;
   display: flex;
