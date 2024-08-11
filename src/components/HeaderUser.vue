@@ -23,7 +23,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 15px 15px 5px 15px;
+  padding: 25px 25px 5px 25px;
   background-color: var(--color-background);
   color: var(--color-white);
   

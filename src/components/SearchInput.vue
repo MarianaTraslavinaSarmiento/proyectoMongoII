@@ -24,7 +24,7 @@
         border-radius: 10px;
         background-color: var(--color-darkGray);
         border: 1px solid  var(--color-lightGray);
-        margin: 15px;
+        margin: 15px 25px 25px 25px;
         height: 50px;
     }
     

@@ -29,7 +29,7 @@ onMounted(moviesFetch);
     </div>
 
     <div class="coming__soon__list">
-        <div v-for="movie in movies" :key="movie.id" class="movie__box">
+        <div v-for="movie in movies" class="movie__box">
             <img :src="movie.caratula" alt="movie poster" class="movie_image">
             <div class="description">
 
@@ -47,7 +47,7 @@ onMounted(moviesFetch);
 <style scoped>
    .coming__soon {
     margin-top: 10px;
-    padding: 5px 15px 0px 15px;
+    padding: 5px 25px 0px 25px;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -66,7 +66,7 @@ onMounted(moviesFetch);
    }
 
    .movie_image {
-    width: 100px;
+    min-width: 100px;
     height: 100px;
     object-fit: cover;
     margin-left: 15px;
@@ -74,12 +74,13 @@ onMounted(moviesFetch);
 
    }
    .coming__soon__list {
-    margin: 0px 15px 10px 15px;
+    margin: 0px 25px 10px 25px;
+    height: auto;
    }
 
    .movie__box {
-    margin-top: 13px;
-    border-radius: 15px;
+    margin-top: 10px;
+    border-radius: 10px;
     height: 120px;
     display: flex;
     align-items: center;
@@ -93,13 +94,16 @@ onMounted(moviesFetch);
    }
    .description :first-child{
     font-weight: bold;
-    font-size: 1.1em;
+    font-size: 1em;
+   }
+
+   .description :nth-child(2){
+    font-size: 0.8em;
    }
 
    .description :last-child{
-    font-size: 1em;
+    font-size: 0.9em;
     margin-top: 10px;
-    font-style: italic;
     color: var(--color-gray);
    }
 
