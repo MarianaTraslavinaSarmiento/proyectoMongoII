@@ -30,7 +30,8 @@ defineProps(
      justify-content: space-between;
      align-items: center;
      padding: 20px;
-     border-radius: 10px
+     border-radius: 10px;
+     height: 55px;
    }
 
    i{

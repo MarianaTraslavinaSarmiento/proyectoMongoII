@@ -35,7 +35,6 @@ onMounted(moviesFetch);
 
                 <p>{{ movie.titulo }}</p>
                 <p>{{ movie.generos.join(', ') }}</p>
-                <p>Clasificación: {{ movie.clasificacion }}</p>
 
             </div>
 
@@ -97,13 +96,10 @@ onMounted(moviesFetch);
     font-size: 1em;
    }
 
-   .description :nth-child(2){
-    font-size: 0.8em;
-   }
 
    .description :last-child{
     font-size: 0.9em;
-    margin-top: 10px;
+    margin-top: 5px;
     color: var(--color-gray);
    }
 

@@ -7,7 +7,6 @@ import axios from 'axios'
 import { useRouter } from 'vue-router';
 
 const movies = ref([])
-let index = ref(0)
 
 const moviesFetch = async () => {
   try {
