@@ -1,5 +1,4 @@
 <script setup>
-import axios from 'axios';
 import { onMounted } from 'vue';
 import { ref } from 'vue';
 import { useRoute } from 'vue-router';
@@ -12,11 +11,11 @@ const fetchingMovies = async() =>{
 
     try{
         const id = router.params.id
-        const res = await axios.get(`http://localhost:5001/peliculas/${id}`);
-        movie.value = res.data
+        const res = await fetch(`http://localhost:5001/peliculas/${id}`);
+        const data = await res.json();
+        movie.value = data
     }catch(error){
         console.log('Error fetching movie: ', error);
-
     }
 }
 
@@ -43,52 +42,14 @@ onMounted(fetchingMovies)
         </div>
         <p v-if="movie" id="synopsis">{{ movie.sinopsis }}</p>
 
-        <!-- <div class="cast__carousel">
-            <div class="actor__slide">
-                <img src="" alt="" class="actor__pic">
-                <p class="actor__name"></p>
-                <p class="character"></p>
-            </div>
-        </div>  -->
-
-            <!-- <div class="actor-list">
-        <div class="actor-info">
-            <img src="https://i.postimg.cc/qRGy3vB2/furiosa.jpg" alt="Antonio Banderas">
-            <div>
-                <p class="actor-name">Antonio Ban</p>
-                <p class="actor-role">Puss in Boots</p>
-            </div>
-        </div>
-        <div class="actor-info">
-            <img src="https://i.postimg.cc/qRGy3vB2/furiosa.jpg" alt="Salma Hayek">
-            <div>
-                <p class="actor-name">Salma Hayek</p>
-                <p class="actor-role">Kitty Softpaws</p>
-            </div>
-        </div>
-        <div class="actor-info">
-            <img src="https://i.postimg.cc/qRGy3vB2/furiosa.jpg" alt="Harvey Guillén">
-            <div>
-                <p class="actor-name">Harvey Guillén</p>
-                <p class="actor-role">Perro</p>
-            </div>
-        </div>
-    </div> -->
-
     </div>
 
 </template>
 
 <style scoped>
 
-.cast__carousel{
-    height: 30px;
-    background-color: red;
-    width: 100%;
-
-}
 .movie__card{
-    height: 70vh;
+    height: 55vh;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -144,24 +105,5 @@ button i{
     font-size: 20px;
 }
 
-/* .actor-list {
-    display: flex;
-    width: 100%;
-    overflow-x: auto;
-    gap: 1rem;
-}
 
-.actor-info {
-    display: flex;
-    align-items: center;
-    gap: 0.7rem;
-    min-width: 200px;
-}
-
-.actor-info img {
-    width: 3.5rem;
-    height: 3.5rem; 
-    border-radius: 50%;
-    object-fit: cover;
-} */
 </style>
