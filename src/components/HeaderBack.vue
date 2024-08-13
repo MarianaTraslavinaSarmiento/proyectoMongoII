@@ -13,10 +13,12 @@ defineProps(
 
 </script>
 
+
+
 <template>
 
     <div class="header__back">
-        <i @click="router.push('/')" class="bi bi-arrow-left-circle"></i>
+        <i @click="router.push('/')" class='bx bx-chevron-left'></i>
         <h3 style="color: var(--color-white)">{{ header }}</h3>
         <i class="bi bi-three-dots-vertical"></i>
     </div>
@@ -32,6 +34,11 @@ defineProps(
      padding: 20px;
      border-radius: 10px;
      height: 55px;
+   }
+
+   .header__back i:first-child{
+    font-size: 35px;
+    color: var(--color-white);
    }
 
    i{

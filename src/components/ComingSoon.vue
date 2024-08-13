@@ -99,7 +99,7 @@ onMounted(moviesFetch);
    .description :last-child{
     font-size: 0.9em;
     margin-top: 5px;
-    color: var(--color-gray);
+    color: var(--color-white);
    }
 
 
