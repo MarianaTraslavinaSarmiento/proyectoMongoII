@@ -84,6 +84,12 @@ class Pelicula {
                             },
                             caratula: {
                                 $first: "$caratula",
+                            },
+                            reparto: {
+                                $first: "$reparto"
+                            },
+                            trailer: {
+                                $first: "$trailer"
                             }
                         },
                     },
@@ -178,6 +184,15 @@ class Pelicula {
                         proyecciones: {
                             $push: "$proyecciones",
                         },
+                        caratula: {
+                            $first: "$caratula"
+                        },
+                        reparto: {
+                            $first: "$reparto"
+                        }, 
+                        trailer: {
+                            $first: "$trailer"
+                        }
                     },
                 },
             ])
