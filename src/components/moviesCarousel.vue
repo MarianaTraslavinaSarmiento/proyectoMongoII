@@ -11,7 +11,6 @@ const movies = ref([])
 const moviesFetch = async () => {
   try {
     const res = await axios.get('http://localhost:5001/peliculas');
-    console.log(res.data)
     movies.value = res.data;
   } catch (error) {
     console.error(error)

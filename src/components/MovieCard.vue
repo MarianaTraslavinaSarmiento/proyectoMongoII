@@ -7,7 +7,6 @@ import { useRoute } from 'vue-router';
 
 const router = useRoute()
 const movie = ref(null)
-const isLoading = ref(true)
 
 const fetchingMovies = async() =>{
 
@@ -18,8 +17,6 @@ const fetchingMovies = async() =>{
     }catch(error){
         console.log('Error fetching movie: ', error);
 
-    }finally{
-        isLoading.value = false
     }
 }
 
@@ -30,10 +27,8 @@ onMounted(fetchingMovies)
 <template>
 
     <div class="movie__card">
-        <template  v-if="movie && !isLoading" >
 
-        </template>
-        <div class="cover">
+        <div v-if="movie" class="cover">
             <img  :src="movie.caratula" alt="">
         </div>
         <div class="movie__overviewer">
@@ -72,7 +67,12 @@ onMounted(fetchingMovies)
 .cover {
     width: 100%;
     height: 60%;
-    background-color: red;
+}
+
+.cover img{
+    object-fit: cover;
+    width: 100%;
+    height: 100%;
     border-radius: 15px;
 }
 
