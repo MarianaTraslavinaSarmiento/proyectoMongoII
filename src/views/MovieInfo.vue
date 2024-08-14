@@ -3,7 +3,7 @@
 import Menu from '@/components/Menu.vue';
 import HeaderBack from '../components/HeaderBack.vue';
 import MovieCard from '@/components/MovieCard.vue';
-import Cast from '@/components/Cast.vue';
+import CastAndCinema from '@/components/CastAndCinema.vue';
 
 </script>
 
@@ -11,7 +11,7 @@ import Cast from '@/components/Cast.vue';
 
     <HeaderBack header="Details of the movie"/>
     <MovieCard />
-    <Cast />
+    <CastAndCinema />
 
 
 </template>
