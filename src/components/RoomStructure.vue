@@ -12,24 +12,24 @@
       <div fila="1">
         <small>A</small>
         <div class="seat__list">
-          <button>1</button>
-          <button>2</button>
-          <button>3</button>
-          <button>4</button>
-          <button>5</button>
+          <button></button>
+          <button></button>
+          <button></button>
+          <button></button>
+          <button></button>
 
         </div>
       </div>
       <div fila="2">
         <small>B</small>
         <div class="seat__list">
-          <button>1</button>
-          <button>2</button>
-          <button>3</button>
-          <button>4</button>
-          <button>5</button>
-          <button>6</button>
-          <button>7</button>
+          <button></button>
+          <button></button>
+          <button></button>
+          <button></button>
+          <button></button>
+          <button></button>
+          <button></button>
         </div>
       </div>
     </article>
@@ -37,66 +37,104 @@
       <div column="3">
         <small>C</small>
         <div>
-          <button>1</button>
-          <button>2</button>
-          <button>3</button>
-          <button>4</button>
-          <button>5</button>
-          <button>6</button>
-          <button>7</button>
-          <button>8</button>
-          <button>9</button>
+          <button></button>
+          <button></button>
+          <button></button>
+          <button></button>
+          <button></button>
+          <button></button>
+          <button></button>
+          <button></button>
+          <button></button>
 
         </div>
       </div>
       <div column="4">
         <small>D</small>
         <div>
-          <button>1</button>
-          <button>2</button>
-          <button>3</button>
-          <button>4</button>
-          <button>5</button>
-          <button>6</button>
-          <button>7</button>
-          <button>8</button>
-          <button>9</button>
+          <button></button>
+          <button></button>
+          <button></button>
+          <button></button>
+          <button></button>
+          <button></button>
+          <button></button>
+          <button></button>
+          <button></button>
 
         </div>
       </div>
       <div column="5">
         <small>E</small>
         <div>
-          <button>1</button>
-          <button>2</button>
-          <button>3</button>
-          <button>4</button>
-          <button>5</button>
-          <button>6</button>
-          <button>7</button>
-          <button>8</button>
-          <button>9</button>
+          <button></button>
+          <button></button>
+          <button></button>
+          <button></button>
+          <button></button>
+          <button></button>
+          <button></button>
+          <button></button>
+          <button></button>
         </div>
       </div>
       <div column="6">
         <small>F</small>
         <div>
-          <button>1</button>
-          <button>2</button>
-          <button>3</button>
-          <button>4</button>
-          <button>5</button>
-          <button>6</button>
-          <button>7</button>
-          <button>8</button>
-          <button>9</button>
+          <button></button>
+          <button></button>
+          <button></button>
+          <button></button>
+          <button></button>
+          <button></button>
+          <button></button>
+          <button></button>
+          <button></button>
         </div>
       </div>
     </article>
   </section>
+
+  <div class="status__seats">
+    
+    <div class="item">
+      <i style="color: var(--color-black)" class="bi bi-circle-fill"></i>
+      <small>Available</small>
+    </div>
+
+    <div class="item">
+      <i style="color: var(--color-gray)" class="bi bi-circle-fill"></i>
+      <small>Reserved</small>
+    </div>
+
+    <div class="item">
+      <i style="color: var(--color-red)" class="bi bi-circle-fill"></i>
+      <small>Selected</small>
+    </div>
+  
+  </div>
+
+
 </template>
 
 <style scoped>
+
+.status__seats{
+  display: flex;
+  gap: 45px;
+  justify-content: center;
+}
+
+.item{
+  display: flex;
+  gap: 10px;
+  color: var(--color-white)
+}
+.item i{
+
+  font-size: 13px;
+
+}
 
 .screen {
   padding-top: 10px;
@@ -140,7 +178,7 @@
   width: 35px;
   height: 35px;
   margin: 0 3px;
-  background: #323232;
+  background: var(--color-black);
   border-radius: 5px;
 }
 
