@@ -13,7 +13,6 @@ import CastAndCinema from '@/components/CastAndCinema.vue';
     <MovieCard />
     <CastAndCinema />
 
-
 </template>
 
 <style scoped>

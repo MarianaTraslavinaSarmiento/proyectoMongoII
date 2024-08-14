@@ -62,55 +62,41 @@ onMounted(fetchingMovies)
 
 <style scoped>
 
-.container {
-    padding-inline: 25px;
-    gap: 15px;
-    display: flex;
-    flex-direction: column;
-}
+    .container {
+        padding-inline: 25px;
+        gap: 15px;
+        display: flex;
+        flex-direction: column;
+    }
 
-.cast__carousel{
-    display: flex;
-    width: 100%;
-    overflow-x: auto;
-    gap: 0.5rem;
-    height: 4rem;
-    
-}
-.actor__info {
-    display: flex;
-    align-items: center;
-    gap: 0.7rem;
-    min-width: 180px;
-}
-
-.actor__pic {
-    width: 3.5rem;
-    height: 3.5rem; 
-    border-radius: 50%;
-    object-fit: cover;
-}
-
-.text__box {
-    display: flex;
-    flex-direction: column;
-    font-size: 0.7em;
-}
-
-
-/* <div class="cinema">
-        <h3>Cinema</h3>
-
-        <div class="cinema__box">
-            <div class="cinema__overviwer">
-                <p>Cine CampusLands</p>
-                <p>Auditorio principal</p>
-            </div>
-            <img src="" alt="">
-        </div>
-
+    .cast__carousel{
+        display: flex;
+        width: 100%;
+        overflow-x: auto;
+        gap: 0.5rem;
+        height: 4rem;
         
-    </div> */
+    }
+    .actor__info {
+        display: flex;
+        align-items: center;
+        gap: 0.7rem;
+        min-width: 170px;
+    }
+
+    .actor__pic {
+        width: 3.5rem;
+        height: 3.5rem; 
+        border-radius: 50%;
+        object-fit: cover;
+    }
+
+    .text__box {
+        display: flex;
+        flex-direction: column;
+        font-size: 0.7em;
+    }
+
 
     .cinema__box {
         display: flex;
