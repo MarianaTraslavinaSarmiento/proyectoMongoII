@@ -22,16 +22,20 @@ const fetchingMovies = async()=>{
 
 onMounted(fetchingMovies)
 
+
+
 </script>
 <template>
 
     <div class="cine__cast">
         <h3>Cast</h3>
-        <div class="cast__carousel">
-            <div v-if="movie" class="actor__info">
-                <img :src="movie.caratula" alt="" class="actor__pic">
-                <p class="actor__name"></p>
-                <p class="character"></p>
+        <div v-if="movie" class="cast__carousel">
+            <div v-for="actor in movie.reparto" :key="actor.actor" class="actor__info">
+                <img :src="actor.foto" alt="actor.actor" class="actor__pic">
+                <div class="text__box">
+                    <p class="actor__name">{{ actor.actor }}</p>
+                    <p class="character">{{ actor.personaje }}</p>
+                </div>
             </div>
         </div>  
         
@@ -43,15 +47,18 @@ onMounted(fetchingMovies)
 
 .cine__cast {
     padding-inline: 25px;
-    color: var(--color-white)
+    color: var(--color-white);
+}
+
+.cine__cast h3{
+    margin-bottom: 5px;
 }
 .cast__carousel{
     display: flex;
     width: 100%;
     overflow-x: auto;
-    gap: 1rem;
-    background-color: red;
-    height: 3rem;
+    gap: 0.5rem;
+    height: 4rem;
     
 }
 
@@ -59,7 +66,7 @@ onMounted(fetchingMovies)
     display: flex;
     align-items: center;
     gap: 0.7rem;
-    min-width: 200px;
+    min-width: 180px;
 }
 
 .actor__pic {
@@ -67,5 +74,15 @@ onMounted(fetchingMovies)
     height: 3.5rem; 
     border-radius: 50%;
     object-fit: cover;
+}
+
+.text__box {
+    display: flex;
+    flex-direction: column;
+    font-size: 0.7em;
+}
+
+.character{
+    color: var(--color-gray)
 }
 </style>
