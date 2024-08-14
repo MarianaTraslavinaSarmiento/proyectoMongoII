@@ -3,6 +3,7 @@
 import { onMounted } from 'vue';
 import { ref } from 'vue';
 import { useRoute } from 'vue-router';
+import router from '@/router';
 
 const route = useRoute();
 const movie = ref(null)
@@ -47,7 +48,7 @@ onMounted(fetchingMovies)
 
         <div tabindex="0" class="cinema__box">
             <div class="cinema__overviwer">
-                <p style="color: var(--color-white)">Cine CampusLands</p>
+                <p style="color: var(--color-white)">CampusLands</p>
                 <small style="color: var(--color-gray)">Auditorio principal</small>
             </div>
             <img style="border-radius: 5px;" src="../assets/img/cineCampus.png" alt="">
@@ -56,7 +57,7 @@ onMounted(fetchingMovies)
         
     </div>
 
-    <button>Book Now</button>
+    <button @click="router.push('/rooms')">Book Now</button>
 </div>
    
 
@@ -78,6 +79,8 @@ onMounted(fetchingMovies)
         overflow-x: auto;
         gap: 0.5rem;
         height: 4rem;
+        scrollbar-width: none;
+
         
     }
     .actor__info {

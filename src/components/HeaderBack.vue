@@ -18,7 +18,7 @@ defineProps(
 <template>
 
     <div class="header__back">
-        <i @click="router.push('/')" class='bx bx-chevron-left'></i>
+        <i @click="router.back()" class='bx bx-chevron-left'></i>
         <h3 style="color: var(--color-white)">{{ header }}</h3>
         <i class="bi bi-three-dots-vertical"></i>
     </div>

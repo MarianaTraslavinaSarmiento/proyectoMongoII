@@ -95,7 +95,8 @@ const showDetailsMovies = (movie) =>{
   scroll-snap-type: x mandatory;
   overflow-y: hidden;
   padding-inline: 25px;
-  gap: 15px
+  gap: 15px;
+  scrollbar-width: none;
 
 }
 
