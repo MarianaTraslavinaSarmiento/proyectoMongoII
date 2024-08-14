@@ -35,10 +35,13 @@ onMounted(fetchingMovies)
                 <h3>{{ movie.titulo }}</h3>
                 <small style="color: var(--color-gray)">{{ movie.generos.join(', ') }}</small>
             </div>
-            <button> 
+            <a v-if="movie" :href="movie.trailer">
+                <button> 
                 <i class="bi bi-play-fill"></i>
                 <p>Watch Trailer</p>
             </button>
+            </a>
+
         </div>
         <p v-if="movie" id="synopsis">{{ movie.sinopsis }}</p>
 
@@ -49,7 +52,7 @@ onMounted(fetchingMovies)
 <style scoped>
 
 .movie__card{
-    height: 55vh;
+    height: 50vh;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -104,6 +107,8 @@ button{
 button i{
     font-size: 20px;
 }
+
+
 
 
 </style>

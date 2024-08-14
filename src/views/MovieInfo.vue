@@ -5,6 +5,7 @@ import HeaderBack from '../components/HeaderBack.vue';
 import MovieCard from '@/components/MovieCard.vue';
 import CastAndCinema from '@/components/CastAndCinema.vue';
 
+
 </script>
 
 <template>
@@ -16,4 +17,8 @@ import CastAndCinema from '@/components/CastAndCinema.vue';
 </template>
 
 <style scoped>
+
+template{
+    overflow-y: hidden;
+}
 </style>

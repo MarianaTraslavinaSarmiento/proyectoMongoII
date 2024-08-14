@@ -55,6 +55,8 @@ onMounted(fetchingMovies)
 
         
     </div>
+
+    <button>Book Now</button>
 </div>
    
 
@@ -67,6 +69,7 @@ onMounted(fetchingMovies)
         gap: 15px;
         display: flex;
         flex-direction: column;
+        height: 40vh;
     }
 
     .cast__carousel{
@@ -107,7 +110,7 @@ onMounted(fetchingMovies)
         background-color: var(--color-darkGray);
         padding: 10px;
         border-radius: 10px;
-        height: 60px;
+        height: 80px;
 
     }
 
@@ -115,6 +118,17 @@ onMounted(fetchingMovies)
         border-color: var(--color-red);
         outline: none;
     }
+
+    button{
+        background-color: var(--color-red);
+        border: none;
+        border-radius: 10px;
+        height: 45px;
+        margin-top: 40px;
+        font-size: 15px;
+        color: var(--color-white);
+        font-weight: bold;
+}
 
 
 </style>

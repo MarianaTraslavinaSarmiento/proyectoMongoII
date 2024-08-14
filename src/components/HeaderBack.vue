@@ -33,7 +33,7 @@ defineProps(
      align-items: center;
      padding: 20px;
      border-radius: 10px;
-     height: 55px;
+     height: 60px;
    }
 
    .header__back i:first-child{
