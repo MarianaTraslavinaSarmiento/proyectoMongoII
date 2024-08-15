@@ -4,7 +4,7 @@
 <template>
   <div class="screen">
     <img style="width: 80%; " src="../assets/img/vector.png" alt="">
-    <small style="color: var(--color-white); position: absolute; top: 85px ; z-index: 5;">Screen This Way</small>
+    <small style="color: var(--color-white); position: absolute; top: 100px ;">Screen This Way</small>
   </div>
 
   <section class="asientos">
@@ -137,7 +137,7 @@
 }
 
 .screen {
-  padding-top: 10px;
+  padding-top: 20px;
   width: 100%;
   display: flex;
   flex-direction: column;
@@ -146,12 +146,12 @@
 }
 
 .asientos {
-  padding: 0 25px;
+  padding: 5px 25px;
   color: var(--color-white)
 }
 
 .standard__seats {
-  margin-bottom: 55px !important;
+  margin-bottom: 60px !important;
 }
 
 .standard__seats,
