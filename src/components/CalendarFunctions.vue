@@ -62,13 +62,13 @@
 
         </div>
 
-        <p style="padding: 20px 30px 15px 30px; color: var(--color-gray)" >¡Has seleccionado un asiento preferencial!</p>
+        <p style="padding: 20px 30px 15px 30px; color: var(--color-gray)">¡Has seleccionado un asiento preferencial!</p>
 
         <div class="booking__seat">
 
-            <div class="total__price">
-                <p>Price</p>
-                <p>$40.000</p>
+            <div style="font-size: 18px" class="total__price">
+                <p style="margin-bottom: 10px;">Price</p>
+                <p style="font-weight: bold">$40.000</p>
             </div>
             <button>Buy Ticket</button>
         </div>
@@ -77,30 +77,8 @@
 </template>
 
 <style scoped>
-
-.booking__seat{
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 15px 0px 15px 15px;
-    color: var(--color-white);
-    margin-top: 5px;
-    margin-right: 30px;
-}
-
-button {
-
-    background-color: var(--color-red);
-    color: var(--color-white);
-    width: 65%;
-    padding: 15px 0px;
-    border: none;
-    border-radius: 10px;
-    font-size: 15px;
-}
-
 .calendar__functions {
-    padding: 25px 0px 15px 30px;
+    padding: 25px 0px 15px 25px;
 }
 
 .days__week {
@@ -114,7 +92,7 @@ button {
 .day__card {
     display: flex;
     background-color: var(--color-lightGray);
-    color:var(--color-black);
+    color: var(--color-black);
     padding: 15px;
     text-align: center;
     flex-direction: column;
@@ -144,35 +122,56 @@ button {
 }
 
 .showtime__card {
-  background-color: var(--color-lightGray);
-  padding: 10px;
-  display: flex;
-  flex-direction: column;
-  text-align: center;
-  border-radius: 10px;
-  flex-shrink: 0;
-  min-width: 90px;
-  height: 70px;
-  justify-content: center;
+    background-color: var(--color-lightGray);
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    border-radius: 10px;
+    flex-shrink: 0;
+    min-width: 90px;
+    height: 70px;
+    justify-content: center;
 }
 
 .showtime__card.selected,
 .day__card.selected,
 .date__card.selected {
-  background-color: var(--color-red);
-  color: var(--color-white);
+    background-color: var(--color-red);
+    color: var(--color-white);
 }
 
 .showtime__card .time {
-  display: block;
-  font-weight: bold;
-  font-size: 18px;
+    display: block;
+    font-weight: bold;
+    font-size: 18px;
 }
 
 .showtime__card .price {
-  font-size: 14px;
-  font-weight: normal;
+    font-size: 14px;
+    font-weight: normal;
 }
 
 
+.booking__seat {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 0px 15px 15px;
+    color: var(--color-white);
+    margin-top: 5px;
+    margin-right: 30px;
+}
+
+button {
+
+    background-color: var(--color-red);
+    color: var(--color-white);
+    width: 65%;
+    padding: 15px 0px;
+    border: none;
+    border-radius: 10px;
+    font-size: 15px;
+    font-weight: bold;
+}
 </style>

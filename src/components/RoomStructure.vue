@@ -121,7 +121,7 @@
 
 .status__seats{
   display: flex;
-  gap: 45px;
+  gap: 38px;
   justify-content: center;
 }
 
