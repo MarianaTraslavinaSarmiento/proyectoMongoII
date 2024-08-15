@@ -1,11 +1,12 @@
+
+
 <script setup>
-
 import router from '@/router'
-
 import { ref, onMounted } from 'vue';
 import axios from 'axios'
 
 const movies = ref([])
+const currentIndex = ref(0)
 
 const moviesFetch = async () => {
   try {
@@ -18,20 +19,16 @@ const moviesFetch = async () => {
 
 onMounted(moviesFetch);
 
-const currentMovie = ref(0)
+const showDetailsMovies = (movie) => {
+  router.push(`/movie/${movie._id}`)
+}
 
 const handleScrolling = (event) => {
   const scrollLeft = event.target.scrollLeft;
-  const scrollLimits = [144, 358, 592, 796, 1000, 1204, 1408, 1650, 1890, 2200];
+  const scrollLimits = [120, 280, 440, 796, 1000, 1204, 1408, 1650, 1890, 2200];
   const movieIndex = scrollLimits.findIndex(limit => scrollLeft < limit);
-  currentMovie.value = movieIndex == -1 ? scrollLimits.length : movieIndex;
+  currentIndex.value = movieIndex === -1 ? scrollLimits.length : movieIndex;
 }
-
-const showDetailsMovies = (movie) =>{
-  router.push(`/movie/${movie._id}`)
-
-}
-
 
 </script>
 
@@ -42,26 +39,48 @@ const showDetailsMovies = (movie) =>{
   </div>
 
   <div class="movies__carousel">
-    <div @scroll="handleScrolling" class="movie__slider">
-      <div v-for="movie in movies" :key="movie.id" class="movie__slide" @click="showDetailsMovies(movie)">
+    <div class="movie__slider" @scroll="handleScrolling">
+      <div v-for="(movie, index) in movies" 
+           :key="movie.id" 
+           class="movie__slide" 
+           @click="showDetailsMovies(movie)">
         <img :src="movie.caratula" :alt="movie.titulo" class="movie__poster">
-        <h3 class="movie__title">{{ movie.titulo }}</h3>
-        <p class="movie__genre">{{ movie.generos.join(', ') }}</p>
       </div>
     </div>
   </div>
 
+  <div v-if="movies[currentIndex]" class="current__movie__info">
+    <h3>{{ movies[currentIndex].titulo }}</h3>
+    <p style="color: var(--color-textGray); margin-block: 7px;">{{ movies[currentIndex].generos.join(', ') }}</p>
+  </div>
+
   <div style="display: flex; justify-content: center; gap: 10px; margin-top: 10px;">
-    <template v-for="(movie, index) in movies">
-      <div :class="{
-        'dot_inactive': currentMovie !== index,
-        'dot_active': currentMovie === index
-      }"></div>
-    </template>
+    <div v-for="(movie, index) in movies" 
+         :key="index"
+         :class="{ 'dot_active': currentIndex === index, 'dot_inactive': currentIndex !== index }"
+         @click="currentIndex = index">
+    </div>
   </div>
 </template>
 
 <style scoped>
+
+.current__movie__info{
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.current__movie__info h3{
+  width: 50%; 
+  text-align: center; 
+  text-overflow: ellipsis;  
+  white-space: nowrap; 
+  overflow: hidden;
+  color: var(--color-white)
+}
 .now__playing {
   padding: 5px 25px 0px 25px;
   display: flex;
@@ -84,7 +103,7 @@ const showDetailsMovies = (movie) =>{
 .movies__carousel {
   position: relative;
   width: 100%;
-  height: 465px;
+  height: 450px;
 }
 
 .movie__slider {

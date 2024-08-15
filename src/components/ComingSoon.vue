@@ -32,7 +32,7 @@ onMounted(moviesFetch);
             <img :src="movie.caratula" alt="movie poster" class="movie_image">
             <div class="description">
 
-                <p>{{ movie.titulo }}</p>
+                <p style="margin-top: 10px;">{{ movie.titulo }}</p>
                 <p>{{ movie.generos.join(', ') }}</p>
 
             </div>
@@ -95,11 +95,11 @@ onMounted(moviesFetch);
     font-size: 1em;
    }
 
-
    .description :last-child{
     font-size: 0.9em;
     margin-top: 5px;
     color: var(--color-white);
+    margin-bottom: 50px;
    }
 
 
