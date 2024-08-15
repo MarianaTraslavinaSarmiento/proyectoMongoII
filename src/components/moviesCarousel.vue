@@ -11,7 +11,7 @@ const currentIndex = ref(0)
 const moviesFetch = async () => {
   try {
     const res = await axios.get('http://localhost:5001/peliculas');
-    movies.value = res.data;
+    movies.value = res.data.slice(5);
   } catch (error) {
     console.error(error)
   }
@@ -25,9 +25,8 @@ const showDetailsMovies = (movie) => {
 
 const handleScrolling = (event) => {
   const scrollLeft = event.target.scrollLeft;
-  const scrollLimits = [120, 280, 440, 796, 1000, 1204, 1408, 1650, 1890, 2200];
-  const movieIndex = scrollLimits.findIndex(limit => scrollLeft < limit);
-  currentIndex.value = movieIndex === -1 ? scrollLimits.length : movieIndex;
+  const interval = 180
+  currentIndex.value = Math.floor(scrollLeft / interval)
 }
 
 </script>
@@ -51,7 +50,7 @@ const handleScrolling = (event) => {
 
   <div v-if="movies[currentIndex]" class="current__movie__info">
     <h3>{{ movies[currentIndex].titulo }}</h3>
-    <p style="color: var(--color-textGray); margin-block: 7px;">{{ movies[currentIndex].generos.join(', ') }}</p>
+    <p style="color: var(--color-textGray); margin-block: 5px; font-size: 13px;">{{ movies[currentIndex].generos.join(', ') }}</p>
   </div>
 
   <div style="display: flex; justify-content: center; gap: 10px; margin-top: 10px;">
@@ -161,7 +160,7 @@ const handleScrolling = (event) => {
 
 .dot_active, .dot_inactive {
   height: 10px;
-  border-radius: 40%;
+  border-radius: 20px;
   transition: all 0.2s ;
 }
 .dot_inactive {
@@ -169,7 +168,7 @@ const handleScrolling = (event) => {
   background-color: var(--color-gray);
 }
 .dot_active {
-  width: 20px;
+  width: 30px;
   background-color: var(--color-red);
 }
 
