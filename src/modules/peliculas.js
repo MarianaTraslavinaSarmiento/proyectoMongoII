@@ -127,74 +127,7 @@ class Pelicula {
 
         const moviesDetails = await db
             .collection("peliculas")
-            .aggregate([
-                {
-                    $match: { _id: new ObjectId(id) },
-                },
-                {
-                    $lookup: {
-                        from: "proyecciones",
-                        localField: "_id",
-                        foreignField: "pelicula_id",
-                        as: "proyecciones",
-                    },
-                },
-
-                { $unwind: "$proyecciones" },
-
-                {
-                    $lookup: {
-                        from: "salas",
-                        localField: "proyecciones.sala_id",
-                        foreignField: "_id",
-                        as: "proyecciones.sala",
-                    },
-                },
-
-                { $unwind: "$proyecciones.sala" },
-
-                {
-                    $project: {
-                        "proyecciones.pelicula_id": 0,
-                        "proyecciones.sala_id": 0,
-                        "proyecciones.sala._id": 0,
-                    },
-                },
-
-                {
-                    $group: {
-                        _id: "$_id",
-                        titulo: {
-                            $first: "$titulo",
-                        },
-                        generos: {
-                            $first: "$generos",
-                        },
-                        duracion_min: {
-                            $first: "$duracion_min",
-                        },
-                        sinopsis: {
-                            $first: "$sinopsis",
-                        },
-                        clasificacion: {
-                            $first: "$clasificacion",
-                        },
-                        proyecciones: {
-                            $push: "$proyecciones",
-                        },
-                        caratula: {
-                            $first: "$caratula"
-                        },
-                        reparto: {
-                            $first: "$reparto"
-                        }, 
-                        trailer: {
-                            $first: "$trailer"
-                        }
-                    },
-                },
-            ])
-            .toArray();
+            .findOne({_id: new ObjectId(id)})
 
             if (moviesDetails.length === 0) {
                 const error = new Error(`La pelicula con id ${id} no existe`)
@@ -202,7 +135,7 @@ class Pelicula {
                 throw error
             }
 
-        return moviesDetails[0];
+        return moviesDetails;
     }
 
     
