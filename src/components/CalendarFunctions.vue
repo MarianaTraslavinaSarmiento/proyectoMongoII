@@ -1,37 +1,39 @@
 <script setup>
 
+import router from '@/router';
+
 
 </script>
 
 <template>
     <section class="calendar__functions">
 
-        <div class="days__week">
-            <div class="day__card selected">
+            <div class="days__week">
+            <div tabindex="0" class="day__card">
                 <span class="day">Mon</span>
                 <span class="date">17</span>
             </div>
-            <div class="day__card">
+            <div tabindex="0" class="day__card">
                 <span class="day">Tue</span>
                 <span class="date">18</span>
             </div>
-            <div class="day__card">
+            <div tabindex="0" class="day__card">
                 <span class="day">Wed</span>
                 <span class="date">19</span>
             </div>
-            <div class="day__card">
+            <div tabindex="0" class="day__card">
                 <span class="day">Thu</span>
                 <span class="date">20</span>
             </div>
-            <div class="day__card">
+            <div tabindex="0" class="day__card">
                 <span class="day">Fri</span>
                 <span class="date">21</span>
             </div>
-            <div class="day__card">
+            <div tabindex="0" class="day__card">
                 <span class="day">Sat</span>
                 <span class="date">21</span>
             </div>
-            <div class="day__card">
+            <div tabindex="0" class="day__card">
                 <span class="day">Sun</span>
                 <span class="date">21</span>
             </div>
@@ -39,23 +41,23 @@
 
         <div class="date__available">
 
-            <div class="showtime__card selected">
+            <div tabindex="0" class="showtime__card">
                 <span class="time">13:00</span>
                 <span class="price">$5.25 •3D</span>
             </div>
-            <div class="showtime__card">
+            <div tabindex="0" class="showtime__card">
                 <span class="time">15:45</span>
                 <span class="price">$5.99 •3D</span>
             </div>
-            <div class="showtime__card">
+            <div tabindex="0" class="showtime__card">
                 <span class="time">18:50</span>
                 <span class="price">$4.50 •3D</span>
             </div>
-            <div class="showtime__card">
+            <div tabindex="0" class="showtime__card">
                 <span class="time">20:30</span>
                 <span class="price">$6.50 •3D</span>
             </div>
-            <div class="showtime__card">
+            <div tabindex="0" class="showtime__card">
                 <span class="time">20:30</span>
                 <span class="price">$6.50 •3D</span>
             </div>
@@ -70,7 +72,7 @@
                 <p style="margin-bottom: 10px;">Price</p>
                 <p style="font-weight: bold">$40.000</p>
             </div>
-            <button>Buy Ticket</button>
+            <button @click="router.push('/buyticket')">Buy Ticket</button>
         </div>
 
     </section>
@@ -87,6 +89,13 @@
     padding: 10px;
     gap: 15px;
     scrollbar-width: none;
+}
+
+.day__card:focus,
+.showtime__card:focus{
+    background-color: var(--color-red);
+    color: var(--color-white)
+
 }
 
 .day__card {
@@ -132,13 +141,6 @@
     min-width: 90px;
     height: 70px;
     justify-content: center;
-}
-
-.showtime__card.selected,
-.day__card.selected,
-.date__card.selected {
-    background-color: var(--color-red);
-    color: var(--color-white);
 }
 
 .showtime__card .time {
