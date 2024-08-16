@@ -99,9 +99,7 @@ class Pelicula {
             return moviesAvailable;
         } catch (error) {
             return { error: error.name, message: error.message };
-        } finally {
-            await this.adminDbService.close();
-        }
+        } 
     }
 
     /**
