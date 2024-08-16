@@ -10,7 +10,7 @@ const currentIndex = ref(0)
 
 const moviesFetch = async () => {
   try {
-    const res = await axios.get('http://localhost:5001/peliculas');
+    const res = await axios.get('https://f67w199f-5001.use2.devtunnels.ms/peliculas');
     movies.value = res.data.slice(5);
   } catch (error) {
     console.error(error)
