@@ -45,6 +45,10 @@ class Proyeccion{
                 foreignField: '_id',
                 as: 'sala_id'
               }
+            },
+
+            {
+              $unwind: '$sala_id'
             }
             
         ]).toArray()
