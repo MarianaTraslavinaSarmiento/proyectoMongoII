@@ -57,7 +57,7 @@ onMounted(fetchingMovies)
         
     </div>
 
-    <button @click="router.push('/rooms')">Book Now</button>
+    <button @click="router.push(`/movie/${route.params.id}/rooms`)">Book Now</button>
 </div>
    
 

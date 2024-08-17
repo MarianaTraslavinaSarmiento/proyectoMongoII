@@ -3,17 +3,17 @@
 <script setup>
 import router from '@/router'
 import { ref, onMounted } from 'vue';
-import axios from 'axios'
 
 const movies = ref([])
 const currentIndex = ref(0)
 
 const moviesFetch = async () => {
   try {
-    const res = await axios.get('https://f67w199f-5001.use2.devtunnels.ms/peliculas');
-    movies.value = res.data.slice(5);
+    const res = await fetch('http://localhost:5001/peliculas');
+    const data = await res.json()
+    movies.value = data.slice(5);
   } catch (error) {
-    console.error(error)
+    console.error('Error fetching movies', error)
   }
 }
 

@@ -1,6 +1,67 @@
 <script setup>
 
 import router from '@/router';
+import { ref, onMounted } from 'vue'
+import { useRoute } from 'vue-router';
+
+const weekDays = ref([]);
+
+const generateWeekDays = () => {
+    const today = new Date();
+    const days = [];
+    const dayNames = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+
+    for (let i = 0; i < 7; i++) {
+        const date = new Date(today);
+
+        date.setDate(today.getDate() + i);
+        days.push({
+            day: dayNames[date.getDay()], // ! date.getDay() returns a number from 0 to 6 (0 is Sunday)
+            date: date.getDate(),
+            fullDate: date.toISOString().slice(0,10)
+        });
+    }
+    weekDays.value = days;
+};
+
+const route = useRoute()
+const screenings = ref([]);
+const movieId = ref(route.params.id);
+const requestData = ref();
+
+const selectDate = (day) => {
+    requestData.value = {
+        movieId: movieId.value,
+        date: day.fullDate,
+    }
+
+    screeningFetch();
+}
+
+const screeningFetch = async () => {
+
+    await fetch('http://localhost:5001/proyecciones/pelicula/', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(requestData.value)
+
+    }).then(response => response.json())
+
+    .then(data => {
+        screenings.value = data;
+    }).catch(error => {
+        console.error('Error al obtener las proyecciones:', error);
+    })
+
+}
+
+const priceFormater = new Intl.NumberFormat('es-CO', {
+    style: 'currency',
+    currency: 'COP',
+    minimumFractionDigits: 0,
+});
+
+onMounted(generateWeekDays);
 
 
 </script>
@@ -8,63 +69,22 @@ import router from '@/router';
 <template>
     <section class="calendar__functions">
 
-            <div class="days__week">
-            <div tabindex="0" class="day__card">
-                <span class="day">Mon</span>
-                <span class="date">17</span>
-            </div>
-            <div tabindex="0" class="day__card">
-                <span class="day">Tue</span>
-                <span class="date">18</span>
-            </div>
-            <div tabindex="0" class="day__card">
-                <span class="day">Wed</span>
-                <span class="date">19</span>
-            </div>
-            <div tabindex="0" class="day__card">
-                <span class="day">Thu</span>
-                <span class="date">20</span>
-            </div>
-            <div tabindex="0" class="day__card">
-                <span class="day">Fri</span>
-                <span class="date">21</span>
-            </div>
-            <div tabindex="0" class="day__card">
-                <span class="day">Sat</span>
-                <span class="date">21</span>
-            </div>
-            <div tabindex="0" class="day__card">
-                <span class="day">Sun</span>
-                <span class="date">21</span>
+        <div class="days__week">
+            <div v-for="(day, index) in weekDays" :key="index" tabindex="0" @click="selectDate(day)" class="day__card">
+                <span class="day">{{ day.day }}</span>
+                <span style="font-weight: bold;" class="date">{{ day.date }}</span>
             </div>
         </div>
+
 
         <div class="date__available">
 
-            <div tabindex="0" class="showtime__card">
-                <span class="time">13:00</span>
-                <span class="price">$5.25 •3D</span>
-            </div>
-            <div tabindex="0" class="showtime__card">
-                <span class="time">15:45</span>
-                <span class="price">$5.99 •3D</span>
-            </div>
-            <div tabindex="0" class="showtime__card">
-                <span class="time">18:50</span>
-                <span class="price">$4.50 •3D</span>
-            </div>
-            <div tabindex="0" class="showtime__card">
-                <span class="time">20:30</span>
-                <span class="price">$6.50 •3D</span>
-            </div>
-            <div tabindex="0" class="showtime__card">
-                <span class="time">20:30</span>
-                <span class="price">$6.50 •3D</span>
+            <div v-for="screen in screenings" tabindex="0" class="showtime__card">
+                <span class="time">{{ screen.hora }}</span>
+                <span class="price">{{ priceFormater.format(screen.precio) }} • {{ screen.sala_id.tipo }}</span>
             </div>
 
         </div>
-
-        <p style="padding: 20px 30px 15px 30px; color: var(--color-gray)">¡Has seleccionado un asiento preferencial!</p>
 
         <div class="booking__seat">
 
@@ -79,6 +99,8 @@ import router from '@/router';
 </template>
 
 <style scoped>
+
+
 .calendar__functions {
     padding: 25px 0px 15px 25px;
 }
@@ -91,11 +113,15 @@ import router from '@/router';
     scrollbar-width: none;
 }
 
+.days__week .day{
+    color: var(--color-textGray);
+    font-weight: bold;
+}
+
 .day__card:focus,
-.showtime__card:focus{
+.showtime__card:focus {
     background-color: var(--color-red);
     color: var(--color-white)
-
 }
 
 .day__card {
@@ -161,7 +187,7 @@ import router from '@/router';
     align-items: center;
     padding: 15px 0px 15px 15px;
     color: var(--color-white);
-    margin-top: 5px;
+    margin-top: 30px;
     margin-right: 30px;
 }
 
