@@ -15,8 +15,10 @@ const boletosRouter = require("./src/routes/boletos.routes");
 const asientosRoutes = require("./src/routes/asientos.routes");
 const usuariosRoutes = require("./src/routes/usuarios.routes");
 const salasRoutes = require("./src/routes/salas.routes");
+const functionRoutes = require("./src/routes/proyecciones.routes")
 const cors = require("cors");
 const app = express()
+
 
 
 app.use(cors());
@@ -38,6 +40,7 @@ app.use('/boletos', boletosRouter)
 app.use('/asientos', asientosRoutes)
 app.use('/usuarios', usuariosRoutes)
 app.use('/salas', salasRoutes)
+app.use('/proyecciones', functionRoutes )
 
 app.use((err, req, res, next) => {
     res.status(err.status || 500).json({

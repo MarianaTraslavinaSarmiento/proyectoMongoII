@@ -58,7 +58,14 @@ async function main(){
     // console.log(await obj.availabilityForEachScreening({id: "66a05c73f034045fab999a25"}));
 
 
-
+    obj = new Proyeccion()
+    console.log(await obj.getAllTheProjectionsByMovieAndDate(
+        {
+            movieId: "66a0510bf034045fab9999d1",
+            date: "2024-07-30"
+        }
+    ));
+    
     // obj = new Usuario(juan)
     // console.log(await obj.createUsers({
     //     nombre: "Cristian",
