@@ -3,7 +3,7 @@ const Proyeccion = require("../modules/proyecciones");
 const express = require('express')
 const functionRoutes = express.Router()
 
-functionRoutes.post('/:id/:date', async(req, res, next)=>{
+functionRoutes.post('/pelicula', async(req, res, next)=>{
 
     try{
         const obj = new Proyeccion();
@@ -15,3 +15,4 @@ functionRoutes.post('/:id/:date', async(req, res, next)=>{
     }
 })
 
+module.exports = functionRoutes

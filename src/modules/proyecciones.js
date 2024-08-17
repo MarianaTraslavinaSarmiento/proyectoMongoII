@@ -25,17 +25,11 @@ class Proyeccion{
             throw error
         }
 
-        await this.adminDbService.connect()
+        const db = await this.adminDbService.connect()
 
-        const movie = await checkExists("peliculas", { _id: new ObjectId(movieId) }, db);
+        const movie = await checkExists("peliculas", { _id: new ObjectId(movieId) }, `La pelicula proporcionada no existe`, db);
 
-        if (!movie) {
-            const error = new Error(`La película proporcionada no existe`);
-            error.status = 400;
-            throw error;
-        }
-
-        const projections = await db.collection('proyecciones').aggregate(
+        const projections = await db.collection("proyecciones").aggregate(
         [
             {
               $match: {

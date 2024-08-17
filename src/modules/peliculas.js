@@ -30,73 +30,9 @@ class Pelicula {
         try {
             const db = await this.adminDbService.connect();
 
-            const moviesAvailable = await db
-                .collection("peliculas")
-                .aggregate([
-                    {
-                        $lookup: {
-                            from: "proyecciones",
-                            localField: "_id",
-                            foreignField: "pelicula_id",
-                            as: "proyecciones",
-                        },
-                    },
-
-                    { $unwind: "$proyecciones" },
-
-                    {
-                        $lookup: {
-                            from: "salas",
-                            localField: "proyecciones.sala_id",
-                            foreignField: "_id",
-                            as: "proyecciones.sala",
-                        },
-                    },
-
-                    { $unwind: "$proyecciones.sala" },
-
-                    {
-                        $project: {
-                            "proyecciones.pelicula_id": 0,
-                            "proyecciones.sala_id": 0,
-                            "proyecciones.sala._id": 0,
-                            sinopsis: 0,
-                        },
-                    },
-
-                    {
-                        $group: {
-                            _id: "$_id",
-                            titulo: {
-                                $first: "$titulo",
-                            },
-                            generos: {
-                                $first: "$generos",
-                            },
-                            duracion_min: {
-                                $first: "$duracion_min",
-                            },
-                            clasificacion: {
-                                $first: "$clasificacion",
-                            },
-                            proyecciones: {
-                                $push: "$proyecciones",
-                            },
-                            caratula: {
-                                $first: "$caratula",
-                            },
-                            reparto: {
-                                $first: "$reparto"
-                            },
-                            trailer: {
-                                $first: "$trailer"
-                            }
-                        },
-                    },
-                ])
-                .toArray();
-
+            const moviesAvailable = await db.collection("peliculas").find().toArray();
             return moviesAvailable;
+
         } catch (error) {
             return { error: error.name, message: error.message };
         } 
@@ -125,9 +61,7 @@ class Pelicula {
 
         const db = await this.adminDbService.connect();
 
-        const moviesDetails = await db
-            .collection("peliculas")
-            .findOne({_id: new ObjectId(id)})
+        const moviesDetails = await db.collection("peliculas").findOne({_id: new ObjectId(id)})
 
             if (moviesDetails.length === 0) {
                 const error = new Error(`La pelicula con id ${id} no existe`)
