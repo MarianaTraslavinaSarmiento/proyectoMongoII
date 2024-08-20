@@ -156,7 +156,7 @@ class Boleto {
      * @throws Lanza un error si alguna operación de base de datos falla.
      */
 
-    async bookingSeats({proyeccion_id, usuario_id, codigo_asiento}){
+    async bookingSeats({proyeccion_id, usuario_id, numero_asiento}){
 
         const db = await this.adminDbService.connect();
 
@@ -178,14 +178,14 @@ class Boleto {
             }
         }
 
-        if(!proyeccion_id || !usuario_id || !codigo_asiento){
+        if(!proyeccion_id || !usuario_id || !numero_asiento){
             return {
                 status: 400,
                 error: "Debe proporcionar los parametros necesarios para que la reserva sea exitosa",
                 parametrosFaltantes: {
                     proyeccion_id: !proyeccion_id,
                     usuario_id: !usuario_id,
-                    codigo_asiento: !codigo_asiento
+                    numero_asiento: !numero_asiento
                 }
             }
         }
@@ -196,11 +196,11 @@ class Boleto {
         const userExist = await checkExists('usuarios', { _id: new ObjectId(usuario_id) },
             `El usuario con id ${usuario_id} no existe.`, db);
 
-        const seatExist = await checkExists('asientos', { numero_asiento: codigo_asiento },
-            `El asiento con código ${codigo_asiento} no existe. Verifique si está en el formato específico: (ej: A1)`, db);
+        const seatExist = await checkExists('asientos', { numero_asiento: numero_asiento },
+            `El asiento con código ${numero_asiento} no existe. Verifique si está en el formato específico: (ej: A1)`, db);
 
         if (seatExist.sala_id.toString() != screenExist.sala_id.toString()) {
-            const error = new Error(`El asiento ${codigo_asiento} no está en la sala de la proyección.`)
+            const error = new Error(`El asiento ${numero_asiento} no está en la sala de la proyección.`)
             error.status = 400
             throw error
         }
@@ -218,7 +218,7 @@ class Boleto {
             }
         }
 
-        const availableSeat = await db.collection('boletos').findOne({codigo_asiento: codigo_asiento, proyeccion_id: new ObjectId(proyeccion_id)})
+        const availableSeat = await db.collection('boletos').findOne({nuemero_asiento: codigo_asiento, proyeccion_id: new ObjectId(proyeccion_id)})
         if (availableSeat){
             const error = new Error(`El asiento ${codigo_asiento} ya tiene un boleto asociado a esta proyección.`)
             error.status = 409
