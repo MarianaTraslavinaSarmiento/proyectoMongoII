@@ -36,6 +36,9 @@ const selectedSeat = (seat) =>{
   
 }
 
+
+
+
 </script>
 
 <template>
@@ -167,7 +170,6 @@ const selectedSeat = (seat) =>{
     </article>
   </section>
 
-
   <div class="status__seats">
     
     <div class="item">
@@ -186,7 +188,6 @@ const selectedSeat = (seat) =>{
     </div>
   
   </div>
-
 
 </template>
 
@@ -256,6 +257,8 @@ const selectedSeat = (seat) =>{
   border-radius: 5px;
   
 }
+
+
 
 .premium__seats small {
   margin-right: 6px;

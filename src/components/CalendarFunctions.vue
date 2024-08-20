@@ -4,6 +4,7 @@ import router from '@/router';
 import { ref, onMounted, reactive } from 'vue'
 import { useRoute } from 'vue-router';
 import {globalState} from '../store/globalState.js'
+import { computed } from 'vue';
 
 const weekDays = ref([]);
 const selectedDate = ref();
