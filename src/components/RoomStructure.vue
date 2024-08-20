@@ -13,15 +13,28 @@ const groupedSeats = (label) =>{
 
 }
 
+let previousSeat = null
+
 //Click in the seat
-const selectedSeat = (numero_asiento) =>{
-  globalState.ticket_overview.numero_asiento = numero_asiento
+const selectedSeat = (seat) =>{
+  console.log(seat);
+  globalState.ticket_overview.numero_asiento = seat.numero_asiento
   console.log(globalState.ticket_overview);
 
+  if (previousSeat == null) {
+    if (seat.tipo == "VIP") {
+      globalState.current_price += seat.incremento;
+    }
+  } else {
+    if (previousSeat.tipo === 'VIP' && seat.tipo == "regular") {
+      globalState.current_price -= previousSeat.incremento;
+    } else if (previousSeat.tipo === 'regular' && seat.tipo == "VIP") {
+      globalState.current_price += seat.incremento;
+    }
+  }
+  previousSeat = seat;
+  
 }
-
-
-
 
 </script>
 
@@ -40,7 +53,7 @@ const selectedSeat = (numero_asiento) =>{
             <button
               v-for="seat in groupedSeats(row)"
               :key="seat._id"
-              @click="selectedSeat(seat.numero_asiento)"
+              @click="selectedSeat(seat)"
             >
               {{ seat.numero_asiento }}
             </button>
@@ -56,7 +69,7 @@ const selectedSeat = (numero_asiento) =>{
             <button
               v-for="seat in groupedSeats(row)"
               :key="seat._id"
-              @click="selectedSeat(seat.numero_asiento)"
+              @click="selectedSeat(seat)"
             >
               {{ seat.numero_asiento }}
             </button>

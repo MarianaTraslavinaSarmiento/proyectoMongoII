@@ -103,6 +103,8 @@ const selectScreening = async (id, index) => {
             const selectedScreening = screenings.value[index];
             globalState.ticket_overview.proyeccion_id = selectedScreening._id
 
+            globalState.current_price = selectedScreening.precio;
+
             console.log(selectedScreening);
 
 
