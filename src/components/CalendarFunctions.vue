@@ -1,13 +1,21 @@
 <script setup>
 
 import router from '@/router';
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, reactive } from 'vue'
 import { useRoute } from 'vue-router';
+import {globalState} from '../store/globalState.js'
 
 const weekDays = ref([]);
+const selectedDate = ref();
+const route = useRoute();
+const screenings = ref([]);
+const movieId = ref(route.params.id);
+const requestData = ref();
+
 
 const generateWeekDays = () => {
     const today = new Date();
+    
     const days = [];
     const dayNames = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
 
@@ -15,21 +23,30 @@ const generateWeekDays = () => {
         const date = new Date(today);
 
         date.setDate(today.getDate() + i);
+        
         days.push({
             day: dayNames[date.getDay()], // ! date.getDay() returns a number from 0 to 6 (0 is Sunday)
             date: date.getDate(),
-            fullDate: date.toISOString().slice(0,10)
+            fullDate: formatDate(date)
         });
     }
     weekDays.value = days;
+
+    selectedDate.value = days[0].fullDate
+
 };
 
-const route = useRoute()
-const screenings = ref([]);
-const movieId = ref(route.params.id);
-const requestData = ref();
+function formatDate(date) {
+  const year = date.getFullYear();
+  const month = String(date.getMonth() + 1).padStart(2, '0');
+  const day = String(date.getDate()).padStart(2, '0');
+
+  return `${year}-${month}-${day}`
+}
+
 
 const selectDate = (day) => {
+    selectedDate.value = day.fullDate
     requestData.value = {
         movieId: movieId.value,
         date: day.fullDate,
@@ -40,19 +57,19 @@ const selectDate = (day) => {
 
 const screeningFetch = async () => {
 
+    if (!requestData.value) return;
     await fetch('http://localhost:5001/proyecciones/pelicula/', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(requestData.value)
 
     }).then(response => response.json())
-
     .then(data => {
         screenings.value = data;
     }).catch(error => {
         console.error('Error al obtener las proyecciones:', error);
     })
-
+    
 }
 
 const priceFormater = new Intl.NumberFormat('es-CO', {
@@ -61,7 +78,34 @@ const priceFormater = new Intl.NumberFormat('es-CO', {
     minimumFractionDigits: 0,
 });
 
-onMounted(generateWeekDays);
+onMounted(() => {
+    generateWeekDays();
+    if (weekDays.value.length > 0) {
+        selectDate(weekDays.value[0]); 
+    }
+});
+
+const screeningIndex = ref(null)
+const dayIndex = ref(0)
+
+const selectedScreeningId = ref(null);
+
+const selectScreening = async (id, index) => {
+    screeningIndex.value = index;
+    selectedScreeningId.value = id;
+
+    if (selectedScreeningId.value) {
+        try {
+            const res = await fetch(`http://localhost:5001/proyecciones/${selectedScreeningId.value}/asientos`);
+            const data = await res.json();
+            globalState.dataSeats.push(...data);
+            console.log(globalState.dataSeats);
+
+        } catch (error) {
+            console.error('Error al obtener los asientos:', error);
+        }
+    }
+};
 
 
 </script>
@@ -70,7 +114,7 @@ onMounted(generateWeekDays);
     <section class="calendar__functions">
 
         <div class="days__week">
-            <div v-for="(day, index) in weekDays" :key="index" tabindex="0" @click="selectDate(day)" class="day__card">
+            <div v-for="(day, index) in weekDays" :key="index" @click="selectDate(day); dayIndex = index" :class="['day__card', { active: dayIndex == index}] ">
                 <span class="day">{{ day.day }}</span>
                 <span style="font-weight: bold;" class="date">{{ day.date }}</span>
             </div>
@@ -79,7 +123,7 @@ onMounted(generateWeekDays);
 
         <div class="date__available">
 
-            <div v-for="screen in screenings" tabindex="0" class="showtime__card">
+            <div v-for="(screen,index) in screenings" :key="screen._id" :class="['showtime__card', { active: screeningIndex == index}]" @click="screeningIndex = index; selectScreening(screen._id, index)" >
                 <span class="time">{{ screen.hora }}</span>
                 <span class="price">{{ priceFormater.format(screen.precio) }} • {{ screen.sala_id.tipo }}</span>
             </div>
@@ -118,8 +162,12 @@ onMounted(generateWeekDays);
     font-weight: bold;
 }
 
-.day__card:focus,
-.showtime__card:focus {
+.day__card.active .day{
+    color: var(--color-white);
+}
+
+.day__card.active,
+.showtime__card.active {
     background-color: var(--color-red);
     color: var(--color-white)
 }

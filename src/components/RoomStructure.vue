@@ -1,4 +1,8 @@
 <script setup>
+
+import { globalState } from '@/store/globalState.js';
+
+
 </script>
 
 <template>
