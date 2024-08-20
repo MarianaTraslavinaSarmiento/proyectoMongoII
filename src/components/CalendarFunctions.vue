@@ -40,7 +40,6 @@ function formatDate(date) {
   const year = date.getFullYear();
   const month = String(date.getMonth() + 1).padStart(2, '0');
   const day = String(date.getDate()).padStart(2, '0');
-
   return `${year}-${month}-${day}`
 }
 
@@ -98,8 +97,14 @@ const selectScreening = async (id, index) => {
         try {
             const res = await fetch(`http://localhost:5001/proyecciones/${selectedScreeningId.value}/asientos`);
             const data = await res.json();
+            globalState.dataSeats = []
             globalState.dataSeats.push(...data);
-            console.log(globalState.dataSeats);
+
+            const selectedScreening = screenings.value[index];
+            globalState.ticket_overview.proyeccion_id = selectedScreening._id
+
+            console.log(selectedScreening);
+
 
         } catch (error) {
             console.error('Error al obtener los asientos:', error);
@@ -134,7 +139,7 @@ const selectScreening = async (id, index) => {
 
             <div style="font-size: 18px" class="total__price">
                 <p style="margin-bottom: 10px;">Price</p>
-                <p style="font-weight: bold">$40.000</p>
+                <p style="font-weight: bold"> {{ priceFormater.format(globalState.current_price) }}</p>
             </div>
             <button @click="router.push('/buyticket')">Buy Ticket</button>
         </div>
