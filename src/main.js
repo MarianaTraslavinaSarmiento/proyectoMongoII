@@ -26,17 +26,24 @@ async function main(){
     //     }
     // ));
 
-    obj = new Boleto()
-    console.log(await obj.buyTickets(
-        [
-            {
-                proyeccion_id: "66a05c73f034045fab999a25",
-                usuario_id: "66a05449f034045fab9999e6",
-                codigo_asiento: "A1"
-            }
-        ],
-        "en efectivo"
-    ));
+    obj = new Proyeccion()
+    console.log(await obj.getSeatsByScreening(
+        {
+            screeningId: "66a05c73f034045fab999a25"
+        }
+    ))
+
+    // obj = new Boleto()
+    // console.log(await obj.buyTickets(
+    //     [
+    //         {
+    //             proyeccion_id: "66a05c73f034045fab999a25",
+    //             usuario_id: "66a05449f034045fab9999e6",
+    //             codigo_asiento: "A1"
+    //         }
+    //     ],
+    //     "en efectivo"
+    // ));
 
     // console.log(await obj.bookingSeats(
     //     [
@@ -48,23 +55,23 @@ async function main(){
     //     ],
     // ));
 
-    console.log(await obj.cancelBooking(
-        {
-            ticketId: "66a52c38b7b76ac1964d2e67"
-        }
-    ));
+    // console.log(await obj.cancelBooking(
+    //     {
+    //         ticketId: "66a52c38b7b76ac1964d2e67"
+    //     }
+    // ));
 
     // obj = new Asiento()
     // console.log(await obj.availabilityForEachScreening({id: "66a05c73f034045fab999a25"}));
 
 
-    obj = new Proyeccion()
-    console.log(await obj.getAllTheProjectionsByMovieAndDate(
-        {
-            movieId: "66a0510bf034045fab9999d1",
-            date: "2024-07-30"
-        }
-    ));
+    // obj = new Proyeccion()
+    // console.log(await obj.getAllTheProjectionsByMovieAndDate(
+    //     {
+    //         movieId: "66a0510bf034045fab9999d1",
+    //         date: "2024-07-30"
+    //     }
+    // ));
     
     // obj = new Usuario(juan)
     // console.log(await obj.createUsers({

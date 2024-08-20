@@ -56,6 +56,22 @@ class Proyeccion{
         return projections
     }
 
+    async getSeatsByScreening({ screeningId }) {
+
+      if (!ObjectId.isValid(screeningId)) {
+          const error = new Error('El id de la proyección es inválido');
+          error.status = 400;
+          throw error;
+      }
+
+      const db = await this.adminDbService.connect();
+      const screening = await checkExists("proyecciones", { _id: new ObjectId(screeningId) }, `La proyección proporcionada no existe`, db);
+      const seats = await db.collection("asientos").find({sala_id: screening.sala_id}).toArray();
+
+      return seats;
+    }
+  
+
 }
 
 module.exports = Proyeccion

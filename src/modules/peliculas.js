@@ -73,6 +73,8 @@ class Pelicula {
     }
 
     
+
+    
 }
 
 module.exports = Pelicula;
