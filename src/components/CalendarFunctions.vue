@@ -52,6 +52,8 @@ const selectDate = (day) => {
         date: day.fullDate,
     }
 
+    globalState.selectedSeatId = null
+
     screeningFetch();
 }
 
@@ -104,6 +106,8 @@ const selectScreening = async (id, index) => {
             const selectedScreening = screenings.value[index];
             globalState.ticket_overview.proyeccion_id = selectedScreening._id
 
+            globalState.previousSeat = null
+            globalState.selectedSeatId = null
             globalState.current_price = selectedScreening.precio;
 
             console.log(selectedScreening);
@@ -163,11 +167,13 @@ const selectScreening = async (id, index) => {
     padding: 10px;
     gap: 15px;
     scrollbar-width: none;
+
 }
 
 .days__week .day{
     color: var(--color-textGray);
     font-weight: bold;
+
 }
 
 .day__card.active .day{
@@ -210,6 +216,7 @@ const selectScreening = async (id, index) => {
     padding: 10px 0px 0px 10px;
     gap: 20px;
     scrollbar-width: none;
+    
 }
 
 .showtime__card {
