@@ -16,26 +16,24 @@ const groupedSeats = (label) =>{
 let previousSeat = null
 
 //Click in the seat
-const selectedSeat = (seat) =>{
+const selectedSeat = (seat) => {
   console.log(seat);
-  globalState.ticket_overview.numero_asiento = seat.numero_asiento
+  globalState.ticket_overview.numero_asiento = seat.numero_asiento;
   console.log(globalState.ticket_overview);
 
-  if (previousSeat == null) {
-    if (seat.tipo == "VIP") {
-      globalState.current_price += seat.incremento;
-    }
-  } else {
-    if (previousSeat.tipo === 'VIP' && seat.tipo == "regular") {
+  if (previousSeat) {
+    if (previousSeat.tipo === 'VIP') {
       globalState.current_price -= previousSeat.incremento;
-    } else if (previousSeat.tipo === 'regular' && seat.tipo == "VIP") {
-      globalState.current_price += seat.incremento;
     }
   }
-  previousSeat = seat;
-  
-}
 
+  if (seat.tipo === 'VIP') {
+    globalState.current_price += seat.incremento;
+  }
+
+  globalState.selectedSeatId = seat._id;
+  previousSeat = seat;
+};
 
 
 
@@ -56,9 +54,10 @@ const selectedSeat = (seat) =>{
             <button
               v-for="seat in groupedSeats(row)"
               :key="seat._id"
+              :class="{ 'selected': seat._id === globalState.selectedSeatId }"
               @click="selectedSeat(seat)"
             >
-              {{ seat.numero_asiento }}
+              {{ seat.numero_asiento.slice(1) }}
             </button>
           </div>
         </div>
@@ -72,9 +71,10 @@ const selectedSeat = (seat) =>{
             <button
               v-for="seat in groupedSeats(row)"
               :key="seat._id"
+              :class="{ 'selected': seat._id === globalState.selectedSeatId }"
               @click="selectedSeat(seat)"
             >
-              {{ seat.numero_asiento }}
+              {{ seat.numero_asiento.slice(1) }}
             </button>
           </div>
         </div>
@@ -193,6 +193,7 @@ const selectedSeat = (seat) =>{
 
 <style scoped>
 
+
 .status__seats{
   display: flex;
   gap: 38px;
@@ -253,11 +254,23 @@ const selectedSeat = (seat) =>{
   width: 35px;
   height: 35px;
   margin: 0 3px;
-  background: var(--color-black);
+  background-color: var(--color-black);
   border-radius: 5px;
+  color: var(--color-black);
+  transition: background-color 0.3s ease, border-color 0.3s ease, transform 0.3s ease;
+  
   
 }
 
+button.selected {
+  background-color: var(--color-red);
+  color: var(--color-white);
+  font-size: 18px;
+  font-weight: bold;
+  align-self: center;
+
+
+}
 
 
 .premium__seats small {
