@@ -13,7 +13,7 @@ const groupedSeats = (label) =>{
 
 }
 
-let previousSeat = null
+
 
 //Click in the seat
 const selectedSeat = (seat) => {
@@ -21,9 +21,9 @@ const selectedSeat = (seat) => {
   globalState.ticket_overview.numero_asiento = seat.numero_asiento;
   console.log(globalState.ticket_overview);
 
-  if (previousSeat) {
-    if (previousSeat.tipo === 'VIP') {
-      globalState.current_price -= previousSeat.incremento;
+  if (globalState.previousSeat) {
+    if (globalState.previousSeat.tipo === 'VIP') {
+      globalState.current_price -= globalState.previousSeat.incremento;
     }
   }
 
@@ -32,7 +32,7 @@ const selectedSeat = (seat) => {
   }
 
   globalState.selectedSeatId = seat._id;
-  previousSeat = seat;
+  globalState.previousSeat = seat;
 };
 
 
