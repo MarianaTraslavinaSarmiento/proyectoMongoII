@@ -46,7 +46,7 @@ onMounted(fetchingMovies)
     <div class="cinema">
         <h3  style="margin-block: 10px; color: var(--color-white)">Cinema</h3>
 
-        <div tabindex="0" class="cinema__box">
+        <div class="cinema__box">
             <div class="cinema__overviwer">
                 <p style="color: var(--color-white)">CampusLands</p>
                 <small style="color: var(--color-gray)">Auditorio principal</small>
@@ -114,12 +114,8 @@ onMounted(fetchingMovies)
         padding: 10px;
         border-radius: 10px;
         height: 80px;
-
-    }
-
-    .cinema__box:focus{
         border-color: var(--color-red);
-        outline: none;
+
     }
 
     button{
@@ -131,7 +127,7 @@ onMounted(fetchingMovies)
         font-size: 15px;
         color: var(--color-white);
         font-weight: bold;
-}
+    }
 
 
 </style>
