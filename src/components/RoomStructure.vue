@@ -41,7 +41,7 @@ const selectedSeat = (seat) => {
 
 <template>
   <div class="screen">
-    <img style="width: 80%; " src="../assets/img/vector.png" alt="">
+    <img style="width: 80%; " src="../../public/img/vector.png" alt="">
     <small class="screen__text" style="color: var(--color-white); position: absolute; top: 100px ;">Screen This Way</small>
   </div>
 

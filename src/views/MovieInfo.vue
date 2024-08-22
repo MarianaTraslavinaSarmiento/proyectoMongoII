@@ -75,7 +75,7 @@ onMounted(fetchingMovies)
                 <p style="color: var(--color-white)">CampusLands</p>
                 <small style="color: var(--color-gray)">Auditorio principal</small>
             </div>
-            <img style="border-radius: 5px;" src="../assets/img/cineCampus.png" alt="">
+            <img class="cinema__photo" style="border-radius: 5px;" src="../../public/img/cinema.jpg" alt="">
         </div>
     </div>
 
@@ -202,6 +202,11 @@ template{
         height: 80px;
         border-color: var(--color-red);
 
+    }
+
+    .cinema__photo {
+        width: 50px;
+        object-fit: cover;
     }
 
     .book__ticket{
