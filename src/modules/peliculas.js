@@ -26,11 +26,11 @@ class Pelicula {
      * @throws {Error} - Lanza un error si la conexión a la base de datos falla o si se produce un error durante la operación de agregación.
      */
 
-    async getAllAvailableMovies() {
+    async getAllAvailableMovies(query={}) {
         try {
             const db = await this.adminDbService.connect();
 
-            const moviesAvailable = await db.collection("peliculas").find().toArray();
+            const moviesAvailable = await db.collection("peliculas").find(query).toArray();
             return moviesAvailable;
 
         } catch (error) {

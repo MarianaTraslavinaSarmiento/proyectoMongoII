@@ -4,9 +4,12 @@ const express = require('express')
 const peliculasRouter = express.Router()
 
 peliculasRouter.get('/', async (req, res, next) => {
+
+    console.log(req.query);
+
     try {
         const obj = new Pelicula();
-        const peliculas = await obj.getAllAvailableMovies();
+        const peliculas = await obj.getAllAvailableMovies(req.query);
         res.send(peliculas);
     } catch (error) {
         next(error)
