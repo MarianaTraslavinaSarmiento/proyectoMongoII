@@ -11,7 +11,7 @@ const moviesFetch = async () => {
   try {
     const res = await fetch('http://localhost:5001/peliculas?estado=disponible');
     const data = await res.json()
-    movies.value = data.slice(5);
+    movies.value = data.slice(0,5);
   } catch (error) {
     console.error('Error fetching movies', error)
   }
