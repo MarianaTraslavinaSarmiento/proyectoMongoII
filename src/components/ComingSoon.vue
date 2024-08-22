@@ -1,6 +1,8 @@
 <script setup>
     import { ref, onMounted } from 'vue';
     import axios from 'axios'
+    import router from '@/router';
+    
 
     const movies = ref([])
     let index = 0
@@ -14,8 +16,11 @@
         }
     }
 
-
 onMounted(moviesFetch);
+
+const showDetailsMovies = (movie) =>{
+    router.push(`/movie/${movie._id}`)
+}
 
 </script>
 
@@ -28,7 +33,7 @@ onMounted(moviesFetch);
     </div>
 
     <div class="coming__soon__list">
-        <div v-for="movie in movies" class="movie__box">
+        <div v-for="movie in movies" @click="showDetailsMovies(movie)" class="movie__box">
             <img :src="movie.caratula" alt="movie poster" class="movie_image">
             <div class="description">
 

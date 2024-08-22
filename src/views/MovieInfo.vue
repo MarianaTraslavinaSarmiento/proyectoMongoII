@@ -6,6 +6,7 @@ import { useRoute } from 'vue-router';
 import HeaderBack from '../components/HeaderBack.vue';
 import router from '@/router';
 
+
 const route = useRoute();
 const movie = ref(null)
 
@@ -76,11 +77,10 @@ onMounted(fetchingMovies)
             </div>
             <img style="border-radius: 5px;" src="../assets/img/cineCampus.png" alt="">
         </div>
-
-        
     </div>
 
-    <button  class="book__ticket" @click="router.push(`/movie/${route.params.id}/rooms`)">Book Now</button>
+    <button v-if="movie && movie.estado == 'disponible'"  class="book__ticket" @click="router.push(`/movie/${route.params.id}/rooms`)">Book Now</button>
+
 </div>
    
 
