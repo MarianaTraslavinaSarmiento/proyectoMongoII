@@ -7,7 +7,7 @@
 
     const moviesFetch = async()=>{
         try {
-            const res = await axios.get('http://localhost:5001/peliculas');
+            const res = await axios.get('http://localhost:5001/peliculas?estado=proximamente');
             movies.value = res.data;
         } catch (error) {
             console.error(error)

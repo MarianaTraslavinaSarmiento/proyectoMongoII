@@ -9,7 +9,7 @@ const currentIndex = ref(0)
 
 const moviesFetch = async () => {
   try {
-    const res = await fetch('http://localhost:5001/peliculas');
+    const res = await fetch('http://localhost:5001/peliculas?estado=disponible');
     const data = await res.json()
     movies.value = data.slice(5);
   } catch (error) {

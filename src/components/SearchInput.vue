@@ -27,11 +27,9 @@ const allMovies = async () => {
 
 const updateSuggestions = () => {
   if (searchQuery.value) {
-    suggestions.value = movies.value.filter(movie => movie.titulo.toLowerCase().includes(searchQuery.value.toLowerCase())).slice(0, 3);
+    suggestions.value = movies.value.filter(movie => movie.titulo.toLowerCase().includes(searchQuery.value.toLowerCase())).slice(0, 5);
   }
 };
-
-
 
 onMounted(allMovies)
 
@@ -45,7 +43,7 @@ onMounted(allMovies)
   </div>
 
   <ul v-if="showSuggestions" class="suggestions__list">
-    <li v-for="suggestion in suggestions" :key="suggestion._id" @click="console.log(showSuggestions)router.push(`/movie/${suggestion._id}`)">
+    <li v-for="suggestion in suggestions" :key="suggestion._id" @click="router.push(`/movie/${suggestion._id}`)">
       {{ suggestion.titulo }}
     </li>
   </ul>
