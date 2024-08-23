@@ -30,7 +30,7 @@ const updateSuggestions = () => {
     suggestions.value = movies.value.filter(movie => 
       movie.titulo.toLowerCase().includes(searchQuery.value.toLowerCase()) ||
       movie.generos.some(genre => genre.toLowerCase().includes(searchQuery.value.toLowerCase()))
-    ).slice(0, 3);
+    ).slice(0, 4);
   } else {
     suggestions.value = [];
   }
@@ -81,7 +81,7 @@ onMounted(allMovies)
 .search__wrapper {
   position: relative;
   max-width: 700px;
-  margin: 23px 0px 25px 0px;
+  margin: 15px 0px 20px 0px;
   display: flex;
   justify-content: center;
 
@@ -94,8 +94,8 @@ onMounted(allMovies)
   border-radius: 13px;
   background: var(--color-black);
   width: 90%;
-  height: 60px;
-  border: var(--color-white)
+  height: 55px;
+  border: 1px solid var(--color-white)
 }
 
 .search__container.active {
@@ -105,12 +105,15 @@ onMounted(allMovies)
 }
 
 .search__icon {
-  color: var(--color-white);
+  color: var(--color-gray);
   margin-right: 20px;
-  font-size: 25px;
+  font-size: 22px;
   transition: color 0.3s ease;
 }
 
+.search__container.active {
+  border-color: var(--color-red);
+}
 .search__container.active .search__icon {
   color: var(--color-red);
 }
@@ -126,17 +129,16 @@ onMounted(allMovies)
 }
 
 .search__input::placeholder {
-  color: var(--color-textGray);
-  font-size: 19px;
+  color: var(--color-gray);
+  font-size: 16px;
 }
 
 .suggestions__list {
   position: absolute;
-  width: calc(100% + 40px);
+  width: calc(100%);
   top: 70px;
-  left: -20px;
   background: var(--color-black);
-  border-radius: 30px;
+  border-radius: 0px 0px 20px 20px;
   list-style-type: none;
   padding: 20px;
   margin: 0;
@@ -193,7 +195,7 @@ onMounted(allMovies)
 
 .suggestion__title {
   color: var(--color-white);
-  font-size: 22px;
+  font-size: 18px;
   margin: 0 0 12px 0;
   font-weight: 500;
 }
