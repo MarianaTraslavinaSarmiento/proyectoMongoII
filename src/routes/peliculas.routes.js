@@ -5,7 +5,6 @@ const peliculasRouter = express.Router()
 
 peliculasRouter.get('/', async (req, res, next) => {
 
-    console.log(req.query);
 
     try {
         const obj = new Pelicula();

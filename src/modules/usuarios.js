@@ -4,17 +4,18 @@ const DbService = require("../db/dbConection")
 const checkExists = require('../validators/checkExists')
 const validEmail = require('../validators/validEmail')
 const validPhone = require('../validators/validPhone')
+const bcrypt = require('bcrypt')
 
 
-class Usuario{
+class Usuario {
     staticUsuario
     adminClient;
     adminDbService;
-    constructor(client=null) {
+    constructor(client = null) {
         if (Usuario.instanceUsuario) {
             return Usuario.instanceUsuario;
         }
-        client ? this.adminClient = client.getClient():this.adminClient = new Client(process.env.ADMIN_USER, process.env.ADMIN_PWD).getClient();
+        client ? this.adminClient = client.getClient() : this.adminClient = new Client(process.env.ADMIN_USER, process.env.ADMIN_PWD).getClient();
         this.adminDbService = new DbService(this.adminClient);
         Usuario.instanceUsuario = this;
     }
@@ -34,40 +35,40 @@ class Usuario{
      * @returns {Object.message} - Un mensaje de éxito si la creación del usuario es exitosa.
      * @returns {Object.user} - El objeto de usuario creado.
      */
-    async createUsers({nombre, email, telefono, tipo, nick}){
+    async createUsers({ nombre, email, telefono, tipo, nick }) {
 
         const db = await this.adminDbService.connect();
 
         if (!nombre || !email || !telefono || !tipo || !nick) {
-            const error = new Error ("Todos los campos son obligatorios")  
-            error.status = 400
-            throw error      
-        }
-
-        if(tipo != 'estandar' && tipo != 'vip' && tipo != 'administrador'){
-            const error = new Error ("El tipo de usuario debe ser estandar, vip o administrador únicamente")  
-            error.status = 400
-            throw error     
-        }
-
-        const existingUser = await db.collection('usuarios').findOne({nick: nick});
-        if (existingUser) {
-            const error = new Error ( `El nick  ${nick} ya está en uso`)  
-            error.status = 409
-            throw error  
-        }
-        if(!validEmail(email)){
-            const error = new Error ("El email no es válido")  
-            error.status = 400
-            throw error  
-        }
-        
-        if (!validPhone(telefono)) {
-            const error = new Error (  "El teléfono no es válido. Asegúrese que esté en formato válido para Colombia" )
+            const error = new Error("Todos los campos son obligatorios")
             error.status = 400
             throw error
         }
-        
+
+        if (tipo != 'estandar' && tipo != 'vip' && tipo != 'administrador') {
+            const error = new Error("El tipo de usuario debe ser estandar, vip o administrador únicamente")
+            error.status = 400
+            throw error
+        }
+
+        const existingUser = await db.collection('usuarios').findOne({ nick: nick });
+        if (existingUser) {
+            const error = new Error(`El nick  ${nick} ya está en uso`)
+            error.status = 409
+            throw error
+        }
+        if (!validEmail(email)) {
+            const error = new Error("El email no es válido")
+            error.status = 400
+            throw error
+        }
+
+        if (!validPhone(telefono)) {
+            const error = new Error("El teléfono no es válido. Asegúrese que esté en formato válido para Colombia")
+            error.status = 400
+            throw error
+        }
+
 
         const newUser = {
             nombre: nombre,
@@ -78,10 +79,10 @@ class Usuario{
             nick: nick,
         }
 
-        
+
         await db.collection('usuarios').insertOne(newUser);
 
-        if(tipo == 'administrador'){
+        if (tipo == 'administrador') {
             await db.command({
                 createUser: nick,
                 pwd: newUser._id.toString(),
@@ -97,10 +98,10 @@ class Usuario{
         }
 
         await this.adminDbService.close();
-        return { 
+        return {
             status: 200,
-            message: "Usuario creado con éxito", 
-            user: newUser 
+            message: "Usuario creado con éxito",
+            user: newUser
         };
 
     }
@@ -115,9 +116,9 @@ class Usuario{
      * @returns {Object.message} - Un mensaje de éxito si la consulta es exitosa.
      * @returns {Object.user} - Los detalles del usuario obtenidos de la base de datos.
      */
-    async showDetailsOfASpecificUser({userId}){
+    async showDetailsOfASpecificUser({ userId }) {
 
-        if (!ObjectId.isValid(userId)){
+        if (!ObjectId.isValid(userId)) {
             const error = new Error('El id proporcionado es inválido')
             error.status = 400
             throw error
@@ -125,30 +126,30 @@ class Usuario{
 
         const db = await this.adminDbService.connect();
         const user = await checkExists("usuarios", { _id: new ObjectId(userId) },
-        `El usuario con id ${userId} no existe.`, db);
+            `El usuario con id ${userId} no existe.`, db);
 
         const userInfo = await db.collection('usuarios').aggregate([
 
             {
-                $match: {_id: new ObjectId(userId)}
+                $match: { _id: new ObjectId(userId) }
             },
 
             {
                 $lookup: {
-                from: "tarjetasVIP",
-                localField: "_id",
-                foreignField: "usuario_id",
-                as: "tarjetaVIP"
+                    from: "tarjetasVIP",
+                    localField: "_id",
+                    foreignField: "usuario_id",
+                    as: "tarjetaVIP"
                 }
             },
             {
                 $addFields: {
-                estado_tarjetaVIP: { $arrayElemAt: ["$tarjetaVIP.estado", 0] }
+                    estado_tarjetaVIP: { $arrayElemAt: ["$tarjetaVIP.estado", 0] }
                 }
             },
             {
                 $project: {
-                tarjetaVIP: 0
+                    tarjetaVIP: 0
                 }
             }
         ]).toArray()
@@ -171,25 +172,25 @@ class Usuario{
      * @returns {Object.user} - El objeto de usuario actualizado.
     */
 
-    async updateRoleOfUsers({id, tipo}) {
+    async updateRoleOfUsers({ id, tipo }) {
 
-        if (!ObjectId.isValid(id)){
+        if (!ObjectId.isValid(id)) {
             const error = new Error('El id proporcionado es inválido')
             error.status = 400
             throw error
         }
 
         const db = await this.adminDbService.connect()
-        await checkExists('usuarios', {_id: new ObjectId(id)},
-        `El usuario con id ${id} no existe.`, db)
+        await checkExists('usuarios', { _id: new ObjectId(id) },
+            `El usuario con id ${id} no existe.`, db)
 
-        if(tipo != 'estandar' && tipo != 'vip'){
+        if (tipo != 'estandar' && tipo != 'vip') {
             const error = new Error("El tipo de usuario debe ser estandar o vip únicamente")
             error.status = 400
             throw error
         }
 
-        const setRoleUser = await db.collection('usuarios').findOneAndUpdate({_id: new ObjectId(id)}, {$set: {tipo: tipo}},{returnNewDocument: true})
+        const setRoleUser = await db.collection('usuarios').findOneAndUpdate({ _id: new ObjectId(id) }, { $set: { tipo: tipo } }, { returnNewDocument: true })
         await db.removeUser(setRoleUser.nick)
 
         await db.command({
@@ -198,7 +199,7 @@ class Usuario{
             roles: [{ role: tipo, db: 'cineCampus' }]
         });
 
-        const newUser = await db.collection('usuarios').findOne({_id: new ObjectId({id})})
+        const newUser = await db.collection('usuarios').findOne({ _id: new ObjectId({ id }) })
 
         await this.adminDbService.close();
 
@@ -224,7 +225,7 @@ class Usuario{
             error.status = 400;
             throw error;
         }
-        
+
         const db = await this.adminDbService.connect();
 
         if (!userId) {
@@ -257,55 +258,123 @@ class Usuario{
         }
 
         const users = await db.collection('usuarios').find(query).toArray();
-        
+
         await this.adminDbService.close();
 
         return { users };
     }
 
 
-    async userRepository(nickname, password) {
+    async userRepository({nickname, password}) {
 
         const db = await this.adminDbService.connect();
+
+        userValidation.nickname(nickname)
+        userValidation.password(password)
 
         const userExistis = await db.collection('usuarios').findOne({ nick: nickname });
 
         if (userExistis) {
-            const error = new Error(`El nombre de usuario ${nick} ya está en uso`);
+            const error = new Error(`El nombre de usuario ${nickname} ya está en uso`);
             error.status = 409;
             throw error;
         }
 
-        // TODO: check if the username is greater than 3 characters
-        // TODO: check if the password contains at least one uppercase letter
-        // TODO: check if the password contains at least one lowercase letter
-        // TODO: check if the password contains at least one number
-        // TODO: check if the password contains at least one special character
-        // TODO: check if the password is a string
-        // TODO: check if the username id a string
-        
-
-        // const hashedPassword = await bcrypt.hash(password, 10);
+        const hashedPassword = await bcrypt.hash(password, +process.env.SALT_ROUNDS);
 
         const newUser = {
-            nombre: 'nombre',
-            email: 'email@example.com',
-            telefono: '1234567890',
-            tipo: 'estandar',
-            fecha_registro: new Date(),
+            _id: new ObjectId(),
             nick: nickname,
             password: hashedPassword,
         };
 
         await db.collection('usuarios').insertOne(newUser);
         return {
-            message: 'Usuario creado con éxito',
-            user: newUser,
+            message: 'Usuario creado con éxito'
         }
-
 
     }
 
+
+    async login({nickname, password}){
+
+        userValidation.nickname(nickname)
+        userValidation.password(password)
+
+        const db = await this.adminDbService.connect();
+
+        const user = await db.collection('usuarios').findOne({ nick: nickname });
+        if(!user){
+            const error = new Error(`El usuario no existe`)
+            error.status = 404;
+            throw error;
+        }
+
+        const match = await bcrypt.compare(password, user.password);
+        if(!match){
+            const error = new Error(`La contraseña es incorrecta`)
+            error.status = 401;
+            throw error;
+        }
+
+        const { password: _, ...publicUser} = user
+        return publicUser
+
+    }
+
+}
+
+
+class userValidation {
+
+    static nickname(nickname){
+
+        if (typeof nickname !== 'string' || nickname.length < 3) {
+            const error = new Error('El nombre de usuario debe tener al menos 3 caracteres');
+            error.status = 400;
+            throw error;
+        }
+
+    }
+
+    static password(password){
+
+        if (typeof password !== 'string') {
+            const error = new Error('La contraseña debe ser una cadena de texto');
+            error.status = 400;
+            throw error;
+        }
+
+        const uppercasePattern = /[A-Z]/;
+        const lowercasePattern = /[a-z]/;
+        const numberPattern = /\d/;
+        const specialCharPattern = /[!@#$%^&*(),.?":{}|<>]/;
+
+        if (!uppercasePattern.test(password)) {
+            const error = new Error('La contraseña debe contener al menos una letra mayúscula');
+            error.status = 400;
+            throw error;
+        }
+
+        if (!lowercasePattern.test(password)) {
+            const error = new Error('La contraseña debe contener al menos una letra minúscula');
+            error.status = 400;
+            throw error;
+        }
+
+        if (!numberPattern.test(password)) {
+            const error = new Error('La contraseña debe contener al menos un número');
+            error.status = 400;
+            throw error;
+        }
+
+        if (!specialCharPattern.test(password)) {
+            const error = new Error('La contraseña debe contener al menos un carácter especial');
+            error.status = 400;
+            throw error;
+        }
+
+    }
 }
 
 module.exports = Usuario

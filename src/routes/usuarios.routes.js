@@ -53,6 +53,17 @@ usuariosRouter.post('/register', async(req, res, next) => {
     }
 })
 
+usuariosRouter.post('/login', async(req, res, next) =>{
+    try{
+        const obj = new Usuario()
+        const {nickname, password} = req.body
+        const usuarioAutenticado = await obj.login({nickname, password})
+        res.status(200).send(usuarioAutenticado)
+    }catch(error){
+        next(error)
+    }
+})
+
 usuariosRouter.put('/nuevo_rol', async(req, res, next) => {
 
     try{
