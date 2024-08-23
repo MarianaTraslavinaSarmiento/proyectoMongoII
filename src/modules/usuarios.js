@@ -263,6 +263,49 @@ class Usuario{
         return { users };
     }
 
+
+    async userRepository(nickname, password) {
+
+        const db = await this.adminDbService.connect();
+
+        const userExistis = await db.collection('usuarios').findOne({ nick: nickname });
+
+        if (userExistis) {
+            const error = new Error(`El nombre de usuario ${nick} ya está en uso`);
+            error.status = 409;
+            throw error;
+        }
+
+        // TODO: check if the username is greater than 3 characters
+        // TODO: check if the password contains at least one uppercase letter
+        // TODO: check if the password contains at least one lowercase letter
+        // TODO: check if the password contains at least one number
+        // TODO: check if the password contains at least one special character
+        // TODO: check if the password is a string
+        // TODO: check if the username id a string
+        
+
+        // const hashedPassword = await bcrypt.hash(password, 10);
+
+        const newUser = {
+            nombre: 'nombre',
+            email: 'email@example.com',
+            telefono: '1234567890',
+            tipo: 'estandar',
+            fecha_registro: new Date(),
+            nick: nickname,
+            password: hashedPassword,
+        };
+
+        await db.collection('usuarios').insertOne(newUser);
+        return {
+            message: 'Usuario creado con éxito',
+            user: newUser,
+        }
+
+
+    }
+
 }
 
 module.exports = Usuario

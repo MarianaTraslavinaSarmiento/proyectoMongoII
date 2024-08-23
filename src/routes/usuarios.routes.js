@@ -29,17 +29,28 @@ usuariosRouter.get('/:id', async(req, res, next) =>{
 })
 
 
-usuariosRouter.post('/crear', async(req, res, next) => {
+// usuariosRouter.post('/crear', async(req, res, next) => {
 
+//     try{
+//         const obj = new Usuario();
+//         const {nombre, email, telefono, tipo, nick} = req.body
+//         const usuariosCreados = await obj.createUsers({nombre, email, telefono, tipo, nick})
+//         res.status(200).send(usuariosCreados)
+//     }catch(error){
+//         next(error)
+//     }
+
+// })
+
+usuariosRouter.post('/register', async(req, res, next) => {
     try{
-        const obj = new Usuario();
-        const {nombre, email, telefono, tipo, nick} = req.body
-        const usuariosCreados = await obj.createUsers({nombre, email, telefono, tipo, nick})
-        res.status(200).send(usuariosCreados)
+        const obj = new Usuario()
+        const { nickname, password } = req.body
+        const usuarioCreado = await obj.userRepository({nickname, password})
+        res.status(200).send(usuarioCreado)
     }catch(error){
         next(error)
     }
-
 })
 
 usuariosRouter.put('/nuevo_rol', async(req, res, next) => {
