@@ -13,8 +13,6 @@ defineProps(
 
 </script>
 
-
-
 <template>
 
     <div class="header__back">

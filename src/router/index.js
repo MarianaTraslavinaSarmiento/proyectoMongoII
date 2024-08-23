@@ -3,6 +3,8 @@ import Home from '../views/Home.vue'
 import MovieInfo from '../views/MovieInfo.vue'
 import Rooms from '../views/Rooms.vue'
 import OrderSummary from '../views/OrderSummary.vue'
+import SplashScreen from '../views/SplashScreen.vue'
+
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
@@ -25,6 +27,15 @@ const router = createRouter({
       path: '/buyticket',
       name: 'buy_ticket',
       component: OrderSummary
+    },
+    {
+      path: '/splash',
+      name: 'splash',
+      component: SplashScreen
+    },
+    {
+      path: '/:catchAll(.*)',
+      redirect: '/splash'
     }
     
   ]
