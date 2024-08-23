@@ -4,6 +4,7 @@ import MovieInfo from '../views/MovieInfo.vue'
 import Rooms from '../views/Rooms.vue'
 import OrderSummary from '../views/OrderSummary.vue'
 import SplashScreen from '../views/SplashScreen.vue'
+import Login from '../views/Login.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -27,6 +28,11 @@ const router = createRouter({
       path: '/buyticket',
       name: 'buy_ticket',
       component: OrderSummary
+    },
+    {
+      path: '/login',
+      name: 'login',
+      component: Login
     },
     {
       path: '/splash',

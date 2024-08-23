@@ -69,7 +69,7 @@ h1 {
     margin-bottom: 15px;
     color: var(--color-red);
     letter-spacing: 1.5px;
-    animation: fadeIn 2s ease-in;
+    animation: fadeIn 1.5s ease-in;
 }
 
 p {
@@ -77,7 +77,7 @@ p {
     margin-bottom: 100px;
     color: #ddd;
     max-width: 400px;
-    animation: fadeIn 2.5s ease-in;
+    animation: fadeIn 1.5s ease-in;
 }
 
 @keyframes fadeIn {
