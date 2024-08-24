@@ -17,6 +17,7 @@ const usuariosRoutes = require("./src/routes/usuarios.routes");
 const salasRoutes = require("./src/routes/salas.routes");
 const functionRoutes = require("./src/routes/proyecciones.routes")
 const cors = require("cors");
+const cookieParser = require("cookie-parser");
 const app = express()
 
 app.use(cors());
@@ -28,6 +29,7 @@ const config = {
 
 app.use(express.json())
 app.use(express.urlencoded())
+app.use(cookieParser())
 
 app.get('/', (req, res)=>{
     res.send('Hello World!')

@@ -265,14 +265,15 @@ class Usuario {
     }
 
 
-    async userRepository({nickname, password}) {
+    async userRepository({fullname, email, nickname, password}) {
 
         const db = await this.adminDbService.connect();
 
         userValidation.nickname(nickname)
         userValidation.password(password)
+        userValidation.email(email)
 
-        const userExistis = await db.collection('usuarios').findOne({ nick: nickname });
+        const userExistis = await db.collection('usuarios').findOne({ nickname: nickname });
 
         if (userExistis) {
             const error = new Error(`El nombre de usuario ${nickname} ya está en uso`);
@@ -284,8 +285,10 @@ class Usuario {
 
         const newUser = {
             _id: new ObjectId(),
-            nick: nickname,
-            password: hashedPassword,
+            nombre: fullname,
+            email: email,
+            nickname: nickname,
+            contraseña: hashedPassword,
         };
 
         await db.collection('usuarios').insertOne(newUser);
@@ -303,7 +306,7 @@ class Usuario {
 
         const db = await this.adminDbService.connect();
 
-        const user = await db.collection('usuarios').findOne({ nick: nickname });
+        const user = await db.collection('usuarios').findOne({ nickname: nickname });
         if(!user){
             const error = new Error(`El usuario no existe`)
             error.status = 404;
@@ -335,6 +338,15 @@ class userValidation {
             throw error;
         }
 
+    }
+
+    static email(email){
+        const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+        if (typeof email !== 'string' || !emailPattern.test(email)) {
+            const error = new Error('La dirección de correo electrónico no es válida');
+            error.status = 400;
+            throw error;
+        }
     }
 
     static password(password){
