@@ -5,6 +5,7 @@ import Rooms from '../views/Rooms.vue'
 import OrderSummary from '../views/OrderSummary.vue'
 import SplashScreen from '../views/SplashScreen.vue'
 import Login from '../views/Login.vue'
+import CreateAccount from '@/views/createAccount.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -42,6 +43,11 @@ const router = createRouter({
     {
       path: '/:catchAll(.*)',
       redirect: '/splash'
+    },
+    {
+      path: '/register',
+      name: 'register',
+      component: CreateAccount
     }
     
   ]

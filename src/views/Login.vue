@@ -14,6 +14,7 @@ const onSubmit = () => {
 <template>
   <main>
 
+    <img style="width: 330px; position: absolute; top: 60px" src="../../public/img/logoCC.png" alt="">
     <div class="login__container">
       <div class="login__header">
         <h2 class="login__title">Login here</h2>
@@ -30,6 +31,7 @@ const onSubmit = () => {
         </div>
         <div class="input__group">
           <input
+
             type="password"
             v-model="password"
             placeholder="Password"
@@ -50,7 +52,25 @@ main{
     align-items: center;
     justify-content: center;
     height: 100vh;
+    background-image: url('https://images.unsplash.com/photo-1524712245354-2c4e5e7121c0?fm=jpg&q=60&w=3000&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTB8fGNpbmVtYXxlbnwwfHwwfHx8MA%3D%3D');
+    background-size: cover;
+    background-position: center;
+    position: relative;
+    z-index: 1;
 }
+
+main::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.646);
+    z-index: -1; 
+    pointer-events: none; 
+}
+
 body {
   background-color: var(--color-background);
   color: var(--color-white);
@@ -59,6 +79,7 @@ body {
 
   height: 100vh;
 }
+
 
 .login__container {
   max-width: 350px;
@@ -82,7 +103,7 @@ body {
 }
 
 .login__title {
-  font-size: 32px;
+  font-size: 28px;
   color: var(--color-red);
   margin-bottom: 10px;
   font-weight: 700;
