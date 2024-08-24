@@ -276,7 +276,7 @@ class Usuario {
         const userExistis = await db.collection('usuarios').findOne({ nickname: nickname });
 
         if (userExistis) {
-            const error = new Error(`El nombre de usuario ${nickname} ya está en uso`);
+            const error = new Error(`User name ${nickname} is already in use`);
             error.status = 409;
             throw error;
         }
@@ -288,11 +288,13 @@ class Usuario {
             nombre: fullname,
             email: email,
             nickname: nickname,
-            contraseña: hashedPassword,
+            clave: hashedPassword,
         };
 
         await db.collection('usuarios').insertOne(newUser);
         return {
+            status: 200,
+            success: true,
             message: 'Usuario creado con éxito'
         }
 
@@ -302,18 +304,17 @@ class Usuario {
     async login({nickname, password}){
 
         userValidation.nickname(nickname)
-        userValidation.password(password)
 
         const db = await this.adminDbService.connect();
 
         const user = await db.collection('usuarios').findOne({ nickname: nickname });
         if(!user){
-            const error = new Error(`El usuario no existe`)
+            const error = new Error(`The password is incorrect`)
             error.status = 404;
             throw error;
         }
 
-        const match = await bcrypt.compare(password, user.password);
+        const match = await bcrypt.compare(password, user.clave);
         if(!match){
             const error = new Error(`La contraseña es incorrecta`)
             error.status = 401;
@@ -333,7 +334,7 @@ class userValidation {
     static nickname(nickname){
 
         if (typeof nickname !== 'string' || nickname.length < 3) {
-            const error = new Error('El nombre de usuario debe tener al menos 3 caracteres');
+            const error = new Error('The user name must be at least 3 characters long');
             error.status = 400;
             throw error;
         }
@@ -343,7 +344,7 @@ class userValidation {
     static email(email){
         const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
         if (typeof email !== 'string' || !emailPattern.test(email)) {
-            const error = new Error('La dirección de correo electrónico no es válida');
+            const error = new Error('The e-mail address is invalid');
             error.status = 400;
             throw error;
         }
@@ -352,7 +353,7 @@ class userValidation {
     static password(password){
 
         if (typeof password !== 'string') {
-            const error = new Error('La contraseña debe ser una cadena de texto');
+            const error = new Error('The password must be a text string');
             error.status = 400;
             throw error;
         }
@@ -363,30 +364,31 @@ class userValidation {
         const specialCharPattern = /[!@#$%^&*(),.?":{}|<>]/;
 
         if (!uppercasePattern.test(password)) {
-            const error = new Error('La contraseña debe contener al menos una letra mayúscula');
+            const error = new Error('The password must contain at least one capital letter');
             error.status = 400;
             throw error;
         }
 
         if (!lowercasePattern.test(password)) {
-            const error = new Error('La contraseña debe contener al menos una letra minúscula');
+            const error = new Error('The password must contain at least one lowercase letter');
             error.status = 400;
             throw error;
         }
 
         if (!numberPattern.test(password)) {
-            const error = new Error('La contraseña debe contener al menos un número');
+            const error = new Error('The password must contain at least one number');
             error.status = 400;
             throw error;
         }
 
         if (!specialCharPattern.test(password)) {
-            const error = new Error('La contraseña debe contener al menos un carácter especial');
+            const error = new Error('The password must contain at least one special character');
             error.status = 400;
             throw error;
         }
 
     }
+
 }
 
 module.exports = Usuario

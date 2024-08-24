@@ -51,17 +51,12 @@ usuariosRouter.post('/login', async(req, res, next) =>{
         const token = jwt.sign({nickname: usuarioAutenticado.nickname}, process.env.SECRET_JWT_KEY,
             {
                 expiresIn: '1h',
-            }
-            )
+            })
 
-        res.status(200).
-
-        cookie('access_token', token,{
-            httpOnly: true,
-            secure: procces.env.NODE_ENV == 'production',
-            sameSite: 'strict',
+        res.cookie('access_token', token,{
+            secure: process.env.NODE_ENV === 'production',
             maxAge: 1000 * 60 * 60
-        }).send(usuarioAutenticado, token)
+        }).send({usuarioAutenticado, token})
     }catch(error){
         next(error)
     }
@@ -71,6 +66,18 @@ usuariosRouter.post('/logout', async(req, res, next) => {
     try{
         res.clearCookie('access_token')
         res.status(200).send('Sesión cerrada correctamente')
+    }catch(error){
+        next(error)
+    }
+})
+
+usuariosRouter.post('/token', async(req, res, next) => {
+    try{
+        const token = req.cookies.access_token
+        const decoded = jwt.verify(token, process.env.SECRET_JWT_KEY)
+        req.user = decoded
+        res.status(200).send({decoded, valid:true})
+        
     }catch(error){
         next(error)
     }
