@@ -5,6 +5,7 @@ import { ref, onMounted, reactive } from 'vue'
 import { useRoute } from 'vue-router';
 import {globalState} from '../store/globalState.js'
 import { computed } from 'vue';
+import axios from 'axios';
 
 const weekDays = ref([]);
 const selectedDate = ref();
@@ -60,14 +61,9 @@ const selectDate = (day) => {
 const screeningFetch = async () => {
 
     if (!requestData.value) return;
-    await fetch('http://localhost:5001/proyecciones/pelicula/', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(requestData.value)
-
-    }).then(response => response.json())
-    .then(data => {
-        screenings.value = data;
+    axios.post('http://localhost:5001/proyecciones/pelicula/', {}, {withCredentials: true})
+    .then(response => {
+        screenings.value = response.data;
     }).catch(error => {
         console.error('Error al obtener las proyecciones:', error);
     })

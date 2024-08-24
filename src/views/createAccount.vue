@@ -1,9 +1,84 @@
 <script setup>
+
+import { ref } from 'vue';
+import Swal from 'sweetalert2'
+import axios from 'axios'
+import router from '@/router';
+
+
+const signUp = ref({
+    fullname: '',
+    email: '',
+    nickname: '',
+    password: '',
+})
+
+const confirmPassword = ref()
+
+
+const onSubmit = async() => {
+    if (signUp.value.password != confirmPassword.value) {
+        Swal.fire({
+            title: 'Error!',
+            text: "Passwords don't match",
+            icon: 'error',
+            confirmButtonText: 'Try again',
+            confirmButtonColor: '#FE0000',
+            iconColor: '#FE0000',
+            width: '95%',
+            background: '#1f1f1f',
+            color: 'white'
+        })
+        return;
+    } else {
+        await userSignUp()
+    }
+
+}
+
+const userSignUp = async () => {
+  try {
+    const response = await axios.post('http://localhost:5001/usuarios/register', signUp.value);
+    if(response.data.status == 200){
+      
+        Swal.fire({
+            title: 'Success!',
+            text: "You've signed up successfully",
+            icon:'success',
+            confirmButtonText: 'Go to Home',
+            confirmButtonColor: '#4CAF50',
+            iconColor: '#4CAF50',
+            width: '95%',
+            background: '#1f1f1f',
+            color: 'white'
+        }).then((result) => {
+        if (result.isConfirmed) {
+            router.push('/home')
+        }
+        });
+    }
+  } catch (error) {
+    Swal.fire({
+            title: 'Error!',
+            text: error.response.data.message,
+            icon: 'error',
+            confirmButtonText: 'Try again',
+            confirmButtonColor: '#FE0000',
+            iconColor: '#FE0000',
+            width: '95%',
+            background: '#1f1f1f',
+            color: 'white'
+        })
+  }
+};
+
+
+
 </script>
 
 <template>
     <main>
-        <img style="width: 330px" src="../../public/img/logoCC.png" alt="">
+        <img style="width: 300px" src="/img/logoCC.png" alt="">
         <div class="signup__container">
             <div class="signup__header">
                 <h2 class="signup__title">Create an Account</h2>
@@ -11,21 +86,21 @@
             </div>
             <form @submit.prevent="onSubmit" class="form">
                 <div class="input__group">
-                    <input type="text" v-model="fullName" placeholder="Full Name" required />
+                    <input type="text" v-model="signUp.fullname" placeholder="Full Name" required />
                 </div>
                 <div class="input__group">
-                    <input type="email" v-model="email" placeholder="Email" required />
+                    <input type="email" v-model="signUp.email" placeholder="Email" required />
                 </div>
                 <div class="input__group">
-                    <input type="text" v-model="username" placeholder="Username" required />
+                    <input type="text" v-model="signUp.nickname" placeholder="Username" required />
                 </div>
                 <div class="input__group">
-                    <input type="password" v-model="password" placeholder="Password" required />
+                    <input type="password" v-model="signUp.password" placeholder="Password" required />
                 </div>
                 <div class="input__group">
                     <input type="password" v-model="confirmPassword" placeholder="Confirm Password" required />
                 </div>
-                <button type="submit" class="signup__button">Sign up</button>
+                <button type="submit" class="signup__button" >Sign up</button>
             </form>
         </div>
     </main>
@@ -58,8 +133,8 @@ main::before {
     width: 100%;
     height: 100%;
     background-color: rgba(0, 0, 0, 0.758);
-    z-index: -1; 
-    pointer-events: none; 
+    z-index: -1;
+    pointer-events: none;
 }
 
 
@@ -73,8 +148,8 @@ main::before {
     position: relative;
     overflow: hidden;
     background: linear-gradient(135deg,
-        var(--color-grayMovieSummary) 0%,
-        var(--color-background) 100%);
+            var(--color-grayMovieSummary) 0%,
+            var(--color-background) 100%);
 }
 
 .signup__header {

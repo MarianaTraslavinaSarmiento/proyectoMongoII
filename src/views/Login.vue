@@ -1,20 +1,46 @@
 <script setup>
 
 import { ref } from 'vue';
+import axios from 'axios'
+import Swal from 'sweetalert2'
+import router from '@/router';
 
-const username = ref('');
-const password = ref('');
 
-const onSubmit = () => {
-  console.log('Username:', username.value);
-  console.log('Password:', password.value);};
-  
+const login = ref({
+  nickname: '',
+  password: ''
+})
+
+
+const onSubmit = ref()
+
+
+const userLogin = async () => {
+  try {
+    const response = await axios.post('http://localhost:5001/usuarios/login', login.value, {withCredentials: true});
+      router.push('/home')
+
+  } catch (error) {
+    Swal.fire({
+      title: 'Error!',
+      text: error.response.data.message,
+      icon: 'error',
+      confirmButtonText: 'Try again',
+      confirmButtonColor: '#FE0000',
+      iconColor: '#FE0000',
+      width: '95%',
+      background: '#1f1f1f',
+      color: 'white',
+      customClass: 'border'
+    })
+  }
+};
 </script>
 
 <template>
   <main>
 
-    <img style="width: 330px; position: absolute; top: 60px" src="../../public/img/logoCC.png" alt="">
+    <img style="width: 300px; margin-bottom: 1rem;" src="/img/logoCC.png" alt="">
     <div class="login__container">
       <div class="login__header">
         <h2 class="login__title">Login here</h2>
@@ -22,23 +48,12 @@ const onSubmit = () => {
       </div>
       <form @submit.prevent="onSubmit" class="form">
         <div class="input__group">
-          <input
-            type="text"
-            v-model="username"
-            placeholder="Username"
-            required
-          />
+          <input type="text" v-model="login.nickname" placeholder="Username" required />
         </div>
         <div class="input__group">
-          <input
-
-            type="password"
-            v-model="password"
-            placeholder="Password"
-            required
-          />
+          <input type="password" v-model="login.password" placeholder="Password" required />
         </div>
-        <button type="submit" class="login__button">Sign in</button>
+        <button type="submit" class="login__button" @click="userLogin">Sign in</button>
       </form>
     </div>
   </main>
@@ -46,29 +61,29 @@ const onSubmit = () => {
 
 <style scoped>
 
-main{
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    height: 100vh;
-    background-image: url('https://images.unsplash.com/photo-1524712245354-2c4e5e7121c0?fm=jpg&q=60&w=3000&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTB8fGNpbmVtYXxlbnwwfHwwfHx8MA%3D%3D');
-    background-size: cover;
-    background-position: center;
-    position: relative;
-    z-index: 1;
+main {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  background-image: url('https://images.unsplash.com/photo-1524712245354-2c4e5e7121c0?fm=jpg&q=60&w=3000&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTB8fGNpbmVtYXxlbnwwfHwwfHx8MA%3D%3D');
+  background-size: cover;
+  background-position: center;
+  position: relative;
+  z-index: 1;
 }
 
 main::before {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.646);
-    z-index: -1; 
-    pointer-events: none; 
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.646);
+  z-index: -1;
+  pointer-events: none;
 }
 
 body {
@@ -90,11 +105,9 @@ body {
   box-shadow: 0 12px 24px rgba(0, 0, 0, 0.2);
   position: relative;
   overflow: hidden;
-  background: linear-gradient(
-    135deg,
-    var(--color-grayMovieSummary) 0%,
-    var(--color-background) 100%
-  );
+  background: linear-gradient(135deg,
+      var(--color-grayMovieSummary) 0%,
+      var(--color-background) 100%);
 }
 
 .login__header {
@@ -171,6 +184,7 @@ body {
   0% {
     background-position: 0 0;
   }
+
   100% {
     background-position: 100% 100%;
   }
@@ -182,11 +196,9 @@ body {
   top: 0;
   left: 0;
   width: 100vw;
-  background: radial-gradient(
-    circle at center,
-    rgba(255, 255, 255, 0.1),
-    rgba(0, 0, 0, 0.1)
-  );
+  background: radial-gradient(circle at center,
+      rgba(255, 255, 255, 0.1),
+      rgba(0, 0, 0, 0.1));
   opacity: 0.3;
   z-index: 1;
 }

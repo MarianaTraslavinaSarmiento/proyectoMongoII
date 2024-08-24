@@ -1,4 +1,6 @@
-<script setup></script>
+<script setup>
+import router from '@/router';
+</script>
 <template>
     <body>
         <div class="splash__background"></div>
@@ -12,8 +14,8 @@
                 </p>
             </div>
             <div class="buttons">
-                <button class="login__button">Login</button>
-                <button class="register__button">Register</button>
+                <button class="login__button" @click="router.push('/login')">Login</button>
+                <button class="register__button" @click="router.push('/register')">Register</button>
             </div>
         </div>
     </body>

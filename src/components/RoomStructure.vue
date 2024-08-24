@@ -13,9 +13,6 @@ const groupedSeats = (label) =>{
 
 }
 
-
-
-//Click in the seat
 const selectedSeat = (seat) => {
   console.log(seat);
   globalState.ticket_overview.numero_asiento = seat.numero_asiento;

@@ -1,5 +1,6 @@
 <script setup>
 import router from '@/router';
+import axios from 'axios';
 import { onMounted, ref, computed } from 'vue';
 
 
@@ -16,10 +17,8 @@ const movies = ref([])
 const allMovies = async () => {
 
   try {
-    const res = await fetch('http://localhost:5001/peliculas')
-    const data = await res.json();
-    movies.value = data
-
+    const res = await axios('http://localhost:5001/peliculas', {withCredentials: true});
+    movies.value = res.data;
   } catch (error) {
     console.error('Error fetching movies:', error);
   }
@@ -30,7 +29,7 @@ const updateSuggestions = () => {
     suggestions.value = movies.value.filter(movie => 
       movie.titulo.toLowerCase().includes(searchQuery.value.toLowerCase()) ||
       movie.generos.some(genre => genre.toLowerCase().includes(searchQuery.value.toLowerCase()))
-    ).slice(0, 4);
+    ).slice(0, 3);
   } else {
     suggestions.value = [];
   }
