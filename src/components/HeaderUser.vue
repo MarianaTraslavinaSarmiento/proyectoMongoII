@@ -1,4 +1,25 @@
 <script setup>
+import axios from 'axios';
+import {ref, onMounted} from 'vue'
+
+
+const userName = ref('')
+
+const userDetails = async () => {
+  try {
+    const res = await axios.get('http://localhost:5001/user/profile', {withCredentials: true});
+    userName.value = res.data.user.nombre
+    
+  } catch (error) {
+    console.error('Error getting the details of the user', error)
+  }
+}
+
+onMounted(userDetails);
+
+
+
+
 </script>
 
 <template>
@@ -7,7 +28,7 @@
         <div class="user__info">
             <img class="user__avatar" src="https://static.vecteezy.com/system/resources/thumbnails/005/129/844/small_2x/profile-user-icon-isolated-on-white-background-eps10-free-vector.jpg" />
             <div class="user__greeting">
-                <p class="user__name">Hi, Mariana Traslaviña!</p>
+                <p class="user__name">Hi, {{ userName }} </p>
                 <p class="user__message">Let's watch a movie together!</p>
             </div>
         </div>

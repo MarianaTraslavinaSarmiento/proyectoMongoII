@@ -61,7 +61,7 @@ const selectDate = (day) => {
 const screeningFetch = async () => {
 
     if (!requestData.value) return;
-    axios.post('http://localhost:5001/proyecciones/pelicula/', {}, {withCredentials: true})
+    axios.post('http://localhost:5001/proyecciones/pelicula/', requestData.value, {withCredentials: true})
     .then(response => {
         screenings.value = response.data;
     }).catch(error => {

@@ -172,7 +172,7 @@ onMounted(allMovies)
   width: 80px;
   height: 120px;
   margin-right: 25px;
-  border-radius: 15px;
+  border-radius: 10px;
   overflow: hidden;
   box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.3);
 }

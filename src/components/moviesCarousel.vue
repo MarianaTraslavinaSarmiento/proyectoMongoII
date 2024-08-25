@@ -11,8 +11,7 @@ const currentIndex = ref(0)
 const moviesFetch = async () => {
   try {
     const res = await axios('http://localhost:5001/peliculas?estado=disponible', {withCredentials: true});
-    movies.value = res.data
-    movies.value = data.slice(0,5);
+    movies.value = res.data.slice(0,5);
   } catch (error) {
     console.error('Error fetching movies', error)
   }
