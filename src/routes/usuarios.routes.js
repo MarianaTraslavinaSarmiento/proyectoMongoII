@@ -19,16 +19,6 @@ usuariosRouter.get('/', async (req, res, next) => {
     }
 });
 
-usuariosRouter.get('/:id', async(req, res, next) =>{
-    try{
-        const obj = new Usuario();
-        const usuarios = await obj.showDetailsOfASpecificUser({userId: req.params.id})
-        res.status(200).send(usuarios)
-
-    }catch(error){
-        next(error)
-    }
-})
 
 
 
@@ -48,7 +38,7 @@ usuariosRouter.post('/login', async(req, res, next) =>{
         const obj = new Usuario()
         const {nickname, password} = req.body
         const usuarioAutenticado = await obj.login({nickname, password})
-        const token = jwt.sign({nickname: usuarioAutenticado.nickname}, process.env.SECRET_JWT_KEY,
+        const token = jwt.sign({nickname: usuarioAutenticado.nickname, id: usuarioAutenticado._id}, process.env.SECRET_JWT_KEY,
             {
                 expiresIn: '1h',
             })

@@ -8,6 +8,7 @@ const Proyeccion = require("./src/modules/proyecciones");
 const Sala = require("./src/modules/salas");
 const TarjetaVIP = require("./src/modules/tarjetasVIP");
 const Usuario = require("./src/modules/usuarios");
+const jwt = require('jsonwebtoken')
 
 const express = require('express');
 const peliculasRouter = require("./src/routes/peliculas.routes");
@@ -18,6 +19,7 @@ const salasRoutes = require("./src/routes/salas.routes");
 const functionRoutes = require("./src/routes/proyecciones.routes")
 const cors = require("cors");
 const cookieParser = require("cookie-parser");
+const perfilRouter = require("./src/routes/perfilUsuario.routes");
 const app = express()
 
 app.use(cors({
@@ -38,21 +40,44 @@ app.get('/', (req, res)=>{
     res.send('Hello World!')
 })
 
+const authenticateToken = (req, res, next) => {
+
+    const token = req.cookies.access_token;
+
+    if (token == null){
+        const error = new Error(`Invalid access token`)
+        error.status = 403;
+        throw error;
+    }
+    
+    jwt.verify(token, process.env.SECRET_JWT_KEY, (err, user) => {
+        if(err){
+            const error = new Error(`Invalid  token`)
+            error.status = 403;
+            throw error;
+        }
+        req.user = user;
+        next();
+    });
+};
+
 app.use('/peliculas', peliculasRouter)
 app.use('/boletos', boletosRouter)
 app.use('/asientos', asientosRoutes)
 app.use('/usuarios', usuariosRoutes)
 app.use('/salas', salasRoutes)
 app.use('/proyecciones', functionRoutes )
+app.use('/user/profile', authenticateToken, perfilRouter)
 
 app.use((err, req, res, next) => {
     res.status(err.status || 500).json({
         status: err.status || 500,
         message: err.message || 'Error interno del servidor',
     });
+    console.log(err);
+    
 });
 
 app.listen(config.port, config.host, () => {
     console.log(`Server listening at http://${config.host}:${config.port}`)
 })
-
