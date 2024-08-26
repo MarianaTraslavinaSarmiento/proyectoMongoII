@@ -203,8 +203,8 @@ hr {
 }
 
 .payment__card__indicator {
-    width: 2em;
-    height: 2em;
+    width: 30px;
+    height: 30px;
     border: 2px solid var(--color-red);
     border-radius: 50%;
     display: flex;
@@ -214,8 +214,8 @@ hr {
 }
 
 .payment__card__indicator__inner {
-    width: 1.3em;
-    height: 1.3em;
+    width: 20px;
+    height: 20px;
     background-color: var(--color-red);
     border-radius: 50%;
 

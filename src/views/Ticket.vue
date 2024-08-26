@@ -16,13 +16,15 @@ import HeaderBack from '@/components/HeaderBack.vue';
             <div class="ticket__body">
                 <h2 class="ticket__title">Puss In Boots The Last Wish</h2>
                 <p class="ticket__subtitle">Show this ticket at the entrance</p>
+                
+                <hr>
 
                 <div class="ticket__cinema">
                     <div>
                         <span class="label">Cinema</span>
                         <span class="value">HARTONO MALL 12</span>
                     </div>
-                    <img src="" alt="Cinema Logo" class="cinema__logo">
+                    <img style="border-radius: 5px;" src="../../public/img/cinema.jpg" alt="Cinema Logo" class="cinema__logo">
                 </div>
 
                 <div class="ticket__grid">
@@ -64,7 +66,7 @@ import HeaderBack from '@/components/HeaderBack.vue';
 body {
     margin: 0;
     padding: 0;
-    background-color: #f0f0f0;
+    background-color: var(--color-lightGray);
     font-family: Arial, sans-serif;
 }
 
@@ -78,7 +80,7 @@ main {
 
 .ticket {
     width: 87%;
-    height: 43rem;
+    height: 85dvh;
     padding: 25px;
     background-color: white;
     border-radius: 20px;
@@ -87,15 +89,18 @@ main {
     align-items: center;
     overflow: hidden;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    position: relative;
+    overflow-y: scroll;
 }
 
 .ticket__image {
 
     display: flex;
-    height: 150px;
+    height: 120px;
     overflow: hidden;
     border: 1px solid black;
     width: 100%;
+    border-radius: 10px;
 }
 
 .ticket__image img {
@@ -110,61 +115,92 @@ main {
 }
 
 .ticket__title {
-    font-size: 18px;
+    font-size: 22px;
     font-weight: bold;
     margin: 0 0 5px 0;
 }
 
 .ticket__subtitle {
-    font-size: 12px;
-    color: #666;
-    margin: 0 0 15px 0;
+    font-size: 15px;
+    color: var(--color-textGray);
+    margin: 0 0 20px 0;
 }
 
 .ticket__cinema {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 15px;
+    margin-block: 15px;
 }
 
+.ticket__cinema div{
+    display: flex;
+    flex-direction: column;
+    
+}
+
+.ticket__cinema .label{
+    font-size: 15px;
+    color: var(--color-textGray);
+    font-weight: bold;
+}
+
+.ticket__cinema .value{
+    margin-block: 3px;
+    font-size: 20px;
+    font-weight: bold;
+
+
+}
 .cinema__logo {
-    width: 40px;
-    height: 40px;
+    width: 45px;
+    height: 45px;
 }
 
 .ticket__grid {
+    margin-top: 3rem;
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 1fr 0.5fr;
     gap: 25px;
+    
     
 }
 
 .ticket__item {
     display: flex;
     flex-direction: column;
+    font-size: 15px;
+
 }
 
-.label {
-    font-size: 12px;
-    color: #666;
+.ticket__item .label {
+    color: var(--color-textGray);
+    font-weight: bold;
+
 }
+
+.ticket__item .value {
+    font-size: 16px; ;
+    font-weight: bold;
+}
+
 
 .value {
     font-size: 14px;
     font-weight: bold;
 }
 
-
-
 .ticket__body::after {
     content: '';
     display: block;
     height: 1px;
-    background-image: linear-gradient(to right, #000 33%, rgba(255, 255, 255, 0) 0%);
+    background-image: linear-gradient(to right, #000 70%, rgba(255, 255, 255, 0) 0%);
     background-position: bottom;
-    background-size: 8px 1px;
+    background-size: 20px 10px;
     background-repeat: repeat-x;
-    margin: 15px 0;
+    margin-top: 30px;
+    position: absolute;
+    width: 100%;
+    left: 0;
 }
 </style>
