@@ -71,7 +71,7 @@ const toggleActive = () => {
             <span class="payment__timer__text">Complete your payment in</span>
             <span class="payment__timer__countdown">04:59</span>
         </div>
-        <button>Buy Ticket</button>
+        <button @click="router.push('/tickets')">Buy Ticket</button>
     </div>
 
     
