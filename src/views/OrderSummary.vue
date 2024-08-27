@@ -34,11 +34,23 @@ const fetchingMovie = async() =>{
     }
 }
 
-onMounted(fetchingMovie)
 
 if (!globalState.screeningDate) {
     router.back();
 }
+
+
+const orderNumber = ref('');
+
+function generateRandomNumber() {
+  return Math.floor(Math.random() * 9000000000) + 1000000000;
+}
+
+onMounted(() => {
+  orderNumber.value = generateRandomNumber();
+});
+onMounted(fetchingMovie)
+
 
 </script>
 
@@ -64,7 +76,7 @@ if (!globalState.screeningDate) {
     <div class="order-summary">
         <div class="order-number">
             <span style="font-size: 13px;" class="label">ORDER NUMBER : </span>
-            <span style="font-size: 13px; color:var(--color-white)" class="value">123456786</span>
+            <span style="font-size: 13px; color:var(--color-white)" class="value">{{ orderNumber }}</span>
         </div>
 
         <div class="price-item">
