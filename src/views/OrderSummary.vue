@@ -1,12 +1,45 @@
 <script setup>
 import router from '@/router';
-import { ref } from 'vue';
+import { globalState } from '@/store/globalState';
+import { ref, onMounted } from 'vue';
+import { useRoute } from 'vue-router';
+
+
 
 const isActive = ref(false);
 
 const toggleActive = () => {
   isActive.value = !isActive.value;
 };
+
+const route = useRoute();
+const movie = ref(null)
+
+const priceFormater = new Intl.NumberFormat('es-CO', {
+    style: 'currency',
+    currency: 'COP',
+    minimumFractionDigits: 0,
+});
+
+
+const fetchingMovie = async() =>{
+
+    try{
+        const id = route.params.id
+        const res = await fetch(`http://localhost:5001/peliculas/${id}`);
+        const data = await res.json();
+        movie.value = data
+    }catch(error){
+        console.log('Error fetching movie: ', error);
+    }
+}
+
+onMounted(fetchingMovie)
+
+if (!globalState.screeningDate) {
+    router.back();
+}
+
 </script>
 
 <template>
@@ -17,14 +50,14 @@ const toggleActive = () => {
     </div>
 
     <div class="movie__projection">
-        <div class="movie__pic">
-            <img src="" alt="">
+        <div v-if="movie" class="movie__pic">
+            <img  style="width: 100%; height: 100%; border-radius: 10px;" :src="movie.caratula" alt="">
         </div>
         <div style="font-weight: bold;" class="summary">
-            <p style="color: var(--color-red); font-size: 18px;">The Hunger Games: The Ballad of Songbirds & Snakes</p>
-            <small>Action</small>
-            <p style="font-size: 18px; margin: 30px 0px 0px 0px; color: var(--color-white); ">SALA 3D</p>
-            <small>Sun, 12 Feb 2023. 13:00</small>
+            <p v-if="movie" style="color: var(--color-red); font-size: 18px;">{{ movie.titulo }}</p>
+            <small v-if="movie">{{ movie.generos.join(', ') }}</small>
+            <p style="font-size: 18px; margin: 30px 0px 0px 0px; color: var(--color-white); ">SALA {{ globalState.screeningRoom }}</p>
+            <small>{{  new Date(globalState.screeningDate).toDateString() }}, {{ globalState.screeningTime }} </small>
         </div>
     </div>
 
@@ -36,14 +69,14 @@ const toggleActive = () => {
 
         <div class="price-item">
             <span style="color: var(--color-textGray)" class="ticket__count">1 TICKET</span>
-            <span class="seat__number">C7</span>
+            <span class="seat__number">{{globalState.ticket_overview.numero_asiento}}</span>
         </div>
 
         <hr style="height: 8px;">
 
         <div class="price-item">
-            <span class="item-name">REGULAR SEAT</span>
-            <span class="item-price">$24,99 x 3</span>
+            <span class="item-name">{{ globalState.selectedSeatType == "regular" ? "REGULAR" : "VIP" }} SEAT</span>
+            <span class="item-price">{{ priceFormater.format(globalState.current_price) }}</span>
         </div>
 
         <hr>
@@ -100,9 +133,7 @@ i {
 
 .movie__pic {
     min-width: 35%;
-    background-color: var(--color-textGray);
     height: 11rem;
-    border-radius: 7px;
 }
 
 .movie__projection {

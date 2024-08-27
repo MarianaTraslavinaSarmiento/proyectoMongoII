@@ -105,7 +105,9 @@ const selectScreening = async (id, index) => {
             globalState.previousSeat = null
             globalState.selectedSeatId = null
             globalState.current_price = selectedScreening.precio;
-
+            globalState.screeningDate = selectedScreening.fecha
+            globalState.screeningTime = selectedScreening.hora
+            globalState.screeningRoom = selectedScreening.sala_id.tipo
             console.log(selectedScreening);
 
 
@@ -115,6 +117,9 @@ const selectScreening = async (id, index) => {
     }
 };
 
+const showDetailsMovies = () => {
+    router.push(`/buyticket/${route.params.id}`)
+}
 
 </script>
 
@@ -144,13 +149,16 @@ const selectScreening = async (id, index) => {
                 <p style="margin-bottom: 10px;">Price</p>
                 <p style="font-weight: bold"> {{ priceFormater.format(globalState.current_price) }}</p>
             </div>
-            <button @click="router.push('/buyticket')">Buy Ticket</button>
+                <button @click="showDetailsMovies">Buy Ticket</button>
+
         </div>
 
     </section>
 </template>
 
 <style scoped>
+
+
 
 
 .calendar__functions {
@@ -179,8 +187,10 @@ const selectScreening = async (id, index) => {
 .day__card.active,
 .showtime__card.active {
     background-color: var(--color-red);
-    color: var(--color-white)
+    color: var(--color-white);
+
 }
+
 
 .day__card {
     display: flex;

@@ -7,5 +7,7 @@ export const globalState = reactive({
     current_price: 0,
     increment_seat: 0,
     selectedSeatId: null,
-    previousSeat: null
+    previousSeat: null,
+    selectedSeatType: null,
+   
 })

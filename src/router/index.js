@@ -29,7 +29,7 @@ const router = createRouter({
       component: Rooms
     },
     {
-      path: '/buyticket',
+      path: '/buyticket/:id',
       name: 'buy_ticket',
       component: OrderSummary
     },

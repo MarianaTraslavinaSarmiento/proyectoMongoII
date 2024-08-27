@@ -29,6 +29,8 @@ const selectedSeat = (seat) => {
   }
 
   globalState.selectedSeatId = seat._id;
+  globalState.selectedSeatType = seat.tipo
+  globalState.selectedSeatNumber = seat.numero_asiento
   globalState.previousSeat = seat;
 };
 
