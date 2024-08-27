@@ -4,6 +4,7 @@
 import router from '@/router'
 import { ref, onMounted } from 'vue';
 import axios from 'axios'
+import { globalState } from '@/store/globalState';
 
 const movies = ref([])
 const currentIndex = ref(0)
@@ -18,6 +19,8 @@ const moviesFetch = async () => {
 }
 
 onMounted(moviesFetch);
+
+
 
 const showDetailsMovies = (movie) => {
   router.push(`/movie/${movie._id}`)

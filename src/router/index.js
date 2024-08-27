@@ -9,6 +9,7 @@ import CreateAccount from '@/views/createAccount.vue'
 import Cookies from 'js-cookie'
 import axios from 'axios'
 import Ticket from '@/views/Ticket.vue'
+import AllTickets from '@/views/AllTickets.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -56,6 +57,11 @@ const router = createRouter({
       path: '/tickets',
       name: 'tickets',
       component: Ticket
+    },
+    {
+      path: '/historial_tickets',
+      name: 'historial_tickets',
+      component: AllTickets
     }
 
     

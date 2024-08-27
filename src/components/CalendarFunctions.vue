@@ -3,9 +3,10 @@
 import router from '@/router';
 import { ref, onMounted, reactive } from 'vue'
 import { useRoute } from 'vue-router';
-import {globalState} from '../store/globalState.js'
+import { globalState } from '../store/globalState.js'
 import { computed } from 'vue';
 import axios from 'axios';
+import Swal from 'sweetalert2';
 
 const weekDays = ref([]);
 const selectedDate = ref();
@@ -17,7 +18,7 @@ const requestData = ref();
 
 const generateWeekDays = () => {
     const today = new Date();
-    
+
     const days = [];
     const dayNames = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
 
@@ -25,7 +26,7 @@ const generateWeekDays = () => {
         const date = new Date(today);
 
         date.setDate(today.getDate() + i);
-        
+
         days.push({
             day: dayNames[date.getDay()], // ! date.getDay() returns a number from 0 to 6 (0 is Sunday)
             date: date.getDate(),
@@ -39,10 +40,10 @@ const generateWeekDays = () => {
 };
 
 function formatDate(date) {
-  const year = date.getFullYear();
-  const month = String(date.getMonth() + 1).padStart(2, '0');
-  const day = String(date.getDate()).padStart(2, '0');
-  return `${year}-${month}-${day}`
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const day = String(date.getDate()).padStart(2, '0');
+    return `${year}-${month}-${day}`
 }
 
 
@@ -61,13 +62,13 @@ const selectDate = (day) => {
 const screeningFetch = async () => {
 
     if (!requestData.value) return;
-    axios.post('http://localhost:5001/proyecciones/pelicula/', requestData.value, {withCredentials: true})
-    .then(response => {
-        screenings.value = response.data;
-    }).catch(error => {
-        console.error('Error al obtener las proyecciones:', error);
-    })
-    
+    axios.post('http://localhost:5001/proyecciones/pelicula/', requestData.value, { withCredentials: true })
+        .then(response => {
+            screenings.value = response.data;
+        }).catch(error => {
+            console.error('Error al obtener las proyecciones:', error);
+        })
+
 }
 
 const priceFormater = new Intl.NumberFormat('es-CO', {
@@ -79,7 +80,7 @@ const priceFormater = new Intl.NumberFormat('es-CO', {
 onMounted(() => {
     generateWeekDays();
     if (weekDays.value.length > 0) {
-        selectDate(weekDays.value[0]); 
+        selectDate(weekDays.value[0]);
     }
 });
 
@@ -104,6 +105,7 @@ const selectScreening = async (id, index) => {
 
             globalState.previousSeat = null
             globalState.selectedSeatId = null
+            globalState.selectedScreeningId = selectedScreening._id
             globalState.current_price = selectedScreening.precio;
             globalState.screeningDate = selectedScreening.fecha
             globalState.screeningTime = selectedScreening.hora
@@ -118,7 +120,22 @@ const selectScreening = async (id, index) => {
 };
 
 const showDetailsMovies = () => {
-    router.push(`/buyticket/${route.params.id}`)
+    if (globalState.selectedSeatId) {
+        router.push(`/buyticket/${route.params.id}`)
+    } else {
+        Swal.fire({
+            title: 'Alert',
+            text: 'Please select a seat to buy the ticket',
+            icon: 'warning',
+            confirmButtonText: 'Try again',
+            confirmButtonColor: '#FE0000',
+            iconColor: '#FE0000',
+            width: '95%',
+            background: '#1f1f1f',
+            color: 'white',
+            customClass: 'border'
+        })
+    }
 }
 
 </script>
@@ -127,7 +144,8 @@ const showDetailsMovies = () => {
     <section class="calendar__functions">
 
         <div class="days__week">
-            <div v-for="(day, index) in weekDays" :key="index" @click="selectDate(day); dayIndex = index" :class="['day__card', { active: dayIndex == index}] ">
+            <div v-for="(day, index) in weekDays" :key="index" @click="selectDate(day); dayIndex = index"
+                :class="['day__card', { active: dayIndex == index }]">
                 <span class="day">{{ day.day }}</span>
                 <span style="font-weight: bold;" class="date">{{ day.date }}</span>
             </div>
@@ -136,7 +154,9 @@ const showDetailsMovies = () => {
 
         <div class="date__available">
 
-            <div v-for="(screen,index) in screenings" :key="screen._id" :class="['showtime__card', { active: screeningIndex == index}]" @click="screeningIndex = index; selectScreening(screen._id, index)" >
+            <div v-for="(screen, index) in screenings" :key="screen._id"
+                :class="['showtime__card', { active: screeningIndex == index }]"
+                @click="screeningIndex = index; selectScreening(screen._id, index)">
                 <span class="time">{{ screen.hora }}</span>
                 <span class="price">{{ priceFormater.format(screen.precio) }} • {{ screen.sala_id.tipo }}</span>
             </div>
@@ -149,7 +169,7 @@ const showDetailsMovies = () => {
                 <p style="margin-bottom: 10px;">Price</p>
                 <p style="font-weight: bold"> {{ priceFormater.format(globalState.current_price) }}</p>
             </div>
-                <button @click="showDetailsMovies">Buy Ticket</button>
+            <button @click="showDetailsMovies">Buy Ticket</button>
 
         </div>
 
@@ -157,10 +177,6 @@ const showDetailsMovies = () => {
 </template>
 
 <style scoped>
-
-
-
-
 .calendar__functions {
     padding: 25px 0px 15px 25px;
 }
@@ -174,13 +190,13 @@ const showDetailsMovies = () => {
 
 }
 
-.days__week .day{
+.days__week .day {
     color: var(--color-textGray);
     font-weight: bold;
 
 }
 
-.day__card.active .day{
+.day__card.active .day {
     color: var(--color-white);
 }
 
@@ -222,7 +238,7 @@ const showDetailsMovies = () => {
     padding: 10px 0px 0px 10px;
     gap: 20px;
     scrollbar-width: none;
-    
+
 }
 
 .showtime__card {

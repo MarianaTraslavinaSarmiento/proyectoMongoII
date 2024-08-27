@@ -1,5 +1,6 @@
 <script setup>
 
+import router from '@/router';
 import { ref } from 'vue';
 import { RouterLink, RouterView } from 'vue-router'
 
@@ -17,6 +18,11 @@ const setActiveIcon = (icon) => {
     activeIcon.value = icon
 }
 
+const showAllTickets = (user_id) => {
+  router.push(`/historial_tickets`)
+  setActiveIcon('tickets')
+}
+
 </script>
 
 <template>
@@ -29,7 +35,7 @@ const setActiveIcon = (icon) => {
         <i class="bi bi-search"></i>
         <span>Browse</span>
       </div>
-      <div @click="setActiveIcon('tickets')" class="menu__item" :class="{ 'active': activeIcon == 'tickets' }">
+      <div @click="showAllTickets(user_id)" class="menu__item" :class="{ 'active': activeIcon == 'tickets' }">
         <i class="bi bi-ticket-perforated-fill"></i>
         <span>Tickets</span>
       </div>

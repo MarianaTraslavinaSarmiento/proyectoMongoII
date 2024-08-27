@@ -9,5 +9,6 @@ export const globalState = reactive({
     selectedSeatId: null,
     previousSeat: null,
     selectedSeatType: null,
+    moviePoster: null
    
 })

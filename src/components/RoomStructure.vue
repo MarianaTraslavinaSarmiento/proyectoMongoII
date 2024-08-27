@@ -1,7 +1,10 @@
 <script setup>
 
 import { globalState } from '@/store/globalState.js';
-
+import { ref } from 'vue';
+import axios from 'axios';
+import { onMounted } from 'vue';
+import { watch } from 'vue';
 // Letters of the rows 
 
 const rowLabelsStandard = ['A', 'B']
@@ -15,6 +18,9 @@ const groupedSeats = (label) =>{
 
 const selectedSeat = (seat) => {
   console.log(seat);
+  if (seatReserved.value.includes(seat.numero_asiento)) {
+    return;
+  }
   globalState.ticket_overview.numero_asiento = seat.numero_asiento;
   console.log(globalState.ticket_overview);
 
@@ -34,6 +40,22 @@ const selectedSeat = (seat) => {
   globalState.previousSeat = seat;
 };
 
+const currentScreening = ref('')
+watch(globalState, async (value, old) => {
+  currentScreening.value = value.selectedScreeningId;
+
+  occupiedSeats();
+})
+const seatReserved = ref([])
+const occupiedSeats = async()=>{
+        try {
+            const res = await axios.get(`http://localhost:5001/asientos/occupied/${currentScreening.value }`, {withCredentials: true});
+            seatReserved.value = res.data;
+            
+        } catch (error) {
+            console.error(error)
+        }
+    }
 
 
 </script>
@@ -53,7 +75,8 @@ const selectedSeat = (seat) => {
             <button
               v-for="seat in groupedSeats(row)"
               :key="seat._id"
-              :class="{ 'selected': seat._id === globalState.selectedSeatId }"
+              :class="{ 'selected': seat._id === globalState.selectedSeatId ,
+            'reserved': seatReserved.includes(seat.numero_asiento)  }"
               @click="selectedSeat(seat)"
             >
               {{ seat.numero_asiento.slice(1) }}
@@ -70,7 +93,8 @@ const selectedSeat = (seat) => {
             <button
               v-for="seat in groupedSeats(row)"
               :key="seat._id"
-              :class="{ 'selected': seat._id === globalState.selectedSeatId }"
+              :class="{ 'selected': seat._id === globalState.selectedSeatId,
+                         'reserved': seatReserved.includes(seat.numero_asiento) }"
               @click="selectedSeat(seat)"
             >
               {{ seat.numero_asiento.slice(1) }}
@@ -269,6 +293,11 @@ button.selected {
   align-self: center;
 
 
+}
+
+button.reserved {
+  background-color: var(--color-lightGray);
+  color: var(--color-lightGray);
 }
 
 

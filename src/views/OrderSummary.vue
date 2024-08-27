@@ -1,16 +1,38 @@
 <script setup>
 import router from '@/router';
 import { globalState } from '@/store/globalState';
-import { ref, onMounted } from 'vue';
+import axios from 'axios';
+import Swal from 'sweetalert2';
+import { ref, onMounted, computed } from 'vue';
 import { useRoute } from 'vue-router';
 
+
+const id = ref()
+
+globalState.orderId = id
+
+const newId = async () => {
+
+try {
+
+    const response = await axios(`http://localhost:5001/boletos/newid`,  {withCredentials: true});
+    id.value = response.data;
+} catch (error) {
+    console.log('Error fetching movie: ', error);
+}
+}
 
 
 const isActive = ref(false);
 
-const toggleActive = () => {
-  isActive.value = !isActive.value;
-};
+const activeCard = () => {
+    if(isActive.value) {
+        return
+    }
+    isActive.value = true;   
+    globalState.current_price -= globalState.current_price * (cards.value[0].descuento_porcentaje / 100)
+}
+
 
 const route = useRoute();
 const movie = ref(null)
@@ -22,17 +44,33 @@ const priceFormater = new Intl.NumberFormat('es-CO', {
 });
 
 
-const fetchingMovie = async() =>{
+const fetchingMovie = async () => {
 
-    try{
+    try {
         const id = route.params.id
         const res = await fetch(`http://localhost:5001/peliculas/${id}`);
         const data = await res.json();
         movie.value = data
-    }catch(error){
+    } catch (error) {
         console.log('Error fetching movie: ', error);
     }
 }
+
+
+
+
+let cards = ref(null)
+
+const getCardByUser = async () => {
+  try {
+    const response = await axios.get('http://localhost:5001/tarjetasvip/getbyid', {withCredentials: true});
+    cards.value = response.data.card;
+    console.log(cards.value);
+
+  } catch (error) {
+    console.log('Error', error);
+  }
+};
 
 
 if (!globalState.screeningDate) {
@@ -40,17 +78,70 @@ if (!globalState.screeningDate) {
 }
 
 
-const orderNumber = ref('');
+//Timer
 
-function generateRandomNumber() {
-  return Math.floor(Math.random() * 9000000000) + 1000000000;
+let minutes = ref(30);
+let seconds = ref(0);
+let countdownText = computed(() => {
+    return `${minutes.value}:${seconds.value < 10 ? '0' : ''}${seconds.value}`;
+})
+
+function timer() {
+    setInterval(() => {
+        seconds.value--;
+        if (seconds.value < 0) {
+            minutes.value--;
+            seconds.value = 59;
+        }
+
+        if (minutes.value == 0 && seconds.value == 0) {
+            clearInterval(timer);
+            router.back();
+
+            Swal.fire({
+            title: 'Alert',
+            text: 'Time is up',
+            icon: 'warning',
+            confirmButtonText: 'Try again',
+            confirmButtonColor: '#FE0000',
+            iconColor: '#FE0000',
+            width: '95%',
+            background: '#1f1f1f',
+            color: 'white',
+            customClass: 'border'
+        })
+
+        }
+    }, 1000);
+
 }
 
-onMounted(() => {
-  orderNumber.value = generateRandomNumber();
-});
-onMounted(fetchingMovie)
+const purchasingTicket = async()=>{
+    try {
+        const response = await axios.post('http://localhost:5001/boletos/comprar_boleto', {
+            _id: id,
+            proyeccion_id: globalState.selectedScreeningId,
+            codigo_asiento: globalState.ticket_overview.numero_asiento,
+            porcentaje_descuento_VIP: cards.porcentaje_descuento_VIP || 0,
+            total: globalState.current_price
 
+        }, {withCredentials: true})
+
+        router.push('/tickets')
+    } catch (error) {
+        console.error("Error buying ticket:", error.message)
+
+    }
+
+}
+
+
+timer()
+onMounted(() => {
+    fetchingMovie();
+    getCardByUser();
+    newId();
+});
 
 </script>
 
@@ -63,25 +154,27 @@ onMounted(fetchingMovie)
 
     <div class="movie__projection">
         <div v-if="movie" class="movie__pic">
-            <img  style="width: 100%; height: 100%; border-radius: 10px;" :src="movie.caratula" alt="">
+            <img style="width: 100%; height: 100%; border-radius: 10px;" :src="movie.caratula" alt="">
         </div>
         <div style="font-weight: bold;" class="summary">
             <p v-if="movie" style="color: var(--color-red); font-size: 18px;">{{ movie.titulo }}</p>
             <small v-if="movie">{{ movie.generos.join(', ') }}</small>
-            <p style="font-size: 18px; margin: 30px 0px 0px 0px; color: var(--color-white); ">SALA {{ globalState.screeningRoom }}</p>
-            <small>{{  new Date(globalState.screeningDate).toDateString() }}, {{ globalState.screeningTime }} </small>
+            <p style="font-size: 18px; margin: 30px 0px 0px 0px; color: var(--color-white); ">SALA {{
+                globalState.screeningRoom }}</p>
+            <small>{{ new Date(new Date(globalState.screeningDate).setDate(new Date(globalState.screeningDate).getDate() +
+                1)).toDateString() }}, {{ globalState.screeningTime }} </small>
         </div>
     </div>
 
     <div class="order-summary">
         <div class="order-number">
-            <span style="font-size: 13px;" class="label">ORDER NUMBER : </span>
-            <span style="font-size: 13px; color:var(--color-white)" class="value">{{ orderNumber }}</span>
+            <span style="font-size: 13px;" class="label" >ORDER NUMBER : {{ id }} </span>
+            <span style="font-size: 13px; color:var(--color-white)" class="value"></span>
         </div>
 
         <div class="price-item">
             <span style="color: var(--color-textGray)" class="ticket__count">1 TICKET</span>
-            <span class="seat__number">{{globalState.ticket_overview.numero_asiento}}</span>
+            <span class="seat__number">{{ globalState.ticket_overview.numero_asiento }}</span>
         </div>
 
         <hr style="height: 8px;">
@@ -95,31 +188,30 @@ onMounted(fetchingMovie)
     </div>
 
     <div class="payment__container">
-        <div class="payment__method">
+        <div v-if="cards" class="payment__method">
             <h3 class="payment__title">Payment method</h3>
-            <div 
-                class="payment__card" 
-                :class="{ 'payment__card--active': isActive }"
-                @click="toggleActive"
-            >
+            <div class="payment__card" :class="{ 'payment__card--active': isActive }" @click="activeCard">
                 <img src="../../public/img/vipCard.png" alt="MasterCard" class="payment__logo">
                 <div class="card__info">
-                    <span class="payment__card__info">MasterCard</span>
-                    <span class="payment__card__number">**** **** 0998 7865</span>
+                    <span class="payment__card__info">VIP card</span>
+                    <span v-if="cards" class="payment__card__number" >{{ cards[0].numero_tarjeta || null }}</span>
                 </div>
                 <div class="payment__card__indicator">
                     <div v-if="isActive" class="payment__card__indicator__inner"></div>
                 </div>
             </div>
         </div>
+        <div v-else class="dont__have">
+            <h3 class="payment__title">Don't have a VIP card?</h3>
+            <p class="payment__description">To get a VIP card, please contact your ticket office for more information.</p>
+
+        </div>
         <div class="payment__timer">
             <span class="payment__timer__text">Complete your payment in</span>
-            <span class="payment__timer__countdown">04:59</span>
+            <span class="payment__timer__countdown">{{ countdownText }}</span>
         </div>
-        <button @click="router.push('/tickets')">Buy Ticket</button>
+        <button @click="purchasingTicket" >Buy Ticket</button>
     </div>
-
-    
 </template>
 
 <style scoped>
@@ -220,16 +312,18 @@ hr {
     gap: 25px
 }
 
-.payment__card img{
+.payment__card img {
     width: 25%;
     height: 100%;
     border-radius: 5px
-
 }
+
 .card__info {
     display: flex;
     flex-direction: column;
-    gap: 5px
+    gap: 5px;
+    width: 40%;
+
 }
 
 .payment__logo {
@@ -275,31 +369,27 @@ hr {
     height: 50px;
 }
 
-.payment__timer__text {
-    color: #ff6b6b;
-}
 
 .payment__timer__countdown {
     font-weight: bold;
-    color: #ff6b6b;
+    color: var(--color-red)
 }
 
-.payment__card--active{
+.payment__card--active {
     border: 1px solid var(--color-textGray)
 }
 
 
 button {
 
-background-color: var(--color-red);
-color: var(--color-white);
-width: 100%;
-padding: 15px 0px;
-border: none;
-border-radius: 10px;
-font-size: 15px;
-font-weight: bold;
-margin-top: 10rem;
+    background-color: var(--color-red);
+    color: var(--color-white);
+    width: 100%;
+    padding: 15px 0px;
+    border: none;
+    border-radius: 10px;
+    font-size: 15px;
+    font-weight: bold;
+    margin-top: 10rem;
 }
-
 </style>

@@ -5,6 +5,7 @@ import { ref } from 'vue';
 import { useRoute } from 'vue-router';
 import HeaderBack from '../components/HeaderBack.vue';
 import router from '@/router';
+import { globalState } from '@/store/globalState';
 
 
 const route = useRoute();
@@ -17,6 +18,9 @@ const fetchingMovies = async() =>{
         const res = await fetch(`http://localhost:5001/peliculas/${id}`);
         const data = await res.json();
         movie.value = data
+        globalState.moviePoster = data.caratula
+        globalState.movieTitle = data.titulo
+
     }catch(error){
         console.log('Error fetching movie: ', error);
     }

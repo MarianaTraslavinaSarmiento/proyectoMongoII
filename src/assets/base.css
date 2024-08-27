@@ -4,6 +4,11 @@
   src: url(./font/Inter/static/Inter_24pt-Regular.ttf);
 }
 
+@font-face {
+  font-family: 'interExtraBold';
+  src: url(./font/Inter/static/Inter_18pt-ExtraBold.ttf);
+}
+
 
 :root {
 

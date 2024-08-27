@@ -1,6 +1,38 @@
 <script setup>
 
 import HeaderBack from '@/components/HeaderBack.vue';
+import { ref, onMounted, computed} from 'vue'
+import { globalState } from '@/store/globalState';
+
+import axios from 'axios';
+
+
+const ticket = ref()
+const tickets = async () => {
+  try {
+    const response = await axios.get('http://localhost:5001/boletos/latestTicket',{withCredentials: true});
+    ticket.value = response.data.ticket
+    console.log(response.data);
+  } catch (error) {
+    console.log('Error', error);
+  }
+};
+
+const priceFormater = new Intl.NumberFormat('es-CO', {
+    style: 'currency',
+    currency: 'COP',
+    minimumFractionDigits: 0,
+});
+
+const shortOrderId = computed(() => {
+  if (globalState.orderId) {
+    return globalState.orderId.toString().substring(0, 7);
+  }
+  return '';
+});
+
+onMounted(tickets)
+
 
 </script>
 
@@ -11,10 +43,10 @@ import HeaderBack from '@/components/HeaderBack.vue';
     <main>
         <div class="ticket">
             <div class="ticket__image">
-                <img src="" alt="Puss In Boots">
+                <img :src="globalState.moviePoster" alt="movie cover">
             </div>
             <div class="ticket__body">
-                <h2 class="ticket__title">Puss In Boots The Last Wish</h2>
+                <h2 class="ticket__title">{{ globalState.movieTitle }}</h2>
                 <p class="ticket__subtitle">Show this ticket at the entrance</p>
                 
                 <hr>
@@ -22,7 +54,7 @@ import HeaderBack from '@/components/HeaderBack.vue';
                 <div class="ticket__cinema">
                     <div>
                         <span class="label">Cinema</span>
-                        <span class="value">HARTONO MALL 12</span>
+                        <span style="font-size: 18px; font-family: interExtraBold;" class="value">AUDITORIO PRINCIPAL</span>
                     </div>
                     <img style="border-radius: 5px;" src="../../public/img/cinema.jpg" alt="Cinema Logo" class="cinema__logo">
                 </div>
@@ -30,31 +62,35 @@ import HeaderBack from '@/components/HeaderBack.vue';
                 <div class="ticket__grid">
                     <div class="ticket__item">
                         <span class="label">Date</span>
-                        <span class="value">Sun , Feb 12th 2023</span>
+                        <span class="value">{{ new Date(new Date(globalState.screeningDate).setDate(new Date(globalState.screeningDate).getDate() +
+                1)).toDateString() }}</span>
                     </div>
                     <div class="ticket__item">
                         <span class="label">Time</span>
-                        <span class="value">13:00</span>
+                        <span class="value">{{ globalState.screeningTime }} </span>
                     </div>
                     <div class="ticket__item">
-                        <span class="label">Cinema Hall #</span>
-                        <span class="value">Cinema A</span>
+                        <span class="label">Room</span>
+                        <span class="value">{{ globalState.screeningRoom }}</span>
                     </div>
                     <div class="ticket__item">
                         <span class="label">Seat</span>
-                        <span class="value">C5</span>
+                        <span class="value">{{ globalState.ticket_overview.numero_asiento }}</span>
                     </div>
                     <div class="ticket__item">
                         <span class="label">Cost</span>
-                        <span class="value">$26,99</span>
+                        <span class="value">{{ priceFormater.format(globalState.current_price) }}</span>
                     </div>
                     <div class="ticket__item">
                         <span class="label">Order ID</span>
-                        <span class="value">12345678</span>
+                        <span class="value">{{ shortOrderId }}</span>
                     </div>
                 </div>
 
-                <div class="ticket__barcode"></div>
+
+            </div>
+            <div class="ticket__barcode">
+                    <img src="../../public/img/Barcode.png" alt="">
             </div>
         </div>
     </main>
@@ -63,6 +99,16 @@ import HeaderBack from '@/components/HeaderBack.vue';
 </template>
 
 <style scoped>
+
+.ticket__barcode{
+    margin-top: 30px;
+    width: 100%;
+}
+
+.ticket__barcode img{
+    width: 100%;
+}
+
 body {
     margin: 0;
     padding: 0;
@@ -79,8 +125,8 @@ main {
 }
 
 .ticket {
-    width: 87%;
-    height: 85dvh;
+    width: 350px;
+    height: 95%;
     padding: 25px;
     background-color: white;
     border-radius: 20px;
@@ -98,7 +144,6 @@ main {
     display: flex;
     height: 120px;
     overflow: hidden;
-    border: 1px solid black;
     width: 100%;
     border-radius: 10px;
 }
@@ -118,6 +163,7 @@ main {
     font-size: 22px;
     font-weight: bold;
     margin: 0 0 5px 0;
+    font-family: 'interExtraBold';
 }
 
 .ticket__subtitle {
@@ -170,6 +216,7 @@ main {
     display: flex;
     flex-direction: column;
     font-size: 15px;
+    gap:10px
 
 }
 

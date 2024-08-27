@@ -1,7 +1,7 @@
 <script setup>
 import router from '@/router';
 import axios from 'axios';
-import { onMounted, ref, computed, defineExpose } from 'vue';
+import { onMounted, ref, computed } from 'vue';
 
 
 const searchQuery = ref('')
