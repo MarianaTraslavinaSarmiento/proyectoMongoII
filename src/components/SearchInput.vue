@@ -1,7 +1,7 @@
 <script setup>
 import router from '@/router';
 import axios from 'axios';
-import { onMounted, ref, computed } from 'vue';
+import { onMounted, ref, computed, defineExpose } from 'vue';
 
 
 const searchQuery = ref('')
@@ -37,16 +37,34 @@ const updateSuggestions = () => {
 
 onMounted(allMovies)
 
+// focusing on the search__container
+const inputField = ref(null)
+const isFocused = ref(false)
+
+const focusInput = () => {
+  if (inputField.value) {
+    inputField.value.focus();
+  }
+};
+
+defineExpose({
+  focusInput
+});
+
+
 
 </script>
 
 <template>
   <div class="search__wrapper">
-    <div class="search__container" :class="{ 'active': showSuggestions }">
-      <i class="bi bi-search search__icon"></i>
+    <div class="search__container" :class="{ 'active': showSuggestions, 'focused': isFocused }">
+      <i class="bi bi-search search__icon" :class="{'focused-icon': isFocused}"></i>
       <input 
+        ref="inputField"
         v-model="searchQuery" 
         @input="updateSuggestions" 
+        @focus="isFocused = true"
+        @blur="isFocused = false"
         type="text" 
         class="search__input" 
         placeholder="Search movie, cinema, genre..." 
@@ -76,6 +94,7 @@ onMounted(allMovies)
 </template>
 
 <style scoped>
+
 
 .search__wrapper {
   position: relative;
@@ -125,6 +144,13 @@ onMounted(allMovies)
   font-size: 20px;
   font-weight: 300;
   outline: none;
+}
+
+.search__icon.focused-icon {
+  color: var(--color-red);
+}
+.search__container.focused {
+  border-color: var(--color-red);
 }
 
 .search__input::placeholder {
