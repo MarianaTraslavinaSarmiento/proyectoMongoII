@@ -69,6 +69,13 @@ class Asiento{
 
     }
 
+    async getOccupied(proyeccion_id) {
+        const db = await this.adminDbService.connect();
+        const ticketsInScreening = await db.collection('boletos').find({ proyeccion_id: new ObjectId(proyeccion_id)}).toArray();
+        const notAvailableSeats = ticketsInScreening.map(ticket => ticket.codigo_asiento);
+        return notAvailableSeats
+    }
+
 
 }
 

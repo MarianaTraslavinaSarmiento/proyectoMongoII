@@ -7,8 +7,8 @@ let obj = new Boleto();
 
 boletosRouter.post('/comprar_boleto', async (req, res, next) => {
     try {
-        const { ticket, metodo_pago } = req.body;
-        const result = await obj.buyTicket({ticket, metodo_pago});
+        const  { id, proyeccion_id, usuario_id, codigo_asiento, porcentaje_descuento_VIP, total } = req.body;
+        const result = await obj.buyTicket({ id, proyeccion_id, usuario_id: req.user.id, codigo_asiento, porcentaje_descuento_VIP, total });
         res.send(result);
 
     } catch (error) {
@@ -16,28 +16,51 @@ boletosRouter.post('/comprar_boleto', async (req, res, next) => {
     }
 })
 
-boletosRouter.post('/reservas_asientos', async(req, res, next)=>{
+boletosRouter.post('/reservas_asientos', async (req, res, next) => {
 
-    try{
-        
-        const {proyeccion_id, usuario_id, codigo_asiento} = req.body
-        const result = await obj.bookingSeats({proyeccion_id, usuario_id, codigo_asiento})
+    try {
+
+        const { proyeccion_id, usuario_id, codigo_asiento } = req.body
+        const result = await obj.bookingSeats({ proyeccion_id, usuario_id, codigo_asiento })
         res.send(result)
 
-    }catch(error){
+    } catch (error) {
         next(error)
     }
 })
 
-boletosRouter.put('/cancelar_reserva/:id', async(req, res, next)=>{
+
+boletosRouter.get('/newid', async (req, res, next) =>{
+    try {
+        const newId = await obj.getNewId()
+        res.send(newId)
+    } catch (error) {
+        next(error)
+    }
+})
+
+
+boletosRouter.get('/latestTicket', async(req, res, next) =>{
+    try {
+
+        const latestTicket = await obj.getTheLatestTicketByUser({userId: req.user.id})
+        res.json(latestTicket)
+        
+    } catch (error) {
+        next(error)
+    }
+})
+
+boletosRouter.get('/allTickets', async(req, res, next) =>{
     try{
 
-        const reservaCancelada = await obj.cancelBooking({ticketId: req.params.id})
-        res.send(reservaCancelada)
+        const allTickets = await obj.getAllTicketsOfAnSpecificUser({userId: req.user.id})
+        res.json(allTickets)
 
-    }catch(error){
+    } catch(error){
         next(error)
     }
 })
+
 
 module.exports = boletosRouter

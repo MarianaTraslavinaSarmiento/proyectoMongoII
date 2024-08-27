@@ -20,6 +20,7 @@ const functionRoutes = require("./src/routes/proyecciones.routes")
 const cors = require("cors");
 const cookieParser = require("cookie-parser");
 const perfilRouter = require("./src/routes/perfilUsuario.routes");
+const tarjetasVipRouter = require("./src/routes/tarjetasvip.routes");
 const app = express()
 
 app.use(cors({
@@ -43,6 +44,7 @@ app.get('/', (req, res)=>{
 const authenticateToken = (req, res, next) => {
 
     const token = req.cookies.access_token;
+    console
 
     if (token == null){
         const error = new Error(`Invalid access token`)
@@ -62,12 +64,13 @@ const authenticateToken = (req, res, next) => {
 };
 
 app.use('/peliculas', peliculasRouter)
-app.use('/boletos', boletosRouter)
+app.use('/boletos', authenticateToken, boletosRouter)
 app.use('/asientos', asientosRoutes)
 app.use('/usuarios', usuariosRoutes)
 app.use('/salas', salasRoutes)
 app.use('/proyecciones', functionRoutes )
 app.use('/user/profile', authenticateToken, perfilRouter)
+app.use('/tarjetasvip', authenticateToken, tarjetasVipRouter)
 
 app.use((err, req, res, next) => {
     res.status(err.status || 500).json({

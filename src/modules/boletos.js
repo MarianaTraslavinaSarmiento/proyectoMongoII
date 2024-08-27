@@ -43,81 +43,31 @@ class Boleto {
      * @throws Lanza un error si alguna operación de base de datos falla.
     */
 
-    async buyTicket({ticket, metodo_pago}) {
+    async buyTicket({ id, proyeccion_id, usuario_id, codigo_asiento, porcentaje_descuento_VIP, total }) {
 
-        if (!ticket ||!metodo_pago){
-            const error = new Error('Los parámetros de compra deben ser proporcionados')
-            error.status = 400
-            throw error
-        }
-
-        const metodosPagoPermitidos = ["en efectivo", "mastercard", "tarjeta credito VISA", "tarjeta debito VISA"]
-        if (!metodosPagoPermitidos.includes(metodo_pago)){
-            const error = new Error('El método de pago no es válido')
-            error.status = 400
-            throw error
-        }
-        
-        if(!usuario_id || !proyeccion_id || !codigo_asiento){
-            const error = new Error('El ticket debe tener los parametros requeridos para que la compra sea válida')
-            error.status = 400
-            throw error
-        }
-        
         const db = await this.adminDbService.connect();
-    
-        const screenExist = await checkExists("proyecciones", { _id: new ObjectId(proyeccion_id) },
-            `La proyección con id ${proyeccion_id} no existe.`, db);
 
-        const userExist = await checkExists('usuarios', { _id: new ObjectId(usuario_id) },
-            `El usuario con id ${usuario_id} no existe.`, db);
-
-        const seatExist = await checkExists('asientos', { numero_asiento: codigo_asiento },
-            `El asiento con código ${codigo_asiento} no existe. Verifique si está en el formato específico: (ej: A1)`, db);
-
-        if (seatExist.sala_id.toString() !== screenExist.sala_id.toString()) {
-            const error = new Error(`El asiento ${codigo_asiento} no está en la sala de la proyección.`)
+        const seatOccuped = await db.collection("boletos").findOne({ codigo_asiento: codigo_asiento, proyeccion_id: new ObjectId(proyeccion_id) })
+        if (seatOccuped) {
+            const error = new Error(`El asiento ${codigo_asiento} está ocupado`)
             error.status = 400
             throw error
-        }
-
-        let defaultSubtotal = screenExist.precio;
-        let total = defaultSubtotal;
-        let descuento_porcentaje = 0;
-
-        if (userExist.tipo == "vip") {
-            const cardVIP = await db.collection('tarjetasVIP').findOne({usuario_id: new ObjectId(usuario_id) });
-            if (cardVIP && cardVIP.estado == "activa") {
-                descuento_porcentaje = cardVIP.descuento_porcentaje;
-                total = defaultSubtotal - (defaultSubtotal * descuento_porcentaje) / 100;
-            }
-        }
-
-        const availableSeat = await db.collection('boletos').findOne({
-            codigo_asiento: codigo_asiento,
-            proyeccion_id: new ObjectId(proyeccion_id)
-        });
-        if (availableSeat) {
-            const error = new Error(`El asiento ${codigo_asiento} ya tiene un boleto asociado a esta proyección.`);
-            error.status = 409
-            throw error;
         }
 
         const newTicket = {
-            _id: new ObjectId(),
+            _id: new ObjectId(id),
             proyeccion_id: new ObjectId(proyeccion_id),
             usuario_id: new ObjectId(usuario_id),
             codigo_asiento: codigo_asiento,
-            subtotal: defaultSubtotal,
-            porcentaje_descuento_VIP: descuento_porcentaje,
+            porcentaje_descuento_VIP: porcentaje_descuento_VIP,
             total: total,
-            estado: "pago"
+            estado: "pago",
+            fecha: new Date()
         };
 
         const ticketPago = {
-            boleto_id: new_id,
+            boleto_id: new ObjectId(id),
             monto: total,
-            metodo_pago: metodo_pago,
             estado: "completado",
             fecha_hora_pago: new Date(),
         };
@@ -156,20 +106,20 @@ class Boleto {
      * @throws Lanza un error si alguna operación de base de datos falla.
      */
 
-    async bookingSeats({proyeccion_id, usuario_id, numero_asiento}){
+    async bookingSeats({ proyeccion_id, usuario_id, numero_asiento }) {
 
         const db = await this.adminDbService.connect();
 
         const invalidIds = [];
 
         if (!ObjectId.isValid(proyeccion_id)) {
-            invalidIds.push({campo: 'proyeccion_id', valor: proyeccion_id});
+            invalidIds.push({ campo: 'proyeccion_id', valor: proyeccion_id });
         }
-        
+
         if (!ObjectId.isValid(usuario_id)) {
-            invalidIds.push({campo: 'usuario_id', valor: usuario_id});
+            invalidIds.push({ campo: 'usuario_id', valor: usuario_id });
         }
-        
+
         if (invalidIds.length > 0) {
             return {
                 status: 400,
@@ -178,7 +128,7 @@ class Boleto {
             }
         }
 
-        if(!proyeccion_id || !usuario_id || !numero_asiento){
+        if (!proyeccion_id || !usuario_id || !numero_asiento) {
             return {
                 status: 400,
                 error: "Debe proporcionar los parametros necesarios para que la reserva sea exitosa",
@@ -209,17 +159,17 @@ class Boleto {
         let defaultSubtotal = screenExist.precio
         let total = defaultSubtotal
         let descuento_porcentaje = 0
-    
+
         if (userExist.tipo == "VIP") {
-            const cardVIP = await db.collection('tarjetasVIP').findOne({usuario_id: new ObjectId(usuario_id) })
+            const cardVIP = await db.collection('tarjetasVIP').findOne({ usuario_id: new ObjectId(usuario_id) })
             if (cardVIP && cardVIP.estado == "activa") {
                 descuento_porcentaje = cardVIP.descuento_porcentaje
                 total = defaultSubtotal - (defaultSubtotal * descuento_porcentaje) / 100
             }
         }
 
-        const availableSeat = await db.collection('boletos').findOne({nuemero_asiento: codigo_asiento, proyeccion_id: new ObjectId(proyeccion_id)})
-        if (availableSeat){
+        const availableSeat = await db.collection('boletos').findOne({ nuemero_asiento: codigo_asiento, proyeccion_id: new ObjectId(proyeccion_id) })
+        if (availableSeat) {
             const error = new Error(`El asiento ${codigo_asiento} ya tiene un boleto asociado a esta proyección.`)
             error.status = 409
             throw error;
@@ -248,21 +198,10 @@ class Boleto {
 
     }
 
-    /**
-     * Cancela una reserva de entrada para un cine.
-     *
-     * @param {string} ticketId - El ID del boleto que se va a cancelar.
-     *
-     * @returns {Object} - Un objeto que contiene el resultado de la operación de cancelación.
-     *                      Si la operación es exitosa, contiene una propiedad 'mensaje' con un mensaje de éxito,
-     *                      y una propiedad 'ticketCanceled' con los detalles del boleto cancelado.
-     *                      Si se produce un error, contiene una propiedad 'error' con un mensaje de error.
-     *
-     * @throws Lanza un error si la operación de base de datos falla.
-     */
-    async cancelBooking({ticketId}) {
 
-        if (!ObjectId.isValid(ticketId)){
+
+    async getTheLatestTicketByUser({ userId }) {
+        if (!ObjectId.isValid(userId)) {
             const error = new Error('El id proporcionado es inválido')
             error.status = 400
             throw error
@@ -270,34 +209,94 @@ class Boleto {
 
         const db = await this.adminDbService.connect();
 
-        const ticket = await checkExists('boletos', {_id: new ObjectId(ticketId) },
-            `El boleto con id ${ticketId} no existe.`,db)
-
-        if (ticket.estado !== "reservado") {
-            const error = new Error( `El boleto con id ${ticketId} no está en estado reservado y no se puede cancelar.` )
-            error.status = 400
-            throw error
-        }
-
-        const result = await db.collection('boletos').updateOne(
-            { _id: new ObjectId(ticketId) },
-            { $set: { estado: "cancelado" } }
-        );
-        
-        if (result.modifiedCount === 0) {
-            const error = new Error( `No se pudo cancelar el boleto con id ${ticketId}.` )
-            error.status = 400
-            throw error
-        }
+        const ticket = await db.collection('boletos').aggregate(
+            [
+                { $match: { usuario_id: new ObjectId(userId) } },
+                { $sort: { fecha: -1 } },
+                { $limit: 1 }
+            ]
+        ).toArray()
 
         await this.adminDbService.close();
 
-        return {
-            message: `Boleto con id ${ticketId} cancelado con éxito.`,
-            ticketCanceled: ticket
-        };
+        if (!ticket) {
+            return {
+                message: `No hay ningún boleto asociado al usuario con id ${userId}.`
+            };
+        }
 
+        console.log(ticket);
+
+        return {
+            message: `El boleto más reciente del usuario con id ${userId} es el siguiente:`,
+            ticket: ticket[0]
+        };
     }
+
+    async getNewId() {
+        return new ObjectId()
+    }
+
+    async getAllTicketsOfAnSpecificUser({ userId }) {
+        if (!ObjectId.isValid(userId)) {
+            const error = new Error('El id proporcionado es inválido')
+            error.status = 400
+            throw error
+        }
+
+        const db = await this.adminDbService.connect();
+
+        const tickets = await db.collection('boletos').aggregate(
+            [
+
+                {
+                    $match: {
+                        usuario_id: new ObjectId(userId)
+                    }
+                },
+                {
+                    $lookup: {
+                        from: "proyecciones",
+                        localField: "proyeccion_id",
+                        foreignField: "_id",
+                        as: "proyeccion_id"
+                    }
+                },
+                {
+                    $unwind: "$proyeccion_id"
+                },
+                {
+                    $lookup: {
+                        from: "salas",
+                        localField: "proyeccion_id.sala_id",
+                        foreignField: "_id",
+                        as: "proyeccion_id.sala_id"
+                    }
+                },
+                {
+                    $unwind: "$proyeccion_id.sala_id"
+                },
+                {
+                    $lookup: {
+                        from: "peliculas",
+                        localField: "proyeccion_id.pelicula_id",
+                        foreignField: "_id",
+                        as: "proyeccion_id.pelicula_id"
+                    }
+                },
+                {
+                    $unwind: "$proyeccion_id.pelicula_id"
+                },
+                {
+                    $sort: { fecha: -1 }
+                }
+
+            ]
+        ).toArray()
+
+        return tickets
+    }
+
 }
 
 module.exports = Boleto

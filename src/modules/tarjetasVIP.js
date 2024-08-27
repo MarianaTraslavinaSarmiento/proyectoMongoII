@@ -16,6 +16,29 @@ class TarjetaVIP{
         TarjetaVIP.instanceTarjetaVIP = this;
     }
 
+    async getAllVipCardsByUser({userId}){
+
+        if (!ObjectId.isValid(userId)){
+            const error = new Error('El id del usuario es inválido')
+            error.status = 400
+            throw error
+        }
+
+        const db = await this.adminDbService.connect()
+
+        const userExists = await db.collection('usuarios').findOne({ _id: new ObjectId(userId) });
+        if (!userExists) {
+            const error = new Error(`El usuario no existe`)
+            error.status = 400
+            throw error
+        }
+
+        const vipCardsAvailable = await db.collection("tarjetasVIP").find({"usuario_id": new ObjectId(userId), "estado": "activa"}).toArray();
+        return vipCardsAvailable;
+
+    }
+    
+
 }
 
 module.exports = TarjetaVIP
